@@ -1,5 +1,6 @@
 import assert from 'assert';
 import Listr from 'listr';
+import renderer from './ui/renderer.js';
 
 import parse from './parse.js';
 import {fetchTransforms, transformToTask} from './transforms.js';
@@ -105,7 +106,11 @@ export default function main(argv) {
 				task: () => git.deleteLocalBranch(options.branch, true),
 			},
 		],
-		{collapse: options.loglevel < globals.INFO},
+		{
+			renderer,
+			collapse: (level) => options.loglevel < globals.INFO + level,
+			showSubtasks: (level) => options.loglevel >= globals.INFO + level,
+		},
 	);
 
 	return tasks.run();
