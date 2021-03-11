@@ -105,7 +105,7 @@ export default function main(argv) {
 				task: () => git.deleteLocalBranch(options.branch, true),
 			},
 		],
-		{collapse: false},
+		{collapse: options.loglevel < globals.INFO},
 	);
 
 	return tasks.run();
