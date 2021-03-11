@@ -53,6 +53,7 @@
     "@aureooms/js-itertools": "^4.1.0",
     "@aureooms/js-topological-sorting": "^0.2.1",
     "fast-glob": "^3.2.5",
+    "listr": "^0.14.3",
     "load-json-file": "^6.2.0",
     "npm-check-updates": "^11.2.1",
     "power-assert": "1.6.1",
