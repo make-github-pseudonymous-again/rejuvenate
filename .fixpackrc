@@ -21,6 +21,7 @@
     "sideEffects",
     "source",
     "main",
+    "bin",
     "module",
     "unpkg",
     "umd:main",
