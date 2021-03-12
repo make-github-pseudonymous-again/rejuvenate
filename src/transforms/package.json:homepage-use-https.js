@@ -1,8 +1,9 @@
 import update from '../lib/update.js';
 
-export const description = 'Use https for homepage in package.json.';
+export const description = 'Use https for homepage URL.';
 
 export const commit = {
+	scope: 'package.json',
 	subject: description,
 };
 

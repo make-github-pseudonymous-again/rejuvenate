@@ -5,7 +5,6 @@ export const description =
 	'This is needed because the new ESM import syntax requires full paths.';
 
 export const commit = {
-	emoji: ':books:',
 	type: 'docs',
 	subject: 'Correctly import regenerator/runtime.',
 };

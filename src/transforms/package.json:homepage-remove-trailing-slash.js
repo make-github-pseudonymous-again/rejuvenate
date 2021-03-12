@@ -1,9 +1,9 @@
 import update from '../lib/update.js';
 
-export const description =
-	'Remove trailing slash from homepage in package.json.';
+export const description = 'Remove trailing slash from homepage.';
 
 export const commit = {
+	scope: 'package.json',
 	subject: description,
 };
 
