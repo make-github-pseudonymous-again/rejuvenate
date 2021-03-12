@@ -16,18 +16,18 @@ function resolve(root, path) {
 	// This last check is just in case we screwed something up.
 	// NB: We cannot use _path.resolve since it would render [/foo, /bar] as /bar
 	const resolved = _path.join(root, path);
-	const relative = _path.relative(root, resolved);
+	const resolvedAbs = _path.resolve(resolved);
+	const resolvedRoot = _path.resolve(root);
 	if (
-		_path.isAbsolute(relative) ||
-		relative === '..' ||
-		relative.slice(0, 3) === '../'
+		resolvedAbs !== resolvedRoot ||
+		!resolvedAbs.startsWith(resolvedRoot + '/')
 	) {
 		throw new Error(
 			`resolve: path must be inside root (${root} + ${path} ~> ${resolved})`,
 		);
 	}
 
-	return resolved;
+	return resolvedAbs;
 }
 
 /**
