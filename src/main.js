@@ -108,8 +108,13 @@ export default function main(argv) {
 		],
 		{
 			renderer,
-			collapse: (level) => options.loglevel < globals.INFO + level,
-			showSubtasks: (level) => options.loglevel >= globals.INFO + level,
+			collapse: (level) => globals.INFO + level > options.loglevel,
+			maxSubtasks: (level) =>
+				globals.INFO + level <= options.loglevel
+					? Number.POSITIVE_INFINITY
+					: globals.WARN + level <= options.loglevel
+					? options.maxSubtasks
+					: 0,
 		},
 	);
 

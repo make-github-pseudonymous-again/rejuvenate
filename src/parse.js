@@ -1,5 +1,6 @@
 import path from 'path';
 import yargs from 'yargs/yargs';
+import {INFO} from './util/logger.js';
 
 const MAGIC = '89h2832fhao293819274hooeu';
 
@@ -22,7 +23,14 @@ export default function parse(array) {
 			alias: 'l',
 			describe: 'Verbosity level',
 			demandOption: true,
-			default: 2,
+			default: INFO,
+			nargs: 1,
+		})
+		.option('max-subtasks', {
+			type: 'number',
+			describe: 'Maximum number of subtasks to display',
+			demandOption: true,
+			default: 10,
 			nargs: 1,
 		})
 		.option('cwd', {

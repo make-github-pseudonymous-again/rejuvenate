@@ -6,6 +6,11 @@ import cliTruncate from 'cli-truncate';
 import stripAnsi from 'strip-ansi';
 import logSymbols from 'log-symbols';
 import elegantSpinner from 'elegant-spinner';
+import deque from '@aureooms/js-collections-deque';
+import {iter, take, filter, list} from '@aureooms/js-itertools';
+import {count} from '@aureooms/js-cardinality';
+
+const spinners = new WeakMap();
 
 const pointer = chalk.yellow(figures.pointer);
 const skipped = chalk.yellow(figures.arrowDown);
@@ -18,7 +23,7 @@ const getSymbol = (task, options, level) => {
 	}
 
 	if (task.isPending()) {
-		return options.showSubtasks(level) && task.subtasks.length > 0
+		return options.maxSubtasks(level + 1) > 0 && task.subtasks.length > 0
 			? pointer
 			: chalk.yellow(task.spinner());
 	}
@@ -32,19 +37,65 @@ const getSymbol = (task, options, level) => {
 	}
 
 	if (task.isSkipped()) {
-		return skipped;
+		return task.output === 'precondition' ? logSymbols.warning : skipped;
 	}
 
 	return ' ';
 };
 
+function* takeUntilPlusSome(pred, tasks, after) {
+	const it = iter(tasks);
+	for (const task of it) {
+		yield task;
+		if (pred(task)) break;
+	}
+
+	yield* take(it, after);
+}
+
+const frame = (tasks, n) =>
+	n === Number.POSITIVE_INFINITY
+		? tasks
+		: deque(
+				takeUntilPlusSome((t) => t.isPending(), tasks, Math.floor(n / 2)),
+				n,
+		  );
+
+const enabled = (tasks) => filter((t) => t.isEnabled(), tasks);
+const isDone = (task) =>
+	task.isSkipped() || task.isCompleted() || task.hasFailed();
+
 const renderHelper = (tasks, options, level = 0) => {
 	let output = [];
+	const enabledTasks = list(enabled(tasks));
+	const pending = count(filter((t) => !isDone(t), enabledTasks));
+	let pendingButDisplayed = 0;
+	for (const task of frame(enabledTasks, options.maxSubtasks(level))) {
+		const enabledSubtasks = list(enabled(task.subtasks));
+		const nsubtasks = count(enabledSubtasks);
+		if (!isDone(task)) ++pendingButDisplayed;
 
-	for (const task of tasks) {
-		if (task.isEnabled()) {
-			const skipped = task.isSkipped() ? ` ${chalk.dim('[skipped]')}` : '';
-
+		if (
+			!task.isSkipped() &&
+			options.maxSubtasks(level + 1) > 0 &&
+			nsubtasks > 0
+		) {
+			const done = count(
+				filter((t) => t.isCompleted() || t.isSkipped(), enabledSubtasks),
+			);
+			const ratio = ((done / nsubtasks) * 100).toFixed();
+			const progress = `(${done}/${nsubtasks} ~ ${ratio}%)`;
+			output.push(
+				indentString(
+					` ${getSymbol(task, options)} ${task.title} ${progress}`,
+					level,
+					{indent: ' '},
+				),
+			);
+		} else {
+			const skipped = task.isSkipped()
+				? ` ${chalk.dim(`[${task.output || 'skipped'}]`)}`
+				: '';
 			output.push(
 				indentString(
 					` ${getSymbol(task, options, level)} ${task.title}${skipped}`,
@@ -52,39 +103,50 @@ const renderHelper = (tasks, options, level = 0) => {
 					{indent: ' '},
 				),
 			);
+		}
 
-			if (
-				(task.isPending() || task.isSkipped() || task.hasFailed()) &&
-				isDefined(task.output)
-			) {
-				let data = task.output;
+		if ((task.isPending() || task.hasFailed()) && isDefined(task.output)) {
+			let data = task.output;
 
-				if (typeof data === 'string') {
-					data = stripAnsi(data.trim().split('\n').filter(Boolean).pop());
+			if (typeof data === 'string') {
+				data = stripAnsi(data.trim().split('\n').filter(Boolean).pop());
 
-					if (data === '') {
-						data = undefined;
-					}
-				}
-
-				if (isDefined(data)) {
-					const out = indentString(`${figures.arrowRight} ${data}`, level, {
-						indent: ' ',
-					});
-					output.push(
-						`   ${chalk.gray(cliTruncate(out, process.stdout.columns - 3))}`,
-					);
+				if (data === '') {
+					data = undefined;
 				}
 			}
 
-			if (
-				(task.isPending() || task.hasFailed() || !options.collapse(level)) &&
-				(task.hasFailed() || options.showSubtasks(level)) &&
-				task.subtasks.length > 0
-			) {
-				output = output.concat(renderHelper(task.subtasks, options, level + 1));
+			if (isDefined(data)) {
+				const out = indentString(`${figures.arrowRight} ${data}`, level, {
+					indent: ' ',
+				});
+				output.push(
+					`   ${chalk.gray(cliTruncate(out, process.stdout.columns - 3))}`,
+				);
 			}
 		}
+
+		if (
+			(task.isPending() || task.hasFailed() || !options.collapse(level)) &&
+			(task.hasFailed() || options.maxSubtasks(level + 1) > 0) &&
+			nsubtasks > 0
+		) {
+			output = output.concat(renderHelper(task.subtasks, options, level + 1));
+		}
+	}
+
+	if (options.maxSubtasks(level) > 0 && pending > pendingButDisplayed) {
+		if (!spinners.has(tasks)) spinners.set(tasks, elegantSpinner());
+		const spinner = spinners.get(tasks);
+		output.push(
+			indentString(
+				` ${chalk.yellow(spinner())} ${
+					pending - pendingButDisplayed
+				} other tasks pending`,
+				level,
+				{indent: ' '},
+			),
+		);
 	}
 
 	return output.join('\n');
@@ -99,7 +161,7 @@ export default class CustomRenderer {
 		this._tasks = tasks;
 		this._options = Object.assign(
 			{
-				showSubtasks: () => true,
+				maxSubtasks: () => Number.POSITIVE_INFINITY,
 				collapse: () => true,
 				clearOutput: false,
 			},

@@ -1,7 +1,7 @@
-const ERROR = 0;
-const WARN = 1;
-const INFO = 2;
-const DEBUG = 3;
+export const ERROR = 0;
+export const WARN = 1;
+export const INFO = 2;
+export const DEBUG = 3;
 
 const noop = () => {};
 const error = console.error.bind(console);
