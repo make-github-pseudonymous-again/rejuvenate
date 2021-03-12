@@ -62,7 +62,6 @@ async function* resolveSource(transform) {
 }
 
 async function* urlsAsyncGen(transform) {
-	console.debug('urlsAsyncGen', {transform});
 	const git = simpleGit({baseDir: transform.dirname});
 	if (await findUp('node_modules', {cwd: transform.dirname})) {
 		// Check if likely published on NPM.
@@ -79,16 +78,13 @@ async function* urlsAsyncGen(transform) {
 		}
 	} else if (await git.checkIsRepo()) {
 		// Check if likely to be part of a commit available on github
-		console.debug('urlsAsyncGen', 'git-repo check');
 		for await (const source of resolveSource(transform)) {
 			const _path = (await git.raw(['ls-files', '--full-name', source])).slice(
 				0,
 				-1,
 			);
-			console.debug('urlsAsyncGen', {_path});
 			if (_path) {
 				const status = await git.status();
-				console.debug('urlsAsyncGen', {status});
 				if (
 					!any(map((f) => _path === f.path || _path === f.from, status.files))
 				) {
@@ -104,7 +100,6 @@ async function* urlsAsyncGen(transform) {
 							remotes,
 						),
 					);
-					console.debug('urlsAsyncGen', {commit, remotes, ghHTTPRemotes});
 					for (const remote of ghHTTPRemotes) {
 						yield `${remote}/blob/${commit}/${_path}`;
 					}
