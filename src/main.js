@@ -25,6 +25,20 @@ export default function main(argv) {
 
 	const {git} = globals;
 
+	const listrOptions =
+		options.loglevel > globals.DEBUG
+			? {renderer: 'verbose'}
+			: {
+					renderer,
+					collapse: (level) => globals.INFO + level > options.loglevel,
+					maxSubtasks: (level) =>
+						globals.INFO + level <= options.loglevel
+							? Number.POSITIVE_INFINITY
+							: globals.WARN + level <= options.loglevel
+							? options.maxSubtasks
+							: 0,
+			  };
+
 	const tasks = new Listr(
 		[
 			{
@@ -106,16 +120,7 @@ export default function main(argv) {
 				task: () => git.deleteLocalBranch(options.branch, true),
 			},
 		],
-		{
-			renderer,
-			collapse: (level) => globals.INFO + level > options.loglevel,
-			maxSubtasks: (level) =>
-				globals.INFO + level <= options.loglevel
-					? Number.POSITIVE_INFINITY
-					: globals.WARN + level <= options.loglevel
-					? options.maxSubtasks
-					: 0,
-		},
+		listrOptions,
 	);
 
 	return tasks.run();
