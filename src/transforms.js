@@ -146,6 +146,7 @@ export function transformToTask(transform, globals) {
 		// /!\ enabled does not support async function
 		// enabled: () => checkPreCondition(transform, globals),
 		// skip: () => checkPostCondition(transform, globals),
+		enabled: () => Boolean(transform.apply),
 		skip: async () => {
 			if (await checkPostCondition(transform, globals)) return 'postcondition';
 			if (!(await checkPreCondition(transform, globals))) return 'precondition';
