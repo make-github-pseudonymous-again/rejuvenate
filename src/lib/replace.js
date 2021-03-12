@@ -1,6 +1,30 @@
 import {reduce} from '@aureooms/js-itertools';
 
 /**
+ * Replace first match. Throws if pattern is RegExp and global.
+ *
+ * @param {String} current
+ * @param {Array} operation
+ */
+const replaceFirst = (current, [pattern, replacement]) => {
+	if (pattern instanceof RegExp && pattern.global) {
+		// We fix the broken API.
+		throw new Error('Cannot replace first match with global pattern.');
+	}
+
+	return current.replace(pattern, replacement);
+};
+
+/**
+ * Replace all matches. Throws if pattern is RegExp and non-global.
+ *
+ * @param {String} current
+ * @param {Array} operation
+ */
+const replaceAll = (current, [pattern, replacement]) =>
+	current.replaceAll(pattern, replacement);
+
+/**
  * Apply all replacement operations in one file .
  *
  * Uses String.replace semantics. See
@@ -10,13 +34,9 @@ import {reduce} from '@aureooms/js-itertools';
  * @param {String} path
  * @param {Object} options
  */
-async function replaceOne(operations, path, {read, write}) {
+async function replaceOne(operations, path, {read, write, method}) {
 	const original = await read(path);
-	const replaced = reduce(
-		(current, [pattern, replacement]) => current.replace(pattern, replacement),
-		operations,
-		original,
-	);
+	const replaced = reduce(method, operations, original);
 	if (replaced !== original && write) {
 		await write(path, replaced);
 	}
@@ -34,3 +54,6 @@ export default async function replace(operations, paths, options) {
 		await replaceOne(operations, path, options);
 	}
 }
+
+replace.first = replaceFirst;
+replace.all = replaceAll;

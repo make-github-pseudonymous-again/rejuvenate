@@ -47,7 +47,11 @@ export async function apply({read, write, readPkg, writePkg, glob, upgrade}) {
 
 	// Update docs
 	const operations = [[new RegExp(oldDep, 'g'), () => `${newDep}/runtime`]];
-	await replace(operations, glob('doc/manual/*.md'), {read, write});
+	await replace(operations, glob('doc/manual/*.md'), {
+		read,
+		write,
+		method: replace.all,
+	});
 }
 
 export const dependencies = [

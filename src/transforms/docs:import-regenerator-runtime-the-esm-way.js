@@ -11,22 +11,22 @@ export const commit = {
 };
 
 const docs = 'doc/manual/*.md';
-const needle = /import 'regenerator-runtime\/runtime'/g;
+const needle = "import 'regenerator-runtime/runtime'";
 const replacement = "import 'regenerator-runtime/runtime.js'";
 
 export async function postcondition({read, assert, glob}) {
-	const found = await find([needle], glob(docs), {read});
+	const found = await find([needle], glob(docs), {read, method: find.exact});
 	assert(!found);
 }
 
 export async function precondition({read, assert, glob}) {
-	const found = await find([needle], glob(docs), {read});
+	const found = await find([needle], glob(docs), {read, method: find.exact});
 	assert(found);
 }
 
 export async function apply({read, write, glob}) {
 	const operations = [[needle, () => replacement]];
-	await replace(operations, glob(docs), {read, write});
+	await replace(operations, glob(docs), {read, write, method: replace.all});
 }
 
 export const dependencies = [

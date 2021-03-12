@@ -67,5 +67,9 @@ export async function apply({read, write, readPkg, writePkg, glob, upgrade}) {
 		new RegExp(`babel-${dep}`, 'g'),
 		() => `@babel/${dep}`,
 	]);
-	await replace(operations, glob('doc/manual/*.md'), {read, write});
+	await replace(operations, glob('doc/manual/*.md'), {
+		read,
+		write,
+		method: replace.all,
+	});
 }
