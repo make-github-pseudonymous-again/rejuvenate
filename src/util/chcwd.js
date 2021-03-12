@@ -19,7 +19,7 @@ function resolve(root, path) {
 	const resolvedAbs = _path.resolve(resolved);
 	const resolvedRoot = _path.resolve(root);
 	if (
-		resolvedAbs !== resolvedRoot ||
+		resolvedAbs !== resolvedRoot &&
 		!resolvedAbs.startsWith(resolvedRoot + '/')
 	) {
 		throw new Error(
