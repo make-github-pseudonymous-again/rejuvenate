@@ -1,4 +1,4 @@
-import {promises} from 'fs';
+import {promises as fs} from 'fs';
 import _path from 'path';
 import fg from 'fast-glob';
 import _loadJsonFile from 'load-json-file';
@@ -34,9 +34,8 @@ function resolve(root, path) {
  * Patch commonly used fs operations to run with the given cwd.
  */
 export default function chcwd({cwd}) {
-	const read = (path) => promises.readFile(resolve(cwd, path), 'utf8');
-	const write = (path, data) =>
-		promises.writeFile(resolve(cwd, path), data, 'utf8');
+	const read = (path) => fs.readFile(resolve(cwd, path), 'utf8');
+	const write = (path, data) => fs.writeFile(resolve(cwd, path), data, 'utf8');
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
