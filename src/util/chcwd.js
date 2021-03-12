@@ -10,9 +10,24 @@ function resolve(root, path) {
 	if (!path) throw new Error(`resolve: path must not be falsy (${path})`);
 	if (typeof path !== 'string')
 		throw new Error(`resolve: path must be a string (${path}: ${typeof path})`);
-	if (path.split('/').includes('..'))
-		throw new Error(`resolve: path must not contain .. (${path})`);
-	return _path.join(root, path);
+	if (/(^|\/)\.\.(\/|$)/.test(path))
+		throw new Error(`resolve: path must not contain ".." (${path})`);
+
+	// This last check is just in case we screwed something up.
+	// NB: We cannot use _path.resolve since it would render [/foo, /bar] as /bar
+	const resolved = _path.join(root, path);
+	const relative = _path.relative(root, resolved);
+	if (
+		_path.isAbsolute(relative) ||
+		relative === '..' ||
+		relative.slice(0, 3) === '../'
+	) {
+		throw new Error(
+			`resolve: path must be inside root (${root} + ${path} ~> ${resolved})`,
+		);
+	}
+
+	return resolved;
 }
 
 /**
