@@ -156,6 +156,7 @@ function checkStatus(status, options, globals) {
 		'staged',
 	];
 
+	// TODO could use status.isClean() instead.
 	for (const change of changes) {
 		if (status[change]?.length) throw new Error(`Not clean (${change})`);
 	}
