@@ -5,6 +5,7 @@ import _loadJsonFile from 'load-json-file';
 import _writeJsonFile from 'write-json-file';
 import simpleGit from 'simple-git';
 import ncu from 'npm-check-updates';
+import execa from 'execa';
 
 function resolve(root, path) {
 	if (!path) throw new Error(`resolve: path must not be falsy (${path})`);
@@ -41,6 +42,9 @@ export default function chcwd({cwd}) {
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
 	const readPkg = () => readJSON('package.json');
 	const writePkg = (data) => writeJSON('package.json', data);
+	const fixpack = () => execa('fixpack', [], {cwd});
+	const fixPkg = () => fixpack().catch(fixpack);
+	const lintPkg = () => execa('fixpack', ['--dryRun'], {cwd});
 	const glob = (patterns, options) => fg.stream(patterns, {...options, cwd});
 	const git = simpleGit({baseDir: cwd});
 	const upgrade = (filter) =>
@@ -57,6 +61,8 @@ export default function chcwd({cwd}) {
 		writeJSON,
 		readPkg,
 		writePkg,
+		fixPkg,
+		lintPkg,
 		upgrade,
 		glob,
 		git,
