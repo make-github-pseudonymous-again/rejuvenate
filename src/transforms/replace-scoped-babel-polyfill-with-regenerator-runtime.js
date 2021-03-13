@@ -26,7 +26,15 @@ export async function precondition({readPkg, assert}) {
 	assert(!devDeps.has(newDep));
 }
 
-export async function apply({read, write, readPkg, writePkg, glob, upgrade}) {
+export async function apply({
+	read,
+	write,
+	readPkg,
+	writePkg,
+	glob,
+	upgrade,
+	fixPkg,
+}) {
 	// Update package.json
 	await update({
 		read: readPkg,
@@ -52,8 +60,11 @@ export async function apply({read, write, readPkg, writePkg, glob, upgrade}) {
 		write,
 		method: replace.all,
 	});
+
+	await fixPkg();
 }
 
 export const dependencies = [
+	'package.json:initial-lint',
 	'replace-unscoped-babel-packages-with-scoped-babel-packages',
 ];
