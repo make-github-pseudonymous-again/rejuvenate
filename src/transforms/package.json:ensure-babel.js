@@ -16,7 +16,7 @@ export async function precondition({readPkg, assert}) {
 	assert(!pkgjson.babel);
 }
 
-export async function apply({readPkg, writePkg}) {
+export async function apply({readPkg, writePkg, fixPkg}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -25,4 +25,7 @@ export async function apply({readPkg, writePkg}) {
 			return pkgjson;
 		},
 	});
+	await fixPkg();
 }
+
+export const dependencies = ['package.json:initial-lint'];
