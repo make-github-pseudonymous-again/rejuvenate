@@ -73,6 +73,7 @@
     "simple-git": "^2.36.1",
     "strip-ansi": "^6.0.0",
     "write-json-file": "^4.3.0",
+    "yaml": "^1.10.2",
     "yargs": "^16.2.0"
   },
   "devDependencies": {

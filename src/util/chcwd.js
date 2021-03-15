@@ -3,6 +3,7 @@ import _path from 'path';
 import fg from 'fast-glob';
 import _loadJsonFile from 'load-json-file';
 import _writeJsonFile from 'write-json-file';
+import YAML from 'yaml';
 import simpleGit from 'simple-git';
 import ncu from 'npm-check-updates';
 import execa from 'execa';
@@ -40,6 +41,8 @@ export default function chcwd({cwd, offline}) {
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
+	const readYAML = async (path) => YAML.parse(await read(path));
+	const writeYAML = async (path, data) => write(path, YAML.stringify(data));
 	const readPkg = () => readJSON('package.json');
 	const writePkg = (data) => writeJSON('package.json', data);
 	const glob = (patterns, options) => fg.stream(patterns, {...options, cwd});
@@ -61,6 +64,8 @@ export default function chcwd({cwd, offline}) {
 		write,
 		readJSON,
 		writeJSON,
+		readYAML,
+		writeYAML,
 		readPkg,
 		writePkg,
 		upgrade,
