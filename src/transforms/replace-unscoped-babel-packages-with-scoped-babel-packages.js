@@ -72,7 +72,7 @@ export async function apply({
 
 	// Update docs
 	const operations = babelPackages.map((dep) => [
-		new RegExp(`babel-${dep}`, 'g'),
+		`babel-${dep}`,
 		() => `@babel/${dep}`,
 	]);
 	await replace(operations, glob('doc/manual/*.md'), {

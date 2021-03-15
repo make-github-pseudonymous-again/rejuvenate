@@ -55,7 +55,7 @@ export async function apply({
 	await upgrade(newDep);
 
 	// Update docs
-	const operations = [[new RegExp(oldDep, 'g'), () => `${newDep}/runtime`]];
+	const operations = [[oldDep, () => `${newDep}/runtime`]];
 	await replace(operations, glob('doc/manual/*.md'), {
 		read,
 		write,
