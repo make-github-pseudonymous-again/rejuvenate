@@ -1,7 +1,7 @@
 import * as pkg from '../lib/pkg.js';
 import update from '../lib/update.js';
 
-export const description = 'Setup xo for linting.';
+export const description = 'Setup xo for linting sources.';
 
 export const commit = {
 	scope: 'package.json',
