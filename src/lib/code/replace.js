@@ -1,8 +1,6 @@
 import {parse, visit, print, types} from 'recast';
-const n = types.namedTypes;
+// Const n = types.namedTypes;
 const b = types.builders;
-
-import {any, map} from '@aureooms/js-itertools';
 
 /**
  * CodemodOne.
@@ -36,47 +34,7 @@ async function codemod(visitors, paths, options) {
 	}
 }
 
-/**
- * Lookup.
- *
- * @param {Object} options
- * @param {any} ast
- */
-function lookup({filter, recurse}, ast) {
-	let found = false;
-	visit(ast, {
-		visitNode(path) {
-			if (filter(path.node)) {
-				found = true;
-				this.abort();
-			}
-
-			if (!recurse(path.node)) return false;
-			this.traverse(path);
-		},
-	});
-	return found;
-}
-
-async function findOne(patterns, path, {read}) {
-	const text = await read(path);
-	const ast = parse(text);
-	return any(map((pattern) => lookup(pattern, ast), patterns));
-}
-
-async function find(patterns, paths, options) {
-	const patternsWithDefaults = patterns.map((options) => ({
-		recurse: () => true,
-		...options,
-	}));
-	for await (const path of paths) {
-		if (await findOne(patternsWithDefaults, path, options)) return true;
-	}
-
-	return false;
-}
-
-function replace(operations, paths, options) {
+export default function replace(operations, paths, options) {
 	const visitors = operations
 		.map((options) => ({recurse: () => true, ...options}))
 		.map(({filter, map, recurse}) => ({
@@ -88,5 +46,3 @@ function replace(operations, paths, options) {
 		}));
 	return codemod(visitors, paths, options);
 }
-
-export {codemod, find, replace, b, n};

@@ -1,4 +1,5 @@
-import {find, replace} from '../lib/code.js';
+import find from '../lib/code/find.js';
+import replace from '../lib/code/replace.js';
 
 export const description =
 	'Replace querySelectorAll(...)[0] by querySelector(...) in docs scripts.';
