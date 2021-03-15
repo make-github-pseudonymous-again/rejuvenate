@@ -1,4 +1,5 @@
 import assert from 'assert';
+import execa from 'execa';
 import Listr from 'listr';
 import renderer from './ui/renderer.js';
 
@@ -39,8 +40,19 @@ export default function main(argv) {
 							: 0,
 			  };
 
+	const requiredExecutables = ['git', 'npm', 'yarn'];
 	const tasks = new Listr(
 		[
+			{
+				title: 'Checking for required executables',
+				task: () =>
+					new Listr(
+						requiredExecutables.map((exe) => ({
+							title: exe,
+							task: () => execa(exe, ['--version']),
+						})),
+					),
+			},
 			{
 				title: 'Retrieving git status',
 				task: (ctx) =>
