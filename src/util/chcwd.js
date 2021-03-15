@@ -34,7 +34,7 @@ function resolve(root, path) {
 /**
  * Patch commonly used fs operations to run with the given cwd.
  */
-export default function chcwd({cwd}) {
+export default function chcwd({cwd, offline}) {
 	const read = (path) => fs.readFile(resolve(cwd, path), 'utf8');
 	const write = (path, data) => fs.writeFile(resolve(cwd, path), data, 'utf8');
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
@@ -54,7 +54,7 @@ export default function chcwd({cwd}) {
 	const fixSources = () => execa('npm', ['run', 'lint-and-fix'], {cwd});
 	const lintConfig = () => execa('npm', ['run', 'lint-config'], {cwd});
 	const fixConfig = () => execa('npm', ['run', 'lint-config-and-fix'], {cwd});
-	const install = () => execa('yarn', [], {cwd});
+	const install = () => execa('yarn', offline ? ['--offline'] : [], {cwd});
 
 	return {
 		read,

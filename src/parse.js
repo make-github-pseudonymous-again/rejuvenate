@@ -18,6 +18,12 @@ export default function parse(array) {
 			'Patch the current working directory using all available transforms',
 		)
 		.demandCommand(1, 'must provide a valid command')
+		.option('offline', {
+			type: 'boolean',
+			describe: 'Try to work offline if possible',
+			demandOption: true,
+			default: false,
+		})
 		.option('loglevel', {
 			type: 'number',
 			alias: 'l',
