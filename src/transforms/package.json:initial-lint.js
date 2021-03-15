@@ -1,8 +1,7 @@
-export const description =
-	'Replace all references to babel-preset-latest by references to @babel/preset-env.';
+export const description = 'Lint configuration files.';
 
 export const commit = {
-	subject: 'Use @babel/preset-env instead of babel-preset-latest.',
+	subject: description,
 };
 
 export async function postcondition({lintConfig, assert}) {
