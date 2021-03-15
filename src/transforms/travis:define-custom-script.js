@@ -1,5 +1,5 @@
 import update from '../lib/update.js';
-import replace from '../lib/replace.js';
+import replace from '../lib/text/replace.js';
 
 export const description = 'Define custom script to run on travis.';
 

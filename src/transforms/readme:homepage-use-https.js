@@ -1,5 +1,5 @@
-import replace from '../lib/replace.js';
-import count from '../lib/count.js';
+import replace from '../lib/text/replace.js';
+import count from '../lib/text/count.js';
 
 export const description = 'Use https for homepage URL.';
 

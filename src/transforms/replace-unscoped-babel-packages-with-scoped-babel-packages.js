@@ -1,5 +1,5 @@
 import * as pkg from '../lib/pkg.js';
-import replace from '../lib/replace.js';
+import replace from '../lib/text/replace.js';
 import update from '../lib/update.js';
 
 export const description =

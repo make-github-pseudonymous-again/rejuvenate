@@ -1,5 +1,5 @@
-import replace from '../lib/replace.js';
-import find from '../lib/find.js';
+import replace from '../lib/text/replace.js';
+import find from '../lib/text/find.js';
 
 export const description = 'Remove trailing slash in homepage URL.';
 
