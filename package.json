@@ -69,6 +69,7 @@
     "npm-check-updates": "^11.2.1",
     "pkg-dir": "^5.0.0",
     "power-assert": "1.6.1",
+    "recast": "^0.20.4",
     "simple-git": "^2.36.1",
     "strip-ansi": "^6.0.0",
     "write-json-file": "^4.3.0",
