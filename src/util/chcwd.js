@@ -53,6 +53,8 @@ export default function chcwd({cwd}) {
 			filter,
 			upgrade: true,
 		});
+	const lintSources = () => execa('npm', ['run', 'lint'], {cwd});
+	const fixSources = () => execa('npm', ['run', 'lint-and-fix'], {cwd});
 
 	return {
 		read,
@@ -66,5 +68,7 @@ export default function chcwd({cwd}) {
 		upgrade,
 		glob,
 		git,
+		lintSources,
+		fixSources,
 	};
 }
