@@ -5,23 +5,23 @@ export const commit = {
 	subject: 'Use @babel/preset-env instead of babel-preset-latest.',
 };
 
-export async function postcondition({lintPkg, assert}) {
+export async function postcondition({lintConfig, assert}) {
 	try {
-		await lintPkg();
+		await lintConfig();
 	} catch (error) {
 		assert.fail(error.message);
 	}
 }
 
-export async function precondition({lintPkg, assert}) {
+export async function precondition({lintConfig, assert}) {
 	try {
-		await lintPkg();
+		await lintConfig();
 		assert.fail();
 	} catch {}
 }
 
-export async function apply({fixPkg}) {
-	await fixPkg();
+export async function apply({fixConfig}) {
+	await fixConfig();
 }
 
 export const dependencies = ['fixpack:configure'];

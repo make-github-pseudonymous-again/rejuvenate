@@ -42,9 +42,6 @@ export default function chcwd({cwd}) {
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
 	const readPkg = () => readJSON('package.json');
 	const writePkg = (data) => writeJSON('package.json', data);
-	const fixpack = () => execa('fixpack', [], {cwd});
-	const fixPkg = () => fixpack().catch(fixpack);
-	const lintPkg = () => execa('fixpack', ['--dryRun'], {cwd});
 	const glob = (patterns, options) => fg.stream(patterns, {...options, cwd});
 	const git = simpleGit({baseDir: cwd});
 	const upgrade = (filter) =>
@@ -55,6 +52,9 @@ export default function chcwd({cwd}) {
 		});
 	const lintSources = () => execa('npm', ['run', 'lint'], {cwd});
 	const fixSources = () => execa('npm', ['run', 'lint-and-fix'], {cwd});
+	const lintConfig = () => execa('npm', ['run', 'lint-config'], {cwd});
+	const fixConfig = () => execa('npm', ['run', 'lint-config-and-fix'], {cwd});
+	const install = () => execa('yarn', [], {cwd});
 
 	return {
 		read,
@@ -63,12 +63,13 @@ export default function chcwd({cwd}) {
 		writeJSON,
 		readPkg,
 		writePkg,
-		fixPkg,
-		lintPkg,
 		upgrade,
 		glob,
 		git,
 		lintSources,
 		fixSources,
+		lintConfig,
+		fixConfig,
+		install,
 	};
 }

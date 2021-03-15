@@ -24,7 +24,7 @@ export async function precondition({readPkg, assert}) {
 	assert(!devDeps.has(newDep));
 }
 
-export async function apply({readPkg, writePkg, upgrade, fixPkg}) {
+export async function apply({readPkg, writePkg, upgrade, fixConfig, install}) {
 	// Update package.json
 	await update({
 		read: readPkg,
@@ -40,7 +40,8 @@ export async function apply({readPkg, writePkg, upgrade, fixPkg}) {
 	});
 
 	await upgrade(newDep);
-	await fixPkg();
+	await fixConfig();
+	await install();
 }
 
 export const dependencies = ['package.json:initial-lint'];

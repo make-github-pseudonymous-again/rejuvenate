@@ -25,7 +25,15 @@ export async function precondition({readPkg, assert}) {
 	assert(babelPackages.some((dep) => devDeps.has(`babel-${dep}`)));
 }
 
-export async function apply({read, write, readPkg, writePkg, glob, upgrade}) {
+export async function apply({
+	read,
+	write,
+	readPkg,
+	writePkg,
+	glob,
+	upgrade,
+	install,
+}) {
 	// Update package.json
 	await update({
 		read: readPkg,
@@ -72,4 +80,6 @@ export async function apply({read, write, readPkg, writePkg, glob, upgrade}) {
 		write,
 		method: replace.all,
 	});
+
+	await install();
 }

@@ -33,7 +33,8 @@ export async function apply({
 	writePkg,
 	glob,
 	upgrade,
-	fixPkg,
+	fixConfig,
+	install,
 }) {
 	// Update package.json
 	await update({
@@ -61,7 +62,8 @@ export async function apply({
 		method: replace.all,
 	});
 
-	await fixPkg();
+	await fixConfig();
+	await install();
 }
 
 export const dependencies = [

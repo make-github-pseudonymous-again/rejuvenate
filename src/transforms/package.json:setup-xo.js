@@ -28,7 +28,7 @@ export async function precondition({readPkg, assert}) {
 	assert(pkgjson.scripts?.['lint-and-fix'] === undefined);
 }
 
-export async function apply({readPkg, writePkg, upgrade, fixPkg}) {
+export async function apply({readPkg, writePkg, upgrade, fixConfig, install}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -42,7 +42,8 @@ export async function apply({readPkg, writePkg, upgrade, fixPkg}) {
 		},
 	});
 	await upgrade('xo');
-	await fixPkg();
+	await fixConfig();
+	await install();
 }
 
 export const dependencies = ['package.json:initial-lint'];

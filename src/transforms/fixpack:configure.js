@@ -40,6 +40,8 @@ export async function apply({read, write}) {
 	});
 }
 
+export const dependencies = ['package.json:setup-fixpack'];
+
 const expected = {
 	files: ['package.json'],
 	quiet: false,
