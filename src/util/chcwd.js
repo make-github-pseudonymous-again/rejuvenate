@@ -43,6 +43,11 @@ export default function chcwd({
 	test: testFlag,
 }) {
 	const noop = () => {};
+	const exists = (path) =>
+		read(path).then(
+			() => true,
+			() => false,
+		);
 	const read = (path) => fs.readFile(resolve(cwd, path), 'utf8');
 	const write = (path, data) => fs.writeFile(resolve(cwd, path), data, 'utf8');
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
@@ -71,6 +76,7 @@ export default function chcwd({
 	const install = installFlag ? () => yarn('install') : noop;
 
 	return {
+		exists,
 		read,
 		write,
 		readJSON,
