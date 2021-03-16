@@ -191,7 +191,7 @@ const aita = async (it) => {
 	return out;
 };
 
-export default async function exec(transform, {git, ...globals}) {
+async function getCommitMessageLines(transform) {
 	const commitMessageLines = [
 		transform.commit?.message ||
 			`${transform.commit?.emoji || ':robot:'} ${
@@ -221,22 +221,47 @@ export default async function exec(transform, {git, ...globals}) {
 		);
 	}
 
+	return commitMessageLines;
+}
+
+export default function exec(transform, {git, ...globals}) {
 	return new Listr([
 		{
-			title: 'Apply transform',
-			task: () => run(transform, globals, 'apply'),
-		},
-		{
-			title: 'Check postcondition',
-			task: () => run(transform, globals, 'postcondition'),
-		},
-		{
-			title: 'Stage changes',
-			task: () => git.add('--all'),
+			title: 'Compute stuff in parallel',
+			task: () =>
+				new Listr(
+					[
+						{
+							title: 'Generate commit message.',
+							task: async (ctx) => {
+								ctx.commitMessage = await getCommitMessageLines(transform);
+							},
+						},
+						{
+							title: 'Apply, check, and stage',
+							task: () =>
+								new Listr([
+									{
+										title: 'Apply transform',
+										task: () => run(transform, globals, 'apply'),
+									},
+									{
+										title: 'Check postcondition',
+										task: () => run(transform, globals, 'postcondition'),
+									},
+									{
+										title: 'Stage changes',
+										task: () => git.add('--all'),
+									},
+								]),
+						},
+					],
+					{concurrent: 2},
+				),
 		},
 		{
 			title: 'Commit staged changes',
-			task: () => git.commit(commitMessageLines, {'--all': true}),
+			task: (ctx) => git.commit(ctx.commitMessage, {'--all': true}),
 		},
 	]);
 }
