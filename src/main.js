@@ -1,5 +1,5 @@
 import assert from 'assert';
-import commandExists from 'command-exists';
+import _commandExists from 'command-exists';
 import Listr from 'listr';
 import renderer from './ui/renderer.js';
 
@@ -7,6 +7,19 @@ import parse from './parse.js';
 import {fetchTransforms, transformToTask} from './transforms.js';
 import chcwd from './util/chcwd.js';
 import logger from './util/logger.js';
+
+async function ensureCommandExists(exe) {
+	try {
+		await _commandExists(exe);
+	} catch {
+		// NB: _error is null
+		// See:
+		//   - https://github.com/mathisonian/command-exists/issues/22#issuecomment-473941461
+		//   - https://github.com/mathisonian/command-exists/blob/742a73d75e6ff737c35aa7c88d0828cbb0455811/lib/command-exists.js#L32
+		//   - https://github.com/mathisonian/command-exists/blob/742a73d75e6ff737c35aa7c88d0828cbb0455811/lib/command-exists.js#L54
+		throw new Error(`Command \`${exe}\` does not exist.`);
+	}
+}
 
 /**
  * Main.
@@ -59,7 +72,7 @@ export default function main(argv) {
 					new Listr(
 						requiredExecutables.map((exe) => ({
 							title: exe,
-							task: () => commandExists(exe),
+							task: () => ensureCommandExists(exe),
 						})),
 					),
 			},
