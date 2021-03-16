@@ -4,11 +4,13 @@ import fg from 'fast-glob';
 import makeDir from 'make-dir';
 import _loadJsonFile from 'load-json-file';
 import _writeJsonFile from 'write-json-file';
-import YAML from 'yaml';
 import simpleGit from 'simple-git';
 import ncu from 'npm-check-updates';
 import execa from 'execa';
 import del from 'del';
+
+import parseYAML from '../lib/yaml/parse.js';
+import stringifyYAML from '../lib/yaml/stringify.js';
 
 function resolve(root, path) {
 	if (!path) throw new Error(`resolve: path must not be falsy (${path})`);
@@ -59,8 +61,8 @@ export default function chcwd({
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
-	const readYAML = async (path) => YAML.parse(await read(path));
-	const writeYAML = async (path, data) => write(path, YAML.stringify(data));
+	const readYAML = async (path) => parseYAML(await read(path));
+	const writeYAML = async (path, data) => write(path, stringifyYAML(data));
 	const readPkg = () => readJSON('package.json');
 	const writePkg = (data) => writeJSON('package.json', data);
 	const glob = (patterns, options) => fg.stream(patterns, {...options, cwd});

@@ -1,5 +1,6 @@
 import update from '../lib/update.js';
 import contains from '../lib/contains.js';
+import stringify from '../lib/json/stringify.js';
 
 const filename = 'mangle.json';
 export const description = `Create ${filename}.`;
@@ -28,7 +29,7 @@ export async function apply({read, write}) {
 		overwrite: false,
 		read: () => read(filename),
 		write: (data) => write(filename, data),
-		edit: () => JSON.stringify(expected, undefined, 2) + '\n',
+		edit: () => stringify(expected) + '\n',
 	});
 }
 

@@ -1,8 +1,7 @@
-import YAML from 'yaml';
-
 import * as pkg from '../lib/pkg.js';
 import update from '../lib/update.js';
 import contains from '../lib/contains.js';
+import parseYAML from '../lib/yaml/parse.js';
 
 export const description =
 	'Configure workflow to automate gh-pages generation.';
@@ -20,7 +19,7 @@ export async function postcondition({readPkg, readYAML, assert}) {
 	await contains({
 		assert,
 		read: () => readYAML(filename),
-		test: (contents) => assert.deepStrictEqual(contents, YAML.parse(config)),
+		test: (contents) => assert.deepStrictEqual(contents, parseYAML(config)),
 	});
 }
 

@@ -1,13 +1,15 @@
 import update from '../lib/update.js';
+import stringify from '../lib/json/stringify.js';
+import parse from '../lib/json/parse.js';
 
-export const description = 'Format .esdoc.json.';
+const filename = '.esdoc.json';
+export const description = `Format ${filename}.`;
 
 export const commit = {
 	subject: description,
 };
 
-const filename = '.esdoc.json';
-const format = (text) => JSON.stringify(JSON.parse(text), undefined, 2) + '\n';
+const format = (text) => stringify(parse(text)) + '\n';
 
 export async function postcondition({read, assert}) {
 	const text = await read(filename);
