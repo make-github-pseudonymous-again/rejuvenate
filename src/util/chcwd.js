@@ -7,6 +7,7 @@ import YAML from 'yaml';
 import simpleGit from 'simple-git';
 import ncu from 'npm-check-updates';
 import execa from 'execa';
+import del from 'del';
 
 function resolve(root, path) {
 	if (!path) throw new Error(`resolve: path must not be falsy (${path})`);
@@ -60,6 +61,7 @@ export default function chcwd({cwd, offline, install: installFlag}) {
 	const fixConfig = () => execa('npm', ['run', 'lint-config-and-fix'], {cwd});
 	const yarn = (...args) =>
 		execa('yarn', offline ? ['--offline', ...args] : [...args], {cwd});
+	const remove = (patterns) => del(patterns, {cwd});
 	const install = installFlag ? () => yarn('install') : noop;
 
 	return {
@@ -78,6 +80,7 @@ export default function chcwd({cwd, offline, install: installFlag}) {
 		fixSources,
 		lintConfig,
 		fixConfig,
+		remove,
 		install,
 	};
 }
