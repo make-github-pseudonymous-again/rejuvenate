@@ -68,6 +68,7 @@
     "load-json-file": "^6.2.0",
     "log-symbols": "^4.0.0",
     "log-update": "^4.0.0",
+    "make-dir": "^3.1.0",
     "npm-check-updates": "^11.2.1",
     "pkg-dir": "^5.0.0",
     "power-assert": "1.6.1",

@@ -1,6 +1,7 @@
 import {promises as fs} from 'fs';
 import _path from 'path';
 import fg from 'fast-glob';
+import makeDir from 'make-dir';
 import _loadJsonFile from 'load-json-file';
 import _writeJsonFile from 'write-json-file';
 import YAML from 'yaml';
@@ -49,7 +50,12 @@ export default function chcwd({
 			() => false,
 		);
 	const read = (path) => fs.readFile(resolve(cwd, path), 'utf8');
-	const write = (path, data) => fs.writeFile(resolve(cwd, path), data, 'utf8');
+	const write = async (path, data) => {
+		const resolvedPath = resolve(cwd, path);
+		await makeDir(_path.dirname(resolvedPath));
+		return fs.writeFile(resolvedPath, data, 'utf8');
+	};
+
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
