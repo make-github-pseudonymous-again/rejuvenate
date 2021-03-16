@@ -74,6 +74,7 @@ export default function main(argv) {
 							title: exe,
 							task: () => ensureCommandExists(exe),
 						})),
+						{concurrent: true},
 					),
 			},
 			{
