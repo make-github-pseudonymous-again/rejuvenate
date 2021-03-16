@@ -111,7 +111,7 @@ export default function main(argv) {
 				},
 			},
 			{
-				title: 'Computing the transform dependency graph',
+				title: 'Computing the dependency graph',
 				task: async (ctx) => {
 					ctx.transforms = [];
 					for await (const transform of fetchTransforms(
@@ -123,7 +123,7 @@ export default function main(argv) {
 				},
 			},
 			{
-				title: 'Applying the transforms one by one',
+				title: 'Applying transforms',
 				task: (ctx) =>
 					new Listr(ctx.transforms.map((t) => transformToTask(t, globals))),
 			},
