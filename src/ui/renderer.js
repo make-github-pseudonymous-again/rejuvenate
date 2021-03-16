@@ -127,9 +127,10 @@ const renderHelper = (tasks, options, level = 0) => {
 		}
 
 		if (
-			(task.isPending() || task.hasFailed() || !options.collapse(level)) &&
-			(task.hasFailed() || options.maxSubtasks(level + 1) > 0) &&
-			nsubtasks > 0
+			nsubtasks > 0 &&
+			(task.hasFailed() ||
+				((task.isPending() || !options.collapse(level)) &&
+					options.maxSubtasks(level + 1) > 0))
 		) {
 			output = output.concat(renderHelper(task.subtasks, options, level + 1));
 		}
