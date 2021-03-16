@@ -60,11 +60,11 @@ export async function apply({
 			return pkgjson;
 		},
 	});
-	await replace(
-		[['- "lib/', () => '- "dist/']],
-		['.codacy.yml', '.codeclimate.yml'],
-		{read, write, method: replace.all},
-	);
+	await replace([['- lib/', () => '- dist/']], ['.codeclimate.yml'], {
+		read,
+		write,
+		method: replace.all,
+	});
 	await replace([['/lib', () => '/dist']], ['.gitignore'], {
 		read,
 		write,
@@ -76,4 +76,8 @@ export async function apply({
 	await install();
 }
 
-export const dependencies = ['config:lint-setup'];
+export const dependencies = [
+	'codacy:config-remove',
+	'config:lint-setup',
+	'codeclimate:format-config-file',
+];
