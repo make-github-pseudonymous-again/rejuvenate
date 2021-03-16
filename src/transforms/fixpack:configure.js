@@ -73,7 +73,9 @@ const expected = {
 	],
 	sortedSubItems: [
 		'keywords',
+		'exports',
 		'files',
+		'scripts',
 		'bundledDependencies',
 		'dependencies',
 		'optionalDependencies',
