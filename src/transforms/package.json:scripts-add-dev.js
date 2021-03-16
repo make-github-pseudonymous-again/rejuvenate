@@ -3,6 +3,7 @@ import update from '../lib/update.js';
 export const description = 'Add dev script.';
 
 export const commit = {
+	scope: 'package.json',
 	subject: description,
 };
 
