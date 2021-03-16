@@ -67,6 +67,6 @@ export async function apply({
 }
 
 export const dependencies = [
-	'package.json:initial-lint',
+	'config:lint-setup',
 	'replace-unscoped-babel-packages-with-scoped-babel-packages',
 ];

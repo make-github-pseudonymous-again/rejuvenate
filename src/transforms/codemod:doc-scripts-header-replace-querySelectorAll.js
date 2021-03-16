@@ -54,4 +54,4 @@ export async function apply({read, write, fixSources}) {
 	await fixSources();
 }
 
-export const dependencies = ['sources:initial-lint'];
+export const dependencies = ['sources:lint-setup'];
