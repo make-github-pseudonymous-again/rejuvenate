@@ -142,7 +142,7 @@ export async function* fetchTransforms(cwd, globs) {
 
 export function transformToTask(transform, globals) {
 	return {
-		title: transform.name,
+		title: `${transform.title ?? transform.description} (${transform.name})`,
 		// /!\ enabled does not support async function
 		// enabled: () => checkPreCondition(transform, globals),
 		// skip: () => checkPostCondition(transform, globals),
