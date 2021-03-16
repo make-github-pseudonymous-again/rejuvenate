@@ -193,7 +193,8 @@
       },
       {
         "files": [
-          "src/transforms/**"
+          "src/transforms/**",
+          "src/recipes/**"
         ],
         "rules": {
           "unicorn/filename-case": "off"
