@@ -24,6 +24,12 @@ export default function parse(array) {
 			demandOption: true,
 			default: false,
 		})
+		.option('install', {
+			type: 'boolean',
+			describe: 'Whether to install the package dependencies when asked',
+			demandOption: true,
+			default: true,
+		})
 		.option('loglevel', {
 			type: 'number',
 			alias: 'l',

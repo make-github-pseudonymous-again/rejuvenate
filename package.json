@@ -56,6 +56,7 @@
     "@aureooms/js-topological-sorting": "^0.2.1",
     "chalk": "^4.1.0",
     "cli-truncate": "^2.1.0",
+    "command-exists": "^1.2.9",
     "elegant-spinner": "^2.0.0",
     "execa": "^5.0.0",
     "fast-glob": "^3.2.5",

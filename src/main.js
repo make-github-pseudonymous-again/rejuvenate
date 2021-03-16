@@ -1,5 +1,5 @@
 import assert from 'assert';
-import execa from 'execa';
+import commandExists from 'command-exists';
 import Listr from 'listr';
 import renderer from './ui/renderer.js';
 
@@ -40,7 +40,17 @@ export default function main(argv) {
 							: 0,
 			  };
 
-	const requiredExecutables = ['git', 'npm', 'yarn'];
+	let requiredExecutables = ['git', 'npm', 'yarn'];
+	if (!options.install) {
+		requiredExecutables = [
+			...requiredExecutables,
+			'xo',
+			'fixpack',
+			'babel',
+			'microbundle',
+		];
+	}
+
 	const tasks = new Listr(
 		[
 			{
@@ -49,7 +59,7 @@ export default function main(argv) {
 					new Listr(
 						requiredExecutables.map((exe) => ({
 							title: exe,
-							task: () => execa(exe, ['--version']),
+							task: () => commandExists(exe),
 						})),
 					),
 			},
