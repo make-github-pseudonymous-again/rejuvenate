@@ -30,6 +30,12 @@ export default function parse(array) {
 			demandOption: true,
 			default: true,
 		})
+		.option('test', {
+			type: 'boolean',
+			describe: 'Whether to test the package after each transform',
+			demandOption: true,
+			default: false,
+		})
 		.option('loglevel', {
 			type: 'number',
 			alias: 'l',

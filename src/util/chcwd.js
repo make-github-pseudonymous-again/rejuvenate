@@ -36,7 +36,12 @@ function resolve(root, path) {
 /**
  * Patch commonly used fs operations to run with the given cwd.
  */
-export default function chcwd({cwd, offline, install: installFlag}) {
+export default function chcwd({
+	cwd,
+	offline,
+	install: installFlag,
+	test: testFlag,
+}) {
 	const noop = () => {};
 	const read = (path) => fs.readFile(resolve(cwd, path), 'utf8');
 	const write = (path, data) => fs.writeFile(resolve(cwd, path), data, 'utf8');
@@ -61,6 +66,7 @@ export default function chcwd({cwd, offline, install: installFlag}) {
 	const fixConfig = () => execa('npm', ['run', 'lint-config-and-fix'], {cwd});
 	const yarn = (...args) =>
 		execa('yarn', offline ? ['--offline', ...args] : [...args], {cwd});
+	const test = testFlag ? () => yarn('test') : noop;
 	const remove = (patterns) => del(patterns, {cwd});
 	const install = installFlag ? () => yarn('install') : noop;
 
@@ -80,6 +86,7 @@ export default function chcwd({cwd, offline, install: installFlag}) {
 		fixSources,
 		lintConfig,
 		fixConfig,
+		test,
 		remove,
 		install,
 	};
