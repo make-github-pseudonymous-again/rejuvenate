@@ -10,7 +10,8 @@ export const commit = {
 const configFile = '.travis.yml';
 const oldScript = 'npm run cover';
 const newScript = 'npm run travis';
-const newScriptDefinition = 'npm run lint && npm run cover';
+const newScriptDefinition =
+	'npm run lint-config && npm run lint && npm run cover';
 
 export async function postcondition({readPkg, readYAML, assert}) {
 	const pkgjson = await readPkg();
