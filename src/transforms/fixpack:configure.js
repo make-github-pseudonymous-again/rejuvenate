@@ -1,6 +1,8 @@
 import update from '../lib/update.js';
+import contains from '../lib/contains.js';
 
-export const description = 'Update or create.';
+const filename = '.fixpackrc';
+export const description = `Update or create ${filename}.`;
 
 export const commit = {
 	type: 'config',
@@ -8,27 +10,21 @@ export const commit = {
 	subject: description,
 };
 
-const filename = '.fixpackrc';
-
 export async function postcondition({readJSON, assert}) {
-	try {
-		const config = await readJSON(filename);
-		assert.deepStrictEqual(config, expected);
-	} catch (error) {
-		if (error instanceof assert.AssertionError) throw error;
-		if (error.code !== 'ENOENT') throw error;
-		assert.fail(error.message);
-	}
+	await contains({
+		assert,
+		read: () => readJSON(filename),
+		test: (contents) => assert.deepStrictEqual(contents, expected),
+	});
 }
 
 export async function precondition({readJSON, assert}) {
-	try {
-		const config = await readJSON(filename);
-		assert.notDeepStrictEqual(config, expected);
-	} catch (error) {
-		if (error instanceof assert.AssertionError) throw error;
-		if (error.code !== 'ENOENT') throw error;
-	}
+	await contains({
+		assert,
+		read: () => readJSON(filename),
+		mustExist: false,
+		test: (contents) => assert.notDeepStrictEqual(contents, expected),
+	});
 }
 
 export async function apply({read, write}) {
