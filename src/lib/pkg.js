@@ -29,3 +29,13 @@ export function replaceDep(object, oldKey, newKey) {
 		'0.0.0',
 	);
 }
+
+export function addDep(object, dep) {
+	if (!object.dependencies) object.dependencies = {};
+	if (!object.dependencies[dep]) object.dependencies[dep] = '0.0.0';
+}
+
+export function addDevDep(object, dep) {
+	if (!object.devDependencies) object.devDependencies = {};
+	if (!object.devDependencies[dep]) object.devDependencies[dep] = '0.0.0';
+}
