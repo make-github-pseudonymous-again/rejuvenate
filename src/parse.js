@@ -18,6 +18,13 @@ export default function parse(array) {
 			'Patch the current working directory using all available transforms',
 		)
 		.demandCommand(1, 'must provide a valid command')
+		.option('author', {
+			type: 'string',
+			describe: 'The author to use for all commits',
+			demandOption: true,
+			default:
+				'a flying potato <80830782+a-flying-potato@users.noreply.github.com>',
+		})
 		.option('offline', {
 			type: 'boolean',
 			describe: 'Try to work offline if possible',
@@ -27,6 +34,12 @@ export default function parse(array) {
 		.option('install', {
 			type: 'boolean',
 			describe: 'Whether to install the package dependencies when asked',
+			demandOption: true,
+			default: true,
+		})
+		.option('git-hooks', {
+			type: 'boolean',
+			describe: 'Whether to enable hooks for all relevant git operations',
 			demandOption: true,
 			default: true,
 		})

@@ -140,7 +140,7 @@ export async function* fetchTransforms(cwd, globs) {
 	}
 }
 
-export function transformToTask(transform, globals) {
+export function transformToTask(transform, options, globals) {
 	return {
 		title: `${transform.title ?? transform.description} (${transform.name})`,
 		// /!\ enabled does not support async function
@@ -152,7 +152,7 @@ export function transformToTask(transform, globals) {
 			if (!(await checkPreCondition(transform, globals))) return 'precondition';
 			return false;
 		},
-		task: () => exec(transform, globals),
+		task: () => exec(transform, options, globals),
 	};
 }
 
@@ -224,7 +224,7 @@ async function getCommitMessageLines(transform) {
 	return commitMessageLines;
 }
 
-export default function exec(transform, {git, ...globals}) {
+export default function exec(transform, {gitHooks, author}, {git, ...globals}) {
 	return new Listr([
 		{
 			title: 'Compute stuff in parallel',
@@ -232,9 +232,14 @@ export default function exec(transform, {git, ...globals}) {
 				new Listr(
 					[
 						{
-							title: 'Generate commit message.',
+							title: 'Generate commit message and options',
 							task: async (ctx) => {
 								ctx.commitMessage = await getCommitMessageLines(transform);
+								ctx.commitOptions = {
+									'--all': true,
+									'--author': author,
+								};
+								if (!gitHooks) ctx.commitOptions['--no-verify'] = true;
 							},
 						},
 						{
@@ -261,7 +266,7 @@ export default function exec(transform, {git, ...globals}) {
 		},
 		{
 			title: 'Commit staged changes',
-			task: (ctx) => git.commit(ctx.commitMessage, {'--all': true}),
+			task: (ctx) => git.commit(ctx.commitMessage, ctx.commitOptions),
 		},
 	]);
 }

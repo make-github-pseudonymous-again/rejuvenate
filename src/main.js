@@ -125,7 +125,9 @@ export default function main(argv) {
 			{
 				title: 'Applying transforms',
 				task: (ctx) =>
-					new Listr(ctx.transforms.map((t) => transformToTask(t, globals))),
+					new Listr(
+						ctx.transforms.map((t) => transformToTask(t, options, globals)),
+					),
 			},
 			{
 				title: 'Checking out current branch',
