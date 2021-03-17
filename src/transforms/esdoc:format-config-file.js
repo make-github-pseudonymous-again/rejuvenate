@@ -3,9 +3,10 @@ import stringify from '../lib/json/stringify.js';
 import parse from '../lib/json/parse.js';
 
 const filename = '.esdoc.json';
-export const description = `Format ${filename}.`;
+export const description = 'Format file.';
 
 export const commit = {
+	scope: filename,
 	subject: description,
 };
 
