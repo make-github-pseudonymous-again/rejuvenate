@@ -22,12 +22,15 @@ const config = {
 };
 
 const files = {
-	'.husky/pre-commit': `
+	'.husky/pre-commit': {
+		mode: 0o755,
+		contents: `
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
 npm run precommit
 `,
+	},
 };
 
 const dependencies = [

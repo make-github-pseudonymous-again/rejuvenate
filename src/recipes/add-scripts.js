@@ -7,6 +7,16 @@ const addScripts = (options) =>
 
 export default addScripts;
 
+const formatTextFileContents = (string) => string.trim() + '\n';
+
+function* iterFiles(files) {
+	for (const [filename, value] of Object.entries(files)) {
+		const props = typeof value === 'string' ? {contents: value} : value;
+		props.contents = formatTextFileContents(props.contents);
+		yield [filename, props];
+	}
+}
+
 function subroutine({scripts, deps, files, config}) {
 	return {
 		postcondition: async ({readPkg, read, assert}) => {
@@ -21,12 +31,12 @@ function subroutine({scripts, deps, files, config}) {
 				assert.deepStrictEqual(pkgjson[key], value);
 			}
 
-			for (const [filename, expected] of Object.entries(files)) {
+			for (const [filename, expected] of iterFiles(files)) {
 				// eslint-disable-next-line no-await-in-loop
 				await contains({
 					assert,
 					read: () => read(filename),
-					test: (contents) => assert(contents === expected.trim() + '\n'),
+					test: (contents) => assert(contents === expected.contents),
 				});
 			}
 		},
@@ -70,14 +80,14 @@ function subroutine({scripts, deps, files, config}) {
 					return pkgjson;
 				},
 			});
-			for (const [filename, contents] of Object.entries(files)) {
+			for (const [filename, {contents, mode}] of iterFiles(files)) {
 				// eslint-disable-next-line no-await-in-loop
 				await update({
 					create: true,
 					overwrite: false,
 					read: () => read(filename),
-					write: (data) => write(filename, data),
-					edit: () => contents.trim() + '\n',
+					write: (data) => write(filename, data, {mode}),
+					edit: () => contents,
 				});
 			}
 

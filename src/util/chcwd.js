@@ -36,6 +36,8 @@ function resolve(root, path) {
 	return resolvedAbs;
 }
 
+const DEFAULT_ENCODING = 'utf8';
+
 /**
  * Patch commonly used fs operations to run with the given cwd.
  */
@@ -51,11 +53,14 @@ export default function chcwd({
 			() => true,
 			() => false,
 		);
-	const read = (path) => fs.readFile(resolve(cwd, path), 'utf8');
-	const write = async (path, data) => {
+	const read = (path) => fs.readFile(resolve(cwd, path), DEFAULT_ENCODING);
+	const write = async (path, data, options) => {
 		const resolvedPath = resolve(cwd, path);
 		await makeDir(_path.dirname(resolvedPath));
-		return fs.writeFile(resolvedPath, data, 'utf8');
+		await fs.writeFile(resolvedPath, data, DEFAULT_ENCODING);
+		if (options?.mode !== undefined) {
+			await fs.chmod(resolvedPath, options.mode);
+		}
 	};
 
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));

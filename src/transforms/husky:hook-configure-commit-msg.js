@@ -20,7 +20,9 @@ module.exports = {
 	extends: ['@js-library']
 };
 `,
-	'.husky/commit-msg': `
+	'.husky/commit-msg': {
+		mode: 0o755,
+		contents: `
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
@@ -74,6 +76,7 @@ while ! npm run commit-msg -- "$1" ; do
 	fi
 done
 `,
+	},
 };
 
 const dependencies = ['config:lint-setup', 'husky:configure'];
