@@ -23,4 +23,7 @@ export async function apply({fixSources}) {
 	await fixSources();
 }
 
-export const dependencies = ['package.json:setup-xo'];
+export const dependencies = [
+	'package.json:setup-xo',
+	'codemod:use-esm-import-syntax',
+];
