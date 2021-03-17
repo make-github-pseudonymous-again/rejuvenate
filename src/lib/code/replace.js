@@ -11,7 +11,7 @@ import lib from './lib.js';
 async function codemodOne(visitors, path, {read, write}) {
 	const original = await read(path);
 
-	const ast = parse(original);
+	const ast = parse(original, {sourceFileName: path});
 	for (const visitor of visitors) visit(ast, visitor);
 	const replaced = print(ast).code;
 

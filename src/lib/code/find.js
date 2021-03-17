@@ -27,7 +27,7 @@ function lookup({filter, recurse}, ast) {
 
 async function findOne(patterns, path, {read}) {
 	const text = await read(path);
-	const ast = parse(text);
+	const ast = parse(text, {sourceFileName: path});
 	return any(map((pattern) => lookup(pattern, ast), patterns));
 }
 
