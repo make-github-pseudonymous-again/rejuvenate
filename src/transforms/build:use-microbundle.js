@@ -77,7 +77,7 @@ export async function apply({
 }
 
 export const dependencies = [
-	'babel:setup-env',
+	'babel:setup-env-production',
 	'codacy:config-remove',
 	'config:lint-setup',
 	'codeclimate:format-config-file',
