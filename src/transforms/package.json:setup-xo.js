@@ -24,7 +24,9 @@ export async function precondition({readPkg, assert}) {
 	assert(!devDeps.has('xo'));
 	assert(pkgjson.xo === undefined);
 	assert(pkgjson.prettier === undefined);
-	assert(pkgjson.scripts?.lint === undefined);
+	assert(
+		pkgjson.scripts?.lint === undefined || pkgjson.scripts.lint === 'true',
+	);
 	assert(pkgjson.scripts?.['lint-and-fix'] === undefined);
 }
 
