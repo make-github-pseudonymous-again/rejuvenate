@@ -24,6 +24,6 @@ export async function apply({fixSources}) {
 }
 
 export const dependencies = [
-	'package.json:setup-xo',
 	'codemod:use-esm-import-syntax',
+	'package.json:configure-source-linting',
 ];
