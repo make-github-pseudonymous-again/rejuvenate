@@ -10,7 +10,7 @@ const partialRequireResolve = (from, to) => {
 	const dir = path.dirname(from);
 	const result = require.resolve(to, {paths: [dir]});
 	if (/\/node_modules\//.test(result)) {
-		if (/^[^./]*$/.test(to)) return to;
+		if (/^(@[^/]+\/|)[^./]+$/.test(to)) return to;
 		return result.split('/node_modules/').pop();
 	}
 
