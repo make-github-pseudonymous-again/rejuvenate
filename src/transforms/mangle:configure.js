@@ -29,7 +29,7 @@ export async function apply({read, write}) {
 		overwrite: false,
 		read: () => read(filename),
 		write: (data) => write(filename, data),
-		edit: () => stringify(expected) + '\n',
+		edit: () => stringify(expected),
 	});
 }
 
