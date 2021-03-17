@@ -34,4 +34,8 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 	await fixConfig();
 }
 
-export const dependencies = ['config:lint-setup', 'sources:lint-setup'];
+export const dependencies = [
+	'config:lint-setup',
+	'sources:lint-setup',
+	'package.json:scripts-test-remove-xo',
+];
