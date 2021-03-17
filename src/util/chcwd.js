@@ -12,6 +12,8 @@ import del from 'del';
 import parseYAML from '../lib/yaml/parse.js';
 import stringifyYAML from '../lib/yaml/stringify.js';
 
+import partialRequireResolve from './partialRequireResolve.js';
+
 function resolve(root, path) {
 	if (!path) throw new Error(`resolve: path must not be falsy (${path})`);
 	if (typeof path !== 'string')
@@ -88,6 +90,11 @@ export default function chcwd({
 	const remove = (patterns) => del(patterns, {cwd});
 	const install = installFlag ? () => yarn('install') : noop;
 
+	const resolveImport = (from, to) => {
+		const path = resolve(cwd, from);
+		return partialRequireResolve(path, to);
+	};
+
 	return {
 		exists,
 		read,
@@ -108,5 +115,6 @@ export default function chcwd({
 		test,
 		remove,
 		install,
+		resolveImport,
 	};
 }
