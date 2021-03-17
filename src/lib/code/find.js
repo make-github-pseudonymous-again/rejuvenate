@@ -1,6 +1,8 @@
 import {parse, visit} from 'recast';
 import {any, map} from '@aureooms/js-itertools';
 
+import lib from './lib.js';
+
 /**
  * Lookup.
  *
@@ -11,12 +13,12 @@ function lookup({filter, recurse}, ast) {
 	let found = false;
 	visit(ast, {
 		visitNode(path) {
-			if (filter(path.node)) {
+			if (filter(path.node, lib)) {
 				found = true;
 				this.abort();
 			}
 
-			if (!recurse(path.node)) return false;
+			if (!recurse(path.node, lib)) return false;
 			this.traverse(path);
 		},
 	});

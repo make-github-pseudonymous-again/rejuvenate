@@ -1,6 +1,5 @@
-import {parse, visit, print, types} from 'recast';
-// Const n = types.namedTypes;
-const b = types.builders;
+import {parse, visit, print} from 'recast';
+import lib from './lib.js';
 
 /**
  * CodemodOne.
@@ -39,8 +38,8 @@ export default function replace(operations, paths, options) {
 		.map((options) => ({recurse: () => true, ...options}))
 		.map(({filter, map, recurse}) => ({
 			visitNode(path) {
-				if (filter(path.node)) path.replace(map(b, path.node));
-				if (!recurse(path.node)) return false;
+				if (filter(path.node, lib)) path.replace(map(path.node, lib));
+				if (!recurse(path.node, lib)) return false;
 				this.traverse(path);
 			},
 		}));

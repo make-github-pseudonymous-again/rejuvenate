@@ -11,28 +11,21 @@ export const commit = {
 
 const paths = ['doc/scripts/header.js'];
 
-const filter = (node) => {
-	if (node.type === 'MemberExpression') {
-		const {object, property} = node;
-		if (
-			object.type === 'CallExpression' &&
-			property.type === 'Literal' &&
-			property.value === 0
-		) {
-			const callee = object.callee;
-			if (
-				callee.type === 'MemberExpression' &&
-				callee.object.name === 'document' &&
-				callee.property.name === 'querySelectorAll'
-			)
-				return true;
-		}
-	}
-
-	return false;
+const filter = (node, {is, n}) => {
+	if (!is(node, n.MemberExpression)) return false;
+	const {object, property} = node;
+	if (!is(object, n.CallExpression)) return false;
+	if (!is(property, n.Literal)) return false;
+	if (property.value !== 0) return false;
+	const callee = object.callee;
+	return (
+		is(callee, n.MemberExpression) &&
+		callee.object.name === 'document' &&
+		callee.property.name === 'querySelectorAll'
+	);
 };
 
-const map = (b, {object: {callee, arguments: args}}) => {
+const map = ({object: {callee, arguments: args}}, {b}) => {
 	return b.callExpression(
 		b.memberExpression(callee.object, b.identifier('querySelector')),
 		args,
