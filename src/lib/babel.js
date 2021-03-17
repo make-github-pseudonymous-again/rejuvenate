@@ -1,3 +1,5 @@
+import {fixedOrder} from './order.js';
+
 const string = (x) => JSON.stringify(x);
 export const includes = (array, item) => {
 	if (typeof item === 'string') return array?.includes(item);
@@ -6,6 +8,7 @@ export const includes = (array, item) => {
 };
 
 const pair = (item) => (typeof item === 'string' ? [item, undefined] : item);
+const key = (item) => pair(item)[0];
 const compress = (k, v) => (v === undefined ? k : [k, v]);
 function* replaceOrInsertGen(array, item) {
 	const [key, value] = pair(item);
@@ -21,5 +24,11 @@ function* replaceOrInsertGen(array, item) {
 	if (!found) yield compress(key, value);
 }
 
+const sortToTop = {
+	'@babel/preset-env': 0,
+};
+
+const order = fixedOrder(sortToTop, key);
+
 export const replaceOrInsert = (array, item) =>
-	array ? [...replaceOrInsertGen(array, item)] : [item];
+	array ? [...replaceOrInsertGen(array, item)].sort(order) : [item];
