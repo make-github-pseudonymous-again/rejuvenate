@@ -91,9 +91,9 @@ function subroutine({scripts, deps, files, config}) {
 				});
 			}
 
-			await upgrade(deps.join(' '));
+			if (deps.length > 0) await upgrade(deps.join(' '));
 			await fixConfig();
-			await install();
+			if (deps.length > 0) await install();
 		},
 	};
 }
