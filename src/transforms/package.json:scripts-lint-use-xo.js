@@ -9,7 +9,7 @@ const commit = {
 };
 
 const scripts = {
-	dev: {
+	lint: {
 		oldDefinition: 'true',
 		newDefinition: 'xo',
 	},
