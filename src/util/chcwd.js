@@ -13,6 +13,7 @@ import parseYAML from '../lib/yaml/parse.js';
 import stringifyYAML from '../lib/yaml/stringify.js';
 
 import partialRequireResolve from './partialRequireResolve.js';
+import _lines from './lines.js';
 
 function resolve(root, path) {
 	if (!path) throw new Error(`resolve: path must not be falsy (${path})`);
@@ -65,6 +66,8 @@ export default function chcwd({
 		}
 	};
 
+	const lines = (path) => _lines(resolve(cwd, path));
+
 	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
@@ -99,6 +102,7 @@ export default function chcwd({
 		exists,
 		read,
 		write,
+		lines,
 		readJSON,
 		writeJSON,
 		readYAML,
