@@ -69,7 +69,8 @@ export default function chcwd({
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
 	const readYAML = async (path) => parseYAML(await read(path));
-	const writeYAML = async (path, data) => write(path, stringifyYAML(data));
+	const writeYAML = async (path, data) =>
+		write(path, stringifyYAML(data) + '\n');
 	const readPkg = () => readJSON('package.json');
 	const writePkg = (data) => writeJSON('package.json', data);
 	const glob = (patterns, options) => fg.stream(patterns, {...options, cwd});
