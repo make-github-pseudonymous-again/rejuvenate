@@ -2,7 +2,7 @@ import update from '../lib/update.js';
 import {fixedOrder} from '../lib/order.js';
 
 const filename = '.esdoc.json';
-export const description = 'Sort plugins';
+export const description = 'Sort plugins.';
 
 export const commit = {
 	scope: filename,
