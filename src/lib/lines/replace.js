@@ -22,7 +22,7 @@ async function replaceOne(operations, path, {lines, write, method}) {
 
 	if (changed && write) {
 		const replaced = buffer.join('\n');
-		await write(path, replaced);
+		await write(path, replaced ? replaced + '\n' : '');
 	}
 }
 
