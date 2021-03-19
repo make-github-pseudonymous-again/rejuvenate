@@ -9,7 +9,7 @@ export const commit = {
 	subject: description,
 };
 
-const format = (text) => stringify(parse(text)) + '\n';
+const format = (text) => stringify(parse(text));
 
 export async function postcondition({read, assert}) {
 	const text = await read(filename);
