@@ -11,14 +11,17 @@ export const commit = {
 const patterns = ['src/**/*.js', 'test/src/**/*.js'];
 
 const filter = (resolveImport) => (node, {is, n}) => {
-	if (!is(node, n.ImportDeclaration)) return false;
-	if (!is(node.source, n.Literal)) return false;
-	const source = node.source.value;
-	if (typeof source !== 'string') return false;
-	const path = node.loc?.lines?.name;
-	if (typeof path !== 'string') return false;
-	if (source === resolveImport(path, source)) return false;
-	return true;
+	if (is(node, n.ImportDeclaration) || is(node, n.ExportAllDeclaration)) {
+		if (!is(node.source, n.Literal)) return false;
+		const source = node.source.value;
+		if (typeof source !== 'string') return false;
+		const path = node.loc?.lines?.name;
+		if (typeof path !== 'string') return false;
+		if (source === resolveImport(path, source)) return false;
+		return true;
+	}
+
+	return false;
 };
 
 const map = (resolveImport) => (node, {b}) => {
