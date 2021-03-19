@@ -35,16 +35,7 @@ const xoConfig = {
 	prettier: true,
 	plugins: ['unicorn'],
 	rules: {
-		'unicorn/filename-case': [
-			'error',
-			{
-				cases: {
-					snakeCase: true,
-					camelCase: true,
-					pascalCase: true,
-				},
-			},
-		],
+		'unicorn/filename-case': 'off',
 	},
 	overrides: [
 		{
