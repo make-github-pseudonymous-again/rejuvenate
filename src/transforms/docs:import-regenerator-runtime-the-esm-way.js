@@ -29,5 +29,5 @@ export async function apply({read, write, glob}) {
 }
 
 export const dependencies = [
-	'replace-scoped-babel-polyfill-with-regenerator-runtime',
+	'docs:replace-scoped-babel-polyfill-with-regenerator-runtime',
 ];

@@ -1,11 +1,11 @@
 import * as pkg from '../lib/pkg.js';
-import replace from '../lib/text/replace.js';
 import update from '../lib/update.js';
 
 export const description =
 	'Replace all references to @babel/polyfill by references to regenerator-runtime/runtime.';
 
 export const commit = {
+	type: 'deps',
 	subject: 'Use regenerator-runtime instead of @babel/polyfill.',
 };
 
@@ -26,16 +26,7 @@ export async function precondition({readPkg, assert}) {
 	assert(!devDeps.has(newDep));
 }
 
-export async function apply({
-	read,
-	write,
-	readPkg,
-	writePkg,
-	glob,
-	upgrade,
-	fixConfig,
-	install,
-}) {
+export async function apply({readPkg, writePkg, upgrade, fixConfig, install}) {
 	// Update package.json
 	await update({
 		read: readPkg,
@@ -53,20 +44,11 @@ export async function apply({
 	});
 
 	await upgrade(newDep);
-
-	// Update docs
-	const operations = [[oldDep, () => `${newDep}/runtime`]];
-	await replace(operations, glob('doc/manual/*.md'), {
-		read,
-		write,
-		method: replace.all,
-	});
-
 	await fixConfig();
 	await install();
 }
 
 export const dependencies = [
 	'config:lint-setup',
-	'replace-unscoped-babel-packages-with-scoped-babel-packages',
+	'deps:replace-unscoped-babel-packages-with-scoped-babel-packages',
 ];

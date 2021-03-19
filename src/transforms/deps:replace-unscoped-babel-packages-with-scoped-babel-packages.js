@@ -1,11 +1,11 @@
 import * as pkg from '../lib/pkg.js';
-import replace from '../lib/text/replace.js';
 import update from '../lib/update.js';
 
 export const description =
 	'Replace all references to unscoped babel-* packages by references to scoped @babel/* packages.';
 
 export const commit = {
+	type: 'deps',
 	subject: 'Use scoped babel packages.',
 };
 
@@ -25,15 +25,7 @@ export async function precondition({readPkg, assert}) {
 	assert(babelPackages.some((dep) => devDeps.has(`babel-${dep}`)));
 }
 
-export async function apply({
-	read,
-	write,
-	readPkg,
-	writePkg,
-	glob,
-	upgrade,
-	install,
-}) {
+export async function apply({readPkg, writePkg, upgrade, install}) {
 	// Update package.json
 	await update({
 		read: readPkg,
@@ -69,17 +61,5 @@ export async function apply({
 	});
 
 	await upgrade(babelPackages.map((dep) => `@babel/${dep}`));
-
-	// Update docs
-	const operations = babelPackages.map((dep) => [
-		`babel-${dep}`,
-		() => `@babel/${dep}`,
-	]);
-	await replace(operations, glob('doc/manual/*.md'), {
-		read,
-		write,
-		method: replace.all,
-	});
-
 	await install();
 }

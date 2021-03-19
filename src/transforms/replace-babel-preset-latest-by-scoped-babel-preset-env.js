@@ -65,5 +65,5 @@ export async function apply({
 }
 
 export const dependencies = [
-	'replace-unscoped-babel-packages-with-scoped-babel-packages',
+	'deps:replace-unscoped-babel-packages-with-scoped-babel-packages',
 ];
