@@ -39,6 +39,7 @@ const xoConfig = {
 			'error',
 			{
 				cases: {
+					snakeCase: true,
 					camelCase: true,
 					pascalCase: true,
 				},
