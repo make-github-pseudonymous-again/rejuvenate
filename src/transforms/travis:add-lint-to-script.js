@@ -1,6 +1,6 @@
 import updateScripts from '../recipes/update-scripts-definition.js';
 
-const description = 'Lint config in script.';
+const description = 'Lint sources in script.';
 
 const commit = {
 	type: 'config',
@@ -10,12 +10,12 @@ const commit = {
 
 const scripts = {
 	travis: {
-		oldDefinition: 'npm run lint && npm run cover',
-		newDefinition: 'npm run lint-config && npm run lint && npm run cover',
+		oldDefinition: 'npm run cover',
+		newDefinition: 'npm run lint && npm run cover',
 	},
 };
 
-const dependencies = ['config:lint-setup', 'travis:add-lint-to-script'];
+const dependencies = ['config:lint-setup'];
 
 const {postcondition, precondition, apply} = updateScripts({scripts});
 
