@@ -1,6 +1,6 @@
 import updateScripts from '../recipes/update-scripts-definition.js';
 
-const description = 'Lint config in dev script.';
+const description = 'Lint sources in dev script.';
 
 const commit = {
 	type: 'config',
@@ -10,17 +10,15 @@ const commit = {
 
 const scripts = {
 	dev: {
-		oldDefinition:
-			'npm run lint-and-fix && npm run cover -- -- -st --fail-fast',
+		oldDefinition: 'npm run cover -- -- -st --fail-fast',
 		newDefinition:
-			'npm run lint-config-and-fix && npm run lint-and-fix && npm run cover -- -- -st --fail-fast',
+			'npm run lint-and-fix && npm run cover -- -- -st --fail-fast',
 	},
 };
 
 const dependencies = [
 	'config:lint-setup',
-	'package.json:scripts-dev-add-lint',
-	'package.json:scripts-dev-use-lint-and-fix',
+	'package.json:configure-source-linting',
 ];
 
 const {postcondition, precondition, apply} = updateScripts({scripts});
