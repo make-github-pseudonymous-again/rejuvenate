@@ -1,5 +1,4 @@
-import {parse, visit, print} from 'recast';
-import lib from './lib.js';
+import {parse, visit, print, utils} from './lib.js';
 
 /**
  * CodemodOne.
@@ -38,8 +37,8 @@ export default function replace(operations, paths, options) {
 		.map((options) => ({recurse: () => true, ...options}))
 		.map(({filter, map, recurse}) => ({
 			visitNode(path) {
-				if (filter(path.node, lib)) path.replace(map(path.node, lib));
-				if (!recurse(path.node, lib)) return false;
+				if (filter(path.node, utils)) path.replace(map(path.node, utils));
+				if (!recurse(path.node, utils)) return false;
 				this.traverse(path);
 			},
 		}));
