@@ -33,3 +33,5 @@ export async function apply({readJSON, writeJSON}) {
 		},
 	});
 }
+
+export const dependencies = ['renovate:init'];
