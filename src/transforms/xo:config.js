@@ -36,6 +36,11 @@ const xoConfig = {
 	plugins: ['unicorn'],
 	rules: {
 		'unicorn/filename-case': 'off',
+		camelcase: 'off',
+		'unicorn/prevent-abbreviations': 'off',
+		'no-constant-condition': 'off',
+		'unicorn/prefer-math-trunc': 'off',
+		'unicorn/no-new-array': 'off',
 	},
 	overrides: [
 		{
