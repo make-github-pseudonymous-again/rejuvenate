@@ -37,7 +37,7 @@ export async function apply({read, write}) {
 	});
 }
 
-export const dependencies = ['package.json:setup-fixpack'];
+export const dependencies = ['deps:add-fixpack'];
 
 const expected = {
 	files: ['package.json'],
