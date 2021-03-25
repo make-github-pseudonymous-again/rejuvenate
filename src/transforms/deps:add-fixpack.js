@@ -10,6 +10,9 @@ const commit = {
 
 const deps = [dep];
 
-const {postcondition, precondition, apply} = addScripts({deps});
+const {postcondition, precondition, apply} = addScripts({
+	deps,
+	lintConfig: false,
+});
 
 export {postcondition, precondition, apply, description, commit};

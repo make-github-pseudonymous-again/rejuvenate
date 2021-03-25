@@ -13,6 +13,9 @@ const commit = {
 
 const dependencies = ['deps:add-fixpack'];
 
-const {postcondition, precondition, apply} = addScripts({scripts});
+const {postcondition, precondition, apply} = addScripts({
+	scripts,
+	lintConfig: false,
+});
 
 export {postcondition, precondition, apply, description, commit, dependencies};

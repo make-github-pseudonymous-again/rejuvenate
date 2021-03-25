@@ -3,7 +3,14 @@ import update from '../lib/update.js';
 import contains from '../lib/contains.js';
 
 const addScripts = (options) =>
-	subroutine({scripts: {}, deps: [], files: {}, config: {}, ...options});
+	subroutine({
+		scripts: {},
+		deps: [],
+		files: {},
+		config: {},
+		lintConfig: true,
+		...options,
+	});
 
 export default addScripts;
 
@@ -17,7 +24,7 @@ function* iterFiles(files) {
 	}
 }
 
-function subroutine({scripts, deps, files, config}) {
+function subroutine({scripts, deps, files, config, lintConfig}) {
 	return {
 		postcondition: async ({readPkg, read, assert}) => {
 			const pkgjson = await readPkg();
@@ -92,7 +99,7 @@ function subroutine({scripts, deps, files, config}) {
 			}
 
 			if (deps.length > 0) await upgrade(deps.join(' '));
-			await fixConfig();
+			if (lintConfig) await fixConfig();
 			if (deps.length > 0) await install();
 		},
 	};
