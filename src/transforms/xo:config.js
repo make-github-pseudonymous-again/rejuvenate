@@ -41,6 +41,7 @@ const xoConfig = {
 		'no-constant-condition': 'off',
 		'unicorn/prefer-math-trunc': 'off',
 		'unicorn/no-new-array': 'off',
+		'no-negated-condition': 'off',
 	},
 	overrides: [
 		{
