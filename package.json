@@ -49,7 +49,7 @@
     "travis": "npm run lint && npm run cover"
   },
   "dependencies": {
-    "@aureooms/js-cardinality": "^2.0.0",
+    "@aureooms/js-cardinality": "^3.0.0",
     "@aureooms/js-collections-deque": "^4.0.1",
     "@aureooms/js-compare": "^1.4.8",
     "@aureooms/js-itertools": "^4.1.0",
