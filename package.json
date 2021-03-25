@@ -52,7 +52,7 @@
     "@aureooms/js-cardinality": "^2.0.0",
     "@aureooms/js-collections-deque": "^4.0.1",
     "@aureooms/js-compare": "^1.4.8",
-    "@aureooms/js-itertools": "^4.1.0",
+    "@aureooms/js-itertools": "^5.0.0",
     "@aureooms/js-topological-sorting": "^0.2.1",
     "@babel/parser": "^7.13.11",
     "chalk": "^4.1.0",
