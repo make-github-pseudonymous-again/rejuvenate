@@ -13,17 +13,19 @@ const newScript = 'npm run travis';
 const newScriptDefinition =
 	'npm run lint-config && npm run lint && npm run cover';
 
-export async function postcondition({readPkg, readYAML, assert}) {
+export async function postcondition({readPkg, exists, readYAML, assert}) {
 	const pkgjson = await readPkg();
 	assert(pkgjson.scripts.travis !== undefined);
+	assert(await exists(configFile));
 	const config = await readYAML(configFile);
 	assert(!config.script.includes(oldScript));
 	assert(config.script.includes(newScript));
 }
 
-export async function precondition({readPkg, readYAML, assert}) {
+export async function precondition({readPkg, exists, readYAML, assert}) {
 	const pkgjson = await readPkg();
 	assert(pkgjson.scripts.travis === undefined);
+	assert(await exists(configFile));
 	const config = await readYAML(configFile);
 	assert(config.script.includes(oldScript));
 	assert(!config.script.includes(newScript));
