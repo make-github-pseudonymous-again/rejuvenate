@@ -2,6 +2,31 @@ import {reduce} from '@aureooms/js-itertools';
 import textReplace from '../text/replace.js';
 
 /**
+ * Replace full line match.
+ *
+ * @param {String} current
+ * @param {Array} operation
+ */
+const whole = (current, [pattern, replacement]) => {
+	if (pattern instanceof RegExp) {
+		const regexp = new RegExp('^' + pattern.source + '$', pattern.flags);
+		return current.replace(regexp, replacement);
+	}
+
+	if (typeof pattern === 'string') {
+		if (typeof replacement === 'string') {
+			return current === pattern ? replacement : current;
+		}
+
+		throw new Error(
+			`whole: Cannot use '${replacement}' as replacement when pattern (${pattern}) is a string.`,
+		);
+	} else {
+		throw new TypeError(`whole: Cannot use pattern '${pattern}'.`);
+	}
+};
+
+/**
  * Apply all replacement operations to each line of a given file .
  *
  * Uses String.replace semantics. See
@@ -41,3 +66,4 @@ export default async function replace(operations, paths, options) {
 
 replace.first = textReplace.first;
 replace.all = textReplace.all;
+replace.whole = whole;
