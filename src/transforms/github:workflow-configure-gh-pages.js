@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2
 
       - name: Install 🔧
         run: npm install
@@ -73,7 +73,7 @@ jobs:
         run: npm run build-gh-pages
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.0
+        uses: JamesIves/github-pages-deploy-action@4
         with:
           branch: gh-pages
           folder: gh-pages
