@@ -16,18 +16,12 @@ export function devDeps(object) {
 }
 
 export function replaceDep(object, oldKey, newKey) {
-	object.dependencies = replaceEntry(
-		object.dependencies,
-		oldKey,
-		newKey,
-		'0.0.0',
-	);
-	object.devDependencies = replaceEntry(
-		object.devDependencies,
-		oldKey,
-		newKey,
-		'0.0.0',
-	);
+	object.dependencies =
+		object.dependencies &&
+		replaceEntry(object.dependencies, oldKey, newKey, '0.0.0');
+	object.devDependencies =
+		object.devDependencies &&
+		replaceEntry(object.devDependencies, oldKey, newKey, '0.0.0');
 }
 
 export function addDep(object, dep) {
