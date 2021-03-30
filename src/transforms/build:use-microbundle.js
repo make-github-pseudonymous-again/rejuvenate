@@ -45,6 +45,7 @@ export async function apply({
 			pkgjson.source = 'src/index.js';
 			pkgjson.main = 'dist/index.js';
 			pkgjson.module = 'dist/index.module.js';
+			pkgjson.esmodule = 'dist/index.modern.js';
 			pkgjson['umd:main'] = 'dist/index.umd.js';
 			pkgjson.unpkg = 'dist/index.umd.js';
 			pkgjson.exports = {

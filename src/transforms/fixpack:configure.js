@@ -59,6 +59,7 @@ const expected = {
 		'source',
 		'main',
 		'module',
+		'esmodule',
 		'umd:main',
 		'unpkg',
 		'exports',
