@@ -149,6 +149,20 @@ export function transformToTask(transform, options, globals) {
 		enabled: () => Boolean(transform.apply),
 		skip: async () => {
 			if (await checkPostCondition(transform, globals)) return 'postcondition';
+			if (options.onSkip === 'skip-subtree') {
+				for (const dep of transform.dependencies ?? []) {
+					const task = globals.tasks[addExt(dep)];
+					if (task.hasFailed()) return 'dependency-failed';
+					if (task.isSkipped()) {
+						if (task.output === 'postcondition') continue;
+						return 'dependency-skipped';
+					}
+
+					if (!task.isEnabled() || task.isCompleted()) continue;
+					return 'dependency-unknown';
+				}
+			}
+
 			if (!(await checkPreCondition(transform, globals))) return 'precondition';
 			return false;
 		},

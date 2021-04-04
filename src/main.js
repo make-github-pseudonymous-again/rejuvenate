@@ -3,6 +3,8 @@ import _commandExists from 'command-exists';
 import Listr from 'listr';
 import renderer from './ui/renderer.js';
 
+import {zip} from '@aureooms/js-itertools';
+
 import parse from './parse.js';
 import {fetchTransforms, transformToTask} from './transforms.js';
 import chcwd from './util/chcwd.js';
@@ -30,6 +32,7 @@ export default function main(argv) {
 	const {command, options, isDefault} = parse(argv.slice(2));
 
 	const globals = {
+		tasks: undefined,
 		assert,
 		...chcwd(options),
 		...logger(options),
@@ -124,10 +127,18 @@ export default function main(argv) {
 			},
 			{
 				title: 'Applying transforms',
-				task: (ctx) =>
-					new Listr(
+				task: (ctx) => {
+					const schedule = new Listr(
 						ctx.transforms.map((t) => transformToTask(t, options, globals)),
-					),
+					);
+					const tasks = {};
+					for (const [transform, task] of zip(ctx.transforms, schedule.tasks)) {
+						tasks[transform.name] = task;
+					}
+
+					globals.tasks = tasks;
+					return schedule;
+				},
 			},
 			{
 				title: 'Checking out current branch',

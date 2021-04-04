@@ -125,6 +125,14 @@ export default function parse(array) {
 			demandOption: true,
 			default: ['*'],
 		})
+		.option('on-skip', {
+			type: 'string',
+			describe:
+				'Action to take when a transform is skipped (except postcondition)',
+			demandOption: true,
+			default: 'skip-subtree',
+			choices: ['skip-subtree', 'ignore'],
+		})
 		.help('h')
 		.alias('h', 'help');
 
