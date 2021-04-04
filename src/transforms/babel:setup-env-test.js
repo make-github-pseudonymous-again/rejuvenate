@@ -1,5 +1,11 @@
 import update from '../lib/update.js';
-import {includes, replaceOrInsert} from '../lib/babel.js';
+import {
+	includes,
+	replaceOrInsert,
+	presetCurrentNode,
+	presetPowerAssert,
+	pluginRemoveDebug,
+} from '../lib/babel.js';
 
 export const description = 'Setup test environment.';
 
@@ -8,17 +14,6 @@ export const commit = {
 	scope: 'babel',
 	subject: description,
 };
-
-const presetEnv = '@babel/preset-env';
-const presetPowerAssert = 'babel-preset-power-assert';
-const presetCurrentNode = [presetEnv, {targets: 'current node'}];
-
-const pluginRemoveDebug = [
-	'transform-remove-console',
-	{
-		exclude: ['log', 'error', 'warn'],
-	},
-];
 
 export async function postcondition({readPkg, assert}) {
 	const pkgjson = await readPkg();

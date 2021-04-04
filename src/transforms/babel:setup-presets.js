@@ -1,5 +1,11 @@
 import update from '../lib/update.js';
-import {includes, replaceOrInsert} from '../lib/babel.js';
+import {
+	includes,
+	replaceOrInsert,
+	presetDefaults,
+	pluginRemoveDebug,
+	presetCurrentNode,
+} from '../lib/babel.js';
 
 export const description = 'Setup default presets.';
 
@@ -8,12 +14,6 @@ export const commit = {
 	scope: 'babel',
 	subject: description,
 };
-
-const presetEnv = '@babel/preset-env';
-const presetDefaults = [
-	presetEnv,
-	{targets: ['defaults', 'maintained node versions']},
-];
 
 export async function postcondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
@@ -26,6 +26,8 @@ export async function postcondition({readPkg, assert}) {
 export async function precondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
 	const env = pkgjson.babel;
+	assert(!includes(env?.plugins, pluginRemoveDebug));
+	assert(!includes(env?.presets, presetCurrentNode));
 	assert(!includes(env?.presets, presetDefaults));
 }
 

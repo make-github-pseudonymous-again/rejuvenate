@@ -11,24 +11,51 @@ const pair = (item) => (typeof item === 'string' ? [item, undefined] : item);
 const key = (item) => pair(item)[0];
 const compress = (k, v) => (v === undefined ? k : [k, v]);
 function* replaceOrInsertGen(array, item) {
-	const [key, value] = pair(item);
-	let found = false;
-	// eslint-disable-next-line unicorn/no-array-callback-reference
-	for (const [k, v] of array.map(pair)) {
-		if (k === key) {
-			found = true;
-			yield compress(key, value);
-		} else yield compress(k, v);
-	}
-
-	if (!found) yield compress(key, value);
+	yield* removeGen(array, key(item));
+	yield item;
 }
 
+function* removeGen(array, key) {
+	// eslint-disable-next-line unicorn/no-array-callback-reference
+	for (const [k, v] of array.map(pair)) {
+		if (k !== key) yield compress(k, v);
+	}
+}
+
+export const presetEnv = '@babel/preset-env';
+export const presetCurrentNode = [presetEnv, {targets: 'current node'}];
+export const presetDefaults = [
+	presetEnv,
+	{targets: ['defaults', 'maintained node versions']},
+];
+
+export const presetPowerAssert = 'babel-preset-power-assert';
+export const pluginUnassert = 'babel-plugin-unassert';
+
+export const transformRemoveConsole = 'transform-remove-console';
+
+export const pluginRemoveDebug = [
+	transformRemoveConsole,
+	{
+		exclude: ['log', 'error', 'warn'],
+	},
+];
+
+export const pluginKeepDebug = [
+	transformRemoveConsole,
+	{
+		exclude: ['debug', 'log', 'error', 'warn'],
+	},
+];
+
 const sortToTop = {
-	'@babel/preset-env': 0,
+	[presetEnv]: 0,
 };
 
 const order = fixedOrder(sortToTop, key);
 
 export const replaceOrInsert = (array, item) =>
 	array ? [...replaceOrInsertGen(array, item)].sort(order) : [item];
+
+export const remove = (array, key) =>
+	array && [...removeGen(array, key)].sort(order);

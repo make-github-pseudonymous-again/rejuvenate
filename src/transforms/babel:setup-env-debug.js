@@ -1,5 +1,10 @@
 import update from '../lib/update.js';
-import {includes, replaceOrInsert} from '../lib/babel.js';
+import {
+	includes,
+	replaceOrInsert,
+	presetCurrentNode,
+	presetPowerAssert,
+} from '../lib/babel.js';
 
 export const description = 'Setup debug environment.';
 
@@ -8,10 +13,6 @@ export const commit = {
 	scope: 'babel',
 	subject: description,
 };
-
-const presetEnv = '@babel/preset-env';
-const presetPowerAssert = 'babel-preset-power-assert';
-const presetCurrentNode = [presetEnv, {targets: 'current node'}];
 
 export async function postcondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
