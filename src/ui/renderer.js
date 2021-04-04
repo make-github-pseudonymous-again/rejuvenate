@@ -37,7 +37,7 @@ const getSymbol = (task, options, level) => {
 	}
 
 	if (task.isSkipped()) {
-		return task.output === 'precondition' ? logSymbols.warning : skipped;
+		return task.output === 'postcondition' ? skipped : logSymbols.warning;
 	}
 
 	return ' ';
