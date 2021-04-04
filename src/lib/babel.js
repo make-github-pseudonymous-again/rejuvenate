@@ -48,14 +48,48 @@ export const pluginKeepDebug = [
 	},
 ];
 
-const sortToTop = {
+const presetAndPluginSortToTop = {
 	[presetEnv]: 0,
 };
 
-const order = fixedOrder(sortToTop, key);
+const presetAndPluginOrder = fixedOrder(presetAndPluginSortToTop, key);
 
 export const replaceOrInsert = (array, item) =>
-	array ? [...replaceOrInsertGen(array, item)].sort(order) : [item];
+	array
+		? [...replaceOrInsertGen(array, item)].sort(presetAndPluginOrder)
+		: [item];
 
 export const remove = (array, key) =>
-	array && [...removeGen(array, key)].sort(order);
+	array && [...removeGen(array, key)].sort(presetAndPluginOrder);
+
+const configSortToTop = {
+	sourceMaps: 0,
+	presets: 1,
+	plugins: 2,
+};
+
+const envSortToTop = {
+	debug: 0,
+	test: 1,
+	cover: 2,
+	development: 3,
+	production: 4,
+};
+
+export const envOrder = fixedOrder(envSortToTop, (x) => x[0]);
+export const configOrder = fixedOrder(configSortToTop, (x) => x[0]);
+
+export const sortObject = (object, compare) =>
+	Object.fromEntries(Object.entries(object).sort(compare));
+
+export const format = (pkgjson) => {
+	const babel = pkgjson.babel;
+	const env = babel.env;
+	for (const key of ['debug', 'test', 'cover', 'development', 'production']) {
+		env[key] = sortObject(env[key], configOrder);
+	}
+
+	babel.env = sortObject(env, envOrder);
+	pkgjson.babel = sortObject(babel, configOrder);
+	return pkgjson;
+};
