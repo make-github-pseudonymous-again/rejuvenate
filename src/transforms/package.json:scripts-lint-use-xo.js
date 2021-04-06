@@ -15,7 +15,7 @@ const scripts = {
 	},
 };
 
-const dependencies = ['deps:add-xo'];
+const dependencies = ['package.json:scripts-add-lint', 'deps:add-xo'];
 
 const {postcondition, precondition, apply} = updateScripts({scripts});
 

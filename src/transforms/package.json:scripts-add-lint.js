@@ -3,7 +3,7 @@ import addScripts from '../recipes/add-scripts.js';
 const description = 'Add lint script.';
 
 const scripts = {
-	lint: 'xo',
+	lint: 'true',
 };
 
 const commit = {
@@ -11,8 +11,6 @@ const commit = {
 	subject: description,
 };
 
-const dependencies = ['deps:add-xo'];
-
 const {postcondition, precondition, apply} = addScripts({scripts});
 
-export {postcondition, precondition, apply, description, commit, dependencies};
+export {postcondition, precondition, apply, description, commit};
