@@ -38,7 +38,7 @@ module.exports = {
 				'chore',
 				'cleaning',
 				'config',
-				'dependencies',
+				'deps',
 				'deprecate',
 				'docs',
 				'experiment',
