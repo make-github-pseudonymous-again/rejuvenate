@@ -6,7 +6,7 @@ import cliTruncate from 'cli-truncate';
 import stripAnsi from 'strip-ansi';
 import logSymbols from 'log-symbols';
 import elegantSpinner from 'elegant-spinner';
-import deque from '@aureooms/js-collections-deque';
+import {deque} from '@aureooms/js-collections-deque';
 import {iter, take, filter, list} from '@aureooms/js-itertools';
 import {count} from '@aureooms/js-cardinality';
 
