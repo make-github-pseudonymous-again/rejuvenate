@@ -48,6 +48,6 @@ export async function apply({read, write, glob, resolveImport}) {
 	await replace(
 		[{filter: filter(resolveImport), map: map(resolveImport)}],
 		glob(patterns),
-		{read, write},
+		{read, write, printOptions: {quote: 'single'}},
 	);
 }

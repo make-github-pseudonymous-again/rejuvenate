@@ -7,12 +7,12 @@ import {parse, visit, print, utils} from './lib.js';
  * @param {String} path
  * @param {Object} options
  */
-async function codemodOne(visitors, path, {read, write}) {
+async function codemodOne(visitors, path, {read, write, printOptions}) {
 	const original = await read(path);
 
 	const ast = parse(original, {sourceFileName: path});
 	for (const visitor of visitors) visit(ast, visitor);
-	const replaced = print(ast).code;
+	const replaced = print(ast, printOptions).code;
 
 	if (replaced !== original && write) {
 		await write(path, replaced);
