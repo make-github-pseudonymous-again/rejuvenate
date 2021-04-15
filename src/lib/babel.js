@@ -84,12 +84,18 @@ export const sortObject = (object, compare) =>
 
 export const format = (pkgjson) => {
 	const babel = pkgjson.babel;
-	const env = babel.env;
-	for (const key of ['debug', 'test', 'cover', 'development', 'production']) {
-		env[key] = sortObject(env[key], configOrder);
+	if (babel) {
+		const env = babel.env;
+		if (env) {
+			for (const [key, value] of Object.entries(env)) {
+				env[key] = sortObject(value, configOrder);
+			}
+
+			babel.env = sortObject(env, envOrder);
+		}
+
+		pkgjson.babel = sortObject(babel, configOrder);
 	}
 
-	babel.env = sortObject(env, envOrder);
-	pkgjson.babel = sortObject(babel, configOrder);
 	return pkgjson;
 };
