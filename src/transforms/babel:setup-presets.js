@@ -5,6 +5,7 @@ import {
 	presetDefaults,
 	pluginRemoveDebug,
 	presetCurrentNode,
+	format,
 } from '../lib/babel.js';
 
 export const description = 'Setup default presets.';
@@ -38,7 +39,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		edit: (pkgjson) => {
 			const env = pkgjson.babel;
 			env.presets = replaceOrInsert(env.presets, presetDefaults);
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

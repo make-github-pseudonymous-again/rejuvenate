@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {format} from '../lib/babel.js';
 
 export const description = 'Enable sourceMaps files.';
 
@@ -34,7 +35,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 			delete env.test.sourceMaps;
 			delete env.development.sourceMaps;
 			delete env.production.sourceMaps;
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

@@ -4,6 +4,7 @@ import {
 	replaceOrInsert,
 	presetCurrentNode,
 	presetPowerAssert,
+	format,
 } from '../lib/babel.js';
 
 export const description = 'Setup debug environment.';
@@ -40,7 +41,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 			const env = pkgjson.babel.env.debug;
 			env.presets = replaceOrInsert(env.presets, presetCurrentNode);
 			env.presets = replaceOrInsert(env.presets, presetPowerAssert);
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

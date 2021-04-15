@@ -5,6 +5,7 @@ import {
 	presetCurrentNode,
 	presetPowerAssert,
 	pluginRemoveDebug,
+	format,
 } from '../lib/babel.js';
 
 export const description = 'Setup cover environment.';
@@ -50,7 +51,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 			env.presets = replaceOrInsert(env.presets, presetCurrentNode);
 			env.presets = replaceOrInsert(env.presets, presetPowerAssert);
 			env.plugins = replaceOrInsert(env.plugins, pluginRemoveDebug);
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

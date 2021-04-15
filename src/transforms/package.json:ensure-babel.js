@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {format} from '../lib/babel.js';
 
 export const description = 'Add babel key.';
 
@@ -22,7 +23,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		write: writePkg,
 		edit: (pkgjson) => {
 			pkgjson.babel = {};
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

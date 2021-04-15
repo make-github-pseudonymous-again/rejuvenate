@@ -4,6 +4,7 @@ import {
 	replaceOrInsert,
 	pluginUnassert,
 	pluginRemoveDebug,
+	format,
 } from '../lib/babel.js';
 
 export const description = 'Setup production environment.';
@@ -40,7 +41,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 			const env = pkgjson.babel.env.production;
 			env.plugins = replaceOrInsert(env.plugins, pluginUnassert);
 			env.plugins = replaceOrInsert(env.plugins, pluginRemoveDebug);
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

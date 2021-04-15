@@ -4,6 +4,7 @@ import {
 	replaceOrInsert,
 	presetPowerAssert,
 	pluginRemoveDebug,
+	format,
 } from '../lib/babel.js';
 
 export const description = 'Setup development environment.';
@@ -41,7 +42,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 			const env = pkgjson.babel.env.development;
 			env.presets = replaceOrInsert(env.presets, presetPowerAssert);
 			env.plugins = replaceOrInsert(env.plugins, pluginRemoveDebug);
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 	await fixConfig();

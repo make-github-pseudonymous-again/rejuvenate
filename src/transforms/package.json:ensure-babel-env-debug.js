@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {format} from '../lib/babel.js';
 
 export const description = 'Add debug key in .babel.env.';
 
@@ -22,7 +23,7 @@ export async function apply({readPkg, writePkg}) {
 		write: writePkg,
 		edit: (pkgjson) => {
 			pkgjson.babel.env.debug = {};
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 }

@@ -1,5 +1,6 @@
 import * as pkg from '../lib/pkg.js';
 import update from '../lib/update.js';
+import {format} from '../lib/babel.js';
 
 export const description =
 	'Replace all references to unscoped babel-* packages by references to scoped @babel/* packages.';
@@ -56,7 +57,7 @@ export async function apply({readPkg, writePkg, upgrade, install}) {
 				}
 			}
 
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 

@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {format} from '../lib/babel.js';
 
 export const description = 'Add env key in .babel.';
 
@@ -22,7 +23,7 @@ export async function apply({readPkg, writePkg}) {
 		write: writePkg,
 		edit: (pkgjson) => {
 			pkgjson.babel.env = {};
-			return pkgjson;
+			return format(pkgjson);
 		},
 	});
 }
