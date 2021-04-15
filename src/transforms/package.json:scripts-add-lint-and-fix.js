@@ -11,10 +11,7 @@ const commit = {
 	subject: description,
 };
 
-const dependencies = [
-	'package.json:scripts-add-lint',
-	'package.json:scripts-lint-use-xo',
-];
+const dependencies = ['package.json:scripts-lint-use-xo'];
 
 const {postcondition, precondition, apply} = addScripts({scripts});
 
