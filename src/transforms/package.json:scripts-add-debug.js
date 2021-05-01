@@ -11,7 +11,7 @@ const commit = {
 	subject: description,
 };
 
-const dependencies = ['config:lint-setup', 'babel:setup-env-debug'];
+const dependencies = ['config:lint-setup', 'babel:refactor-config'];
 
 const {postcondition, precondition, apply} = addScripts({scripts});
 
