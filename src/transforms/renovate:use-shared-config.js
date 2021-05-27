@@ -11,7 +11,9 @@ export const commit = {
 const filename = 'renovate.json';
 const key = 'extends';
 const previous = ['config:base'];
-const expected = ['github>aureooms/renovate-config-js-library'];
+const expected = [
+	'github>make-github-pseudonymous-again/renovate-config-js-library',
+];
 
 export async function postcondition({readJSON, assert}) {
 	const config = await readJSON(filename);
