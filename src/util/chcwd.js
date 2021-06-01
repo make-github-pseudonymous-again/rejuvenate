@@ -8,6 +8,7 @@ import simpleGit from 'simple-git';
 import ncu from 'npm-check-updates';
 import execa from 'execa';
 import del from 'del';
+import moveFile from 'move-file';
 
 import parseYAML from '../lib/yaml/parse.js';
 import stringifyYAML from '../lib/yaml/stringify.js';
@@ -91,6 +92,8 @@ export default function chcwd({
 		execa('yarn', offline ? ['--offline', ...args] : [...args], {cwd});
 	const test = testFlag ? () => yarn('test') : noop;
 	const remove = (patterns) => del(patterns, {cwd});
+	const move = (a, b) =>
+		moveFile(resolve(cwd, a), resolve(cwd, b), {overwrite: false});
 	const install = installFlag ? () => yarn('install') : noop;
 
 	const resolveImport = (from, to) => {
@@ -118,6 +121,7 @@ export default function chcwd({
 		fixConfig,
 		test,
 		remove,
+		move,
 		install,
 		resolveImport,
 	};
