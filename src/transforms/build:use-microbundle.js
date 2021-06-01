@@ -15,7 +15,7 @@ export async function postcondition({readPkg, assert}) {
 	assert(!devDeps.has('@babel/cli'));
 	assert(devDeps.has('microbundle'));
 	assert(pkgjson.bin === undefined);
-	assert(pkgjson.main === 'dist/index.js');
+	assert(pkgjson.main === 'dist/index.cjs');
 }
 
 export async function precondition({readPkg, assert}) {
@@ -43,7 +43,7 @@ export async function apply({
 		edit: (pkgjson) => {
 			pkg.replaceDep(pkgjson, '@babel/cli', 'microbundle');
 			pkgjson.source = 'src/index.js';
-			pkgjson.main = 'dist/index.js';
+			pkgjson.main = 'dist/index.cjs';
 			pkgjson.module = 'dist/index.module.js';
 			pkgjson.esmodule = 'dist/index.modern.js';
 			pkgjson['umd:main'] = 'dist/index.umd.js';
@@ -52,7 +52,7 @@ export async function apply({
 				'.': {
 					browser: './dist/index.module.js',
 					umd: './dist/index.umd.js',
-					require: './dist/index.js',
+					require: './dist/index.cjs',
 					default: './dist/index.modern.js',
 				},
 			};
@@ -79,6 +79,7 @@ export async function apply({
 
 export const dependencies = [
 	'babel:setup-env-production',
+	'build:microbundle-fix-cjs',
 	'codacy:config-remove',
 	'config:lint-setup',
 	'codeclimate:format-config-file',
