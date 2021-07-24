@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // eslint-disable-next-line import/no-unassigned-import
 import 'regenerator-runtime/runtime.js';
 import main from './main.js';
