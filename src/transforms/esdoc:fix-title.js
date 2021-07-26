@@ -1,4 +1,6 @@
-import {filter, map, next} from '@aureooms/js-itertools';
+import {filter} from '@iterable-iterator/filter';
+import {map} from '@iterable-iterator/map';
+import {next} from '@iterable-iterator/next';
 import update from '../lib/update.js';
 
 const filename = '.esdoc.json';

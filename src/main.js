@@ -3,7 +3,7 @@ import _commandExists from 'command-exists';
 import Listr from 'listr';
 import renderer from './ui/renderer.js';
 
-import {zip} from '@aureooms/js-itertools';
+import {zip} from '@iterable-iterator/zip';
 
 import parse from './parse.js';
 import {fetchTransforms, transformToTask} from './transforms.js';

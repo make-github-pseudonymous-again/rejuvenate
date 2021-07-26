@@ -1,4 +1,4 @@
-import {reduce} from '@aureooms/js-itertools';
+import {reduce} from '@iterable-iterator/reduce';
 
 /**
  * Replace first match. Throws if pattern is RegExp and global.

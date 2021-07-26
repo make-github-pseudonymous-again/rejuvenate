@@ -1,4 +1,5 @@
-import {map, sum} from '@aureooms/js-itertools';
+import {sum} from '@iterable-iterator/reduce';
+import {map} from '@iterable-iterator/map';
 import textCount from '../text/count.js';
 
 /**

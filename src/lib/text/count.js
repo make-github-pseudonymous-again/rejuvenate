@@ -1,5 +1,6 @@
-import {map, sum} from '@aureooms/js-itertools';
-import {count as _count} from '@aureooms/js-cardinality';
+import {sum} from '@iterable-iterator/reduce';
+import {map} from '@iterable-iterator/map';
+import {count as _count} from '@iterable-iterator/cardinality';
 
 /**
  * Count non-overlapping substring occurrences in text.

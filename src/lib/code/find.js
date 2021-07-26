@@ -1,4 +1,5 @@
-import {any, map} from '@aureooms/js-itertools';
+import {any} from '@iterable-iterator/reduce';
+import {map} from '@iterable-iterator/map';
 
 import {parse, visit, utils} from './lib.js';
 
