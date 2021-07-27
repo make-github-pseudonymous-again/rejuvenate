@@ -132,7 +132,7 @@ jobs:
         run: yarn ${newScript}
 
       - name: Publish coverage report 📃
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
 `;
