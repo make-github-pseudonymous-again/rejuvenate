@@ -7,7 +7,7 @@ import {list} from '@iterable-iterator/list';
 import {map} from '@iterable-iterator/map';
 import {filter} from '@iterable-iterator/filter';
 import {increasing} from '@total-order/primitive';
-import {sorted} from '@aureooms/js-topological-sorting';
+import {sorted} from '@graph-algorithm/topological-sorting';
 import simpleGit from 'simple-git';
 import pkgDir from 'pkg-dir';
 import findUp from 'find-up';
