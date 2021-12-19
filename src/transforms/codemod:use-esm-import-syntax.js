@@ -10,25 +10,29 @@ export const commit = {
 
 const patterns = ['src/**/*.js', 'test/src/**/*.js'];
 
-const filter = (resolveImport) => (node, {is, n}) => {
-	if (is(node, n.ImportDeclaration) || is(node, n.ExportAllDeclaration)) {
-		if (!is(node.source, n.Literal)) return false;
-		const source = node.source.value;
-		if (typeof source !== 'string') return false;
-		const path = node.loc?.lines?.name;
-		if (typeof path !== 'string') return false;
-		if (source === resolveImport(path, source)) return false;
-		return true;
-	}
+const filter =
+	(resolveImport) =>
+	(node, {is, n}) => {
+		if (is(node, n.ImportDeclaration) || is(node, n.ExportAllDeclaration)) {
+			if (!is(node.source, n.Literal)) return false;
+			const source = node.source.value;
+			if (typeof source !== 'string') return false;
+			const path = node.loc?.lines?.name;
+			if (typeof path !== 'string') return false;
+			if (source === resolveImport(path, source)) return false;
+			return true;
+		}
 
-	return false;
-};
+		return false;
+	};
 
-const map = (resolveImport) => (node, {b}) => {
-	const resolved = resolveImport(node.loc.lines.name, node.source.value);
-	node.source = b.literal(resolved);
-	return node;
-};
+const map =
+	(resolveImport) =>
+	(node, {b}) => {
+		const resolved = resolveImport(node.loc.lines.name, node.source.value);
+		node.source = b.literal(resolved);
+		return node;
+	};
 
 export async function postcondition({read, glob, resolveImport, assert}) {
 	const found = await find([{filter: filter(resolveImport)}], glob(patterns), {
