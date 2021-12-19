@@ -1,4 +1,4 @@
-import path from 'path';
+import {fileURLToPath} from 'node:url';
 import yargs from 'yargs';
 import {INFO} from './util/logger.js';
 
@@ -115,7 +115,7 @@ export default function parse(array) {
 			type: 'string',
 			describe: 'Path to the directory containing all transforms',
 			demandOption: true,
-			default: path.join(__dirname, 'transforms'),
+			default: fileURLToPath(new URL('transforms', import.meta.url)),
 		})
 		.option('transforms', {
 			type: 'array',

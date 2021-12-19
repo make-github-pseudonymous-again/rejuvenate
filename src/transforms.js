@@ -1,5 +1,5 @@
-import {promises as fs} from 'fs';
-import path from 'path';
+import {promises as fs} from 'node:fs';
+import path from 'node:path';
 import glob from 'fast-glob';
 import Listr from 'listr';
 import {any} from '@iterable-iterator/reduce';
@@ -8,17 +8,20 @@ import {map} from '@iterable-iterator/map';
 import {filter} from '@iterable-iterator/filter';
 import {increasing} from '@total-order/primitive';
 import {sorted} from '@graph-algorithm/topological-sorting';
+import {asyncIterableToArray} from '@async-abstraction/tape';
 import simpleGit from 'simple-git';
-import pkgDir from 'pkg-dir';
-import findUp from 'find-up';
+import {packageDirectory} from 'pkg-dir';
+import {findUp} from 'find-up';
 import {loadJsonFile} from 'load-json-file';
 
-function closure(operator, set) {
+const closure = async (operator, set) => {
+	// TODO could parallelize
 	const queue = [...set];
 	const output = new Set(set);
 	while (queue.length > 0) {
 		const element = queue.pop();
-		for (const product of operator(element)) {
+		// eslint-disable-next-line no-await-in-loop
+		for await (const product of operator(element)) {
 			if (output.has(product)) continue;
 			output.add(product);
 			queue.push(product);
@@ -26,12 +29,12 @@ function closure(operator, set) {
 	}
 
 	return output;
-}
+};
 
 const addExt = (t) => `${t}.js`;
-const mod = (cwd, transform) => {
+const mod = async (cwd, transform) => {
 	const location = path.join(cwd, transform);
-	const exports = require(location);
+	const exports = await import(location);
 	return {
 		dirname: cwd,
 		name: transform,
@@ -70,7 +73,7 @@ async function* urlsAsyncGen(transform) {
 	if (await findUp('node_modules', {cwd: transform.dirname})) {
 		// Check if likely published on NPM.
 		// TODO check with NPM directly to be sure.
-		const root = await pkgDir(transform.dirname);
+		const root = await packageDirectory(transform.dirname);
 		if (root) {
 			const _path = path.relative(root, transform.location);
 			/** @type {{name: string, version: string}} */
@@ -84,10 +87,8 @@ async function* urlsAsyncGen(transform) {
 	} else if (await git.checkIsRepo()) {
 		// Check if likely to be part of a commit available on github
 		for await (const source of resolveSource(transform)) {
-			const _path = (await git.raw(['ls-files', '--full-name', source])).slice(
-				0,
-				-1,
-			);
+			const gitFiles = await git.raw(['ls-files', '--full-name', source]);
+			const _path = gitFiles.slice(0, -1);
 			if (_path) {
 				const status = await git.status();
 				if (
@@ -114,19 +115,28 @@ async function* urlsAsyncGen(transform) {
 	}
 }
 
-const deps = (cwd, transform) =>
-	map(addExt, mod(cwd, transform).dependencies ?? []);
+const deps = async function* (cwd, transform) {
+	const {dependencies} = await mod(cwd, transform);
+	if (dependencies !== undefined) {
+		for (const dependency of dependencies) {
+			yield addExt(dependency);
+		}
+	}
+};
+
 const end = '$';
 
-function* edges(cwd, jobs) {
+const edges = async function* (cwd, jobs) {
+	// TODO could parallelize
 	for (const job of jobs) {
-		for (const d of deps(cwd, job)) {
+		// eslint-disable-next-line no-await-in-loop
+		for await (const d of deps(cwd, job)) {
 			yield [d, job];
 		}
 
 		yield [job, end];
 	}
-}
+};
 
 /**
  * Transforms.
@@ -135,13 +145,16 @@ function* edges(cwd, jobs) {
  * @param {Array} globs
  */
 export async function* fetchTransforms(cwd, globs) {
+	// TODO could parallelize
 	const patterns = list(map(addExt, globs));
 	const paths = await glob(patterns, {cwd});
-	const jobs = closure((t) => deps(cwd, t), paths);
-	const sortedPaths = sorted(edges(cwd, jobs), increasing);
+	const jobs = await closure((t) => deps(cwd, t), paths);
+	const precedence = await asyncIterableToArray(edges(cwd, jobs));
+	const sortedPaths = sorted(precedence, increasing);
 	for (const pathTail of sortedPaths) {
 		if (pathTail === end) break;
-		yield mod(cwd, pathTail);
+		// eslint-disable-next-line no-await-in-loop
+		yield await mod(cwd, pathTail);
 	}
 }
 

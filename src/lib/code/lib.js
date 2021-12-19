@@ -1,4 +1,4 @@
-import {parse as _parse, visit, print, types} from 'recast';
+import {parse as _parse, types} from 'recast';
 import * as parser from 'recast/parsers/babel.js'; // Requires @babel/parser
 
 const n = types.namedTypes;
@@ -14,4 +14,4 @@ export const utils = {
 
 export const parse = (source, options) => _parse(source, {parser, ...options});
 
-export {visit, print};
+export {visit, print} from 'recast';

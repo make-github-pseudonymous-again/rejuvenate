@@ -1,9 +1,9 @@
-import assert from 'assert';
+// eslint-disable-next-line unicorn/prefer-node-protocol
+import assert from 'assert'; // Using node:* is incompatible with power-assert.
 import _commandExists from 'command-exists';
 import Listr from 'listr';
-import renderer from './ui/renderer.js';
-
 import {zip} from '@iterable-iterator/zip';
+import renderer from './ui/renderer.js';
 
 import parse from './parse.js';
 import {fetchTransforms, transformToTask} from './transforms.js';

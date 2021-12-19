@@ -1,14 +1,14 @@
-import {promises as fs} from 'fs';
-import _path from 'path';
+import {promises as fs} from 'node:fs';
+import _path from 'node:path';
 import fg from 'fast-glob';
 import makeDir from 'make-dir';
 import {loadJsonFile} from 'load-json-file';
-import _writeJsonFile from 'write-json-file';
+import {writeJsonFile} from 'write-json-file';
 import simpleGit from 'simple-git';
-import ncu from 'npm-check-updates';
-import execa from 'execa';
+import {run as ncu} from 'npm-check-updates';
+import {execa} from 'execa';
 import del from 'del';
-import moveFile from 'move-file';
+import {moveFile} from 'move-file';
 
 import parseYAML from '../lib/yaml/parse.js';
 import stringifyYAML from '../lib/yaml/stringify.js';
@@ -71,7 +71,7 @@ export default function chcwd({
 
 	const readJSON = (path) => loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
-		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
+		writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
 	const readYAML = async (path) => parseYAML(await read(path));
 	const writeYAML = async (path, data) => write(path, stringifyYAML(data));
 	const readPkg = () => readJSON('package.json');
@@ -79,7 +79,7 @@ export default function chcwd({
 	const glob = (patterns, options) => fg.stream(patterns, {...options, cwd});
 	const git = simpleGit({baseDir: cwd});
 	const upgrade = (filter) =>
-		ncu.run({
+		ncu({
 			packageFile: resolve(cwd, 'package.json'),
 			filter,
 			upgrade: true,
@@ -96,7 +96,7 @@ export default function chcwd({
 		moveFile(resolve(cwd, a), resolve(cwd, b), {overwrite: false});
 	const install = installFlag ? () => yarn('install') : noop;
 
-	const resolveImport = (from, to) => {
+	const resolveRequire = (from, to) => {
 		const path = resolve(cwd, from);
 		return partialRequireResolve(path, to);
 	};
@@ -123,6 +123,6 @@ export default function chcwd({
 		remove,
 		move,
 		install,
-		resolveImport,
+		resolveRequire,
 	};
 }

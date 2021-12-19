@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import logUpdate from 'log-update';
 import chalk from 'chalk';
 import figures from 'figures';
@@ -86,7 +88,7 @@ const renderHelper = (tasks, options, level = 0) => {
 			const done = count(
 				filter((t) => t.isCompleted() || t.isSkipped(), enabledSubtasks),
 			);
-			const ratio = ((done / nsubtasks) * 100).toFixed();
+			const ratio = ((done / nsubtasks) * 100).toFixed(0);
 			const progress = `(${done}/${nsubtasks} ~ ${ratio}%)`;
 			output.push(
 				indentString(

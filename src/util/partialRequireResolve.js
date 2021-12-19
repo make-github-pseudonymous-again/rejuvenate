@@ -1,4 +1,7 @@
-import path from 'path';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 const addLeadingDotIfNecessary = (path) => {
 	if (path.startsWith('./')) return path;

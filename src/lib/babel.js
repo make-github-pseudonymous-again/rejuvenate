@@ -3,7 +3,7 @@ import {fixedOrder} from './order.js';
 const string = (x) => JSON.stringify(x);
 export const includes = (array, item) => {
 	if (typeof item === 'string') return array?.includes(item);
-	// eslint-disable-next-line unicorn/no-array-callback-reference
+
 	return array?.map(string).includes(string(item));
 };
 

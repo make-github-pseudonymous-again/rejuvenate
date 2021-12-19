@@ -12,7 +12,7 @@ export const commit = {
 const filename = 'README.md';
 
 export async function postcondition({read, readPkg, assert}) {
-	const homepage = (await readPkg()).homepage;
+	const {homepage} = await readPkg();
 	const domain = homepage.replace(/^https:\/\//, '/');
 	const found = await find([domain + '//'], [filename], {
 		read,
@@ -22,7 +22,7 @@ export async function postcondition({read, readPkg, assert}) {
 }
 
 export async function precondition({read, readPkg, assert}) {
-	const homepage = (await readPkg()).homepage;
+	const {homepage} = await readPkg();
 	const domain = homepage.replace(/^https:\/\//, '/');
 	const found = await find([domain + '//'], [filename], {
 		read,
@@ -32,7 +32,7 @@ export async function precondition({read, readPkg, assert}) {
 }
 
 export async function apply({read, write, readPkg}) {
-	const homepage = (await readPkg()).homepage;
+	const {homepage} = await readPkg();
 	const domain = homepage.replace(/^https:\/\//, '/');
 	const operations = [[domain + '//', () => domain + '/']];
 	await replace(operations, [filename], {read, write, method: replace.all});
