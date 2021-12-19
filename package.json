@@ -56,7 +56,7 @@
     "@iterable-iterator/slice": "^1.0.1",
     "@iterable-iterator/zip": "^1.0.1",
     "@total-order/primitive": "^1.0.1",
-    "chalk": "^4.1.0",
+    "chalk": "^5.0.0",
     "cli-truncate": "^2.1.0",
     "command-exists": "^1.2.9",
     "del": "^6.0.0",
