@@ -11,7 +11,7 @@ import {sorted} from '@graph-algorithm/topological-sorting';
 import simpleGit from 'simple-git';
 import pkgDir from 'pkg-dir';
 import findUp from 'find-up';
-import _loadJsonFile from 'load-json-file';
+import {loadJsonFile} from 'load-json-file';
 
 function closure(operator, set) {
 	const queue = [...set];
@@ -42,7 +42,8 @@ const mod = (cwd, transform) => {
 
 async function* resolveSource(transform) {
 	try {
-		const sourceMap = await _loadJsonFile(`${transform.path}.map`);
+		/** @type {{sources: string[]}} */
+		const sourceMap = await loadJsonFile(`${transform.path}.map`);
 		const s2 = await fs.stat(transform.path, {bigint: true});
 		for (const source of sourceMap.sources) {
 			// eslint-disable-next-line no-await-in-loop
@@ -72,7 +73,8 @@ async function* urlsAsyncGen(transform) {
 		const root = await pkgDir(transform.dirname);
 		if (root) {
 			const _path = path.relative(root, transform.location);
-			const {name, version} = await _loadJsonFile(
+			/** @type {{name: string, version: string}} */
+			const {name, version} = await loadJsonFile(
 				path.join(root, 'package.json'),
 			);
 			if (name && version && _path) {

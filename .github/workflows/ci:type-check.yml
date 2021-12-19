@@ -1,10 +1,10 @@
-name: ci:lint-config
+name: ci:type-check
 on:
   - push
   - pull_request
 jobs:
-  lint-config:
-    name: Continuous integration (config linting)
+  type-check:
+    name: Continuous integration (type checking)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -16,5 +16,5 @@ jobs:
           install-command: yarn --frozen-lockfile --ignore-scripts
           useRollingCache: true
 
-      - name: Lint config 👕
-        run: yarn lint-config
+      - name: TypeScript check ☑️
+        run: yarn tsc

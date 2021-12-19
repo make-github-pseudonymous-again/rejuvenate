@@ -3,7 +3,7 @@ on:
   - push
   - pull_request
 jobs:
-  cover:
+  lint:
     name: Continuous integration (code linting)
     runs-on: ubuntu-latest
     steps:

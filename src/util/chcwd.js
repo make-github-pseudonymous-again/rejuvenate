@@ -2,7 +2,7 @@ import {promises as fs} from 'fs';
 import _path from 'path';
 import fg from 'fast-glob';
 import makeDir from 'make-dir';
-import _loadJsonFile from 'load-json-file';
+import {loadJsonFile} from 'load-json-file';
 import _writeJsonFile from 'write-json-file';
 import simpleGit from 'simple-git';
 import ncu from 'npm-check-updates';
@@ -69,7 +69,7 @@ export default function chcwd({
 
 	const lines = (path) => _lines(resolve(cwd, path));
 
-	const readJSON = (path) => _loadJsonFile(resolve(cwd, path));
+	const readJSON = (path) => loadJsonFile(resolve(cwd, path));
 	const writeJSON = (path, data) =>
 		_writeJsonFile(resolve(cwd, path), data, {detectIndent: true});
 	const readYAML = async (path) => parseYAML(await read(path));

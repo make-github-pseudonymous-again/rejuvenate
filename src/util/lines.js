@@ -9,7 +9,7 @@ const crlfDelay = Number.POSITIVE_INFINITY;
  * IterLines.
  *
  * @param {String} filename
- * @return {AsyncIterableIterator}
+ * @return {AsyncIterable}
  */
 export default function lines(filename) {
 	const input = fs.createReadStream(filename);

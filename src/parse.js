@@ -1,5 +1,5 @@
 import path from 'path';
-import yargs from 'yargs/yargs';
+import yargs from 'yargs';
 import {INFO} from './util/logger.js';
 
 const MAGIC = '89h2832fhao293819274hooeu';
@@ -136,8 +136,9 @@ export default function parse(array) {
 		.help('h')
 		.alias('h', 'help');
 
-	const options = parser.argv;
+	const options = parser.parseSync();
 	const command = options._[0];
+	// @ts-ignore - Argv<>.getOptions is missing from @types/yargs
 	const isDefault = (key) => options[key] === parser.getOptions().default[key];
 
 	return {
