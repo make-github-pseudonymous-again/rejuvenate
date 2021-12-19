@@ -21,7 +21,7 @@
     "update"
   ],
   "sideEffects": false,
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "bin": "dist/cli.js",
   "files": [
     "dist"
