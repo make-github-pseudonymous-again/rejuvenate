@@ -4,6 +4,7 @@ export const dependencies = [
 	'deps:add-xo',
 	'xo:config',
 	'xo:config-remove-ignores',
+	'xo:config-add-doc-env-override',
 	'prettier:config',
 	'package.json:scripts-add-lint',
 	'package.json:scripts-lint-use-xo',

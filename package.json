@@ -79,6 +79,7 @@
     "recast": "^0.20.5",
     "simple-git": "^2.48.0",
     "strip-ansi": "^7.0.1",
+    "total-order": "^4.0.1",
     "write-json-file": "^5.0.0",
     "yaml": "^2.0.0-9",
     "yargs": "^17.3.0"
