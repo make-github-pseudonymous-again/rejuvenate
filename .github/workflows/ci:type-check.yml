@@ -16,5 +16,5 @@ jobs:
           install-command: yarn --frozen-lockfile --ignore-scripts
           useRollingCache: true
 
-      - name: TypeScript check ☑️
-        run: yarn tsc
+      - name: Type check ☑️
+        run: yarn type-check

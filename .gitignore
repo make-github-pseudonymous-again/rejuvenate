@@ -14,3 +14,8 @@ jspm_packages
 
 # Documentation
 /gh-pages
+
+# TypeScript
+tsconfig.tsbuildinfo
+lint-staged.tsconfig.json
+lint-staged.tsconfig.tsbuildinfo
