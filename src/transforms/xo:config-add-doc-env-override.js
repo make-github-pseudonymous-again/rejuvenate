@@ -35,7 +35,7 @@ export async function precondition({readPkg, assert}) {
 	);
 }
 
-export async function apply({readPkg, writePkg}) {
+export async function apply({readPkg, writePkg, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -48,4 +48,5 @@ export async function apply({readPkg, writePkg}) {
 			return pkgjson;
 		},
 	});
+	await fixConfig();
 }

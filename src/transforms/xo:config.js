@@ -39,6 +39,7 @@ const xoConfig = {
 		camelcase: 'off',
 		'unicorn/prevent-abbreviations': 'off',
 		'no-constant-condition': 'off',
+		'unicorn/prefer-node-protocol': 'off',
 		'unicorn/prefer-math-trunc': 'off',
 		'unicorn/no-new-array': 'off',
 		'no-negated-condition': 'off',
