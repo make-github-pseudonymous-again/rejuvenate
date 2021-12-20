@@ -8,7 +8,7 @@ export const commit = {
 	subject: description,
 };
 
-const key = 'unicorn/prefer-no-protocol';
+const key = 'unicorn/prefer-node-protocol';
 const value = 'off';
 
 export async function postcondition({readPkg, assert}) {
