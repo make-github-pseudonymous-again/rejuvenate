@@ -45,7 +45,7 @@
     "type-check": "npm run tsc -- --noEmit"
   },
   "dependencies": {
-    "@async-abstraction/tape": "^9.0.0",
+    "@async-abstraction/tape": "^10.0.0",
     "@babel/parser": "^7.16.6",
     "@data-structure/deque": "^9.0.1",
     "@graph-algorithm/topological-sorting": "^1.0.0",
