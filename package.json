@@ -97,7 +97,7 @@
     "husky": "7.0.4",
     "lint-staged": "12.3.4",
     "np": "7.6.0",
-    "pinst": "2.1.6",
+    "pinst": "3.0.0",
     "regenerator-runtime": "0.13.9",
     "typescript": "4.5.5",
     "xo": "0.47.0"
