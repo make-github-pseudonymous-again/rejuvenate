@@ -1,17 +1,19 @@
 import path from 'node:path';
 import {createRequire} from 'node:module';
 
-const require = createRequire(import.meta.url);
+import addLeadingDotIfNecessary from './addLeadingDotIfNecessary.js';
 
-const addLeadingDotIfNecessary = (path) => {
-	if (path.startsWith('./')) return path;
-	if (path.startsWith('../')) return path;
-	return './' + path;
-};
+const require = createRequire(import.meta.url);
 
 const partialRequireResolve = (from, to) => {
 	const dir = path.dirname(from);
-	const result = require.resolve(to, {paths: [dir]});
+	let result = to;
+	try {
+		result = require.resolve(to, {paths: [dir]});
+	} catch (error) {
+		if (error.code !== 'MODULE_NOT_FOUND') throw error;
+	}
+
 	if (/^(@[^/]+\/|)[^./]+$/.test(to)) return to;
 	if (/\/node_modules\//.test(result)) {
 		return result.split('/node_modules/').pop();
