@@ -10,9 +10,11 @@ const commit = {
 
 const deps = [dep];
 
+const dependencies = ['fixpack:configure'];
+
 const {postcondition, precondition, apply} = addScripts({
 	deps,
 	lintConfig: false,
 });
 
-export {postcondition, precondition, apply, description, commit};
+export {postcondition, precondition, apply, description, commit, dependencies};

@@ -26,5 +26,4 @@ export async function apply({fixConfig}) {
 export const dependencies = [
 	'package.json:scripts-add-lint-config',
 	'package.json:scripts-add-lint-config-and-fix',
-	'fixpack:configure',
 ];
