@@ -62,39 +62,24 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		write: writePkg,
 		edit: (pkgjson) => {
 			const babel = pkgjson.babel;
-			babel.presets = replaceOrInsert(babel.presets, presetCurrentNode);
-			babel.plugins = replaceOrInsert(babel.plugins, pluginRemoveDebug);
+			replaceOrInsert(babel, 'presets', presetCurrentNode);
+			replaceOrInsert(babel, 'plugins', pluginRemoveDebug);
 			const env = babel.env;
-			env.debug.presets = remove(env.debug.presets, presetEnv);
-			if (env.debug.presets.length === 0) delete env.debug.presets;
-			env.debug.plugins = replaceOrInsert(env.debug.plugins, pluginKeepDebug);
-			env.test.presets = remove(env.test.presets, presetEnv);
-			if (env.test.presets.length === 0) delete env.test.presets;
-			env.test.plugins = remove(env.test.plugins, transformRemoveConsole);
-			if (env.test.plugins.length === 0) delete env.test.plugins;
-			env.cover.presets = remove(env.cover.presets, presetEnv);
-			if (env.cover.presets.length === 0) delete env.cover.presets;
-			env.cover.plugins = remove(env.cover.plugins, transformRemoveConsole);
-			if (env.cover.plugins.length === 0) delete env.cover.plugins;
+			remove(env.debug, 'presets', presetEnv);
+			replaceOrInsert(env.debug, 'plugins', pluginKeepDebug);
+			remove(env.test, 'presets', presetEnv);
+			remove(env.test, 'plugins', transformRemoveConsole);
+			remove(env.cover, 'presets', presetEnv);
+			remove(env.cover, 'plugins', transformRemoveConsole);
 			env.development.presets = replaceOrInsert(
-				env.development.presets,
+				env.development,
+				'presets',
 				presetDefaults,
 			);
-			env.development.plugins = remove(
-				env.development.plugins,
-				transformRemoveConsole,
-			);
+			remove(env.development, 'plugins', transformRemoveConsole);
 			if (env.development.plugins.length === 0) delete env.development.plugins;
-			env.production.presets = replaceOrInsert(
-				env.production.presets,
-				presetDefaults,
-			);
-			if (env.production.presets.length === 0) delete env.production.presets;
-			env.production.plugins = remove(
-				env.production.plugins,
-				transformRemoveConsole,
-			);
-			if (env.production.plugins.length === 0) delete env.production.plugins;
+			replaceOrInsert(env.production, 'presets', presetDefaults);
+			remove(env.production, 'plugins', transformRemoveConsole);
 			return format(pkgjson);
 		},
 	});

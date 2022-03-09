@@ -38,7 +38,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		write: writePkg,
 		edit: (pkgjson) => {
 			const env = pkgjson.babel;
-			env.presets = replaceOrInsert(env.presets, presetDefaults);
+			replaceOrInsert(env, 'presets', presetDefaults);
 			return format(pkgjson);
 		},
 	});
