@@ -62,6 +62,7 @@ const expected = {
 		'unpkg',
 		'exports',
 		'files',
+		'publishConfig',
 		'scripts',
 		'bundledDependencies',
 		'dependencies',
