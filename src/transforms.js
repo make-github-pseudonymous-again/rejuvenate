@@ -8,7 +8,7 @@ import {map} from '@iterable-iterator/map';
 import {filter} from '@iterable-iterator/filter';
 import {increasing} from '@total-order/primitive';
 import {sorted} from '@graph-algorithm/topological-sorting';
-import {asyncIterableToArray} from '@async-abstraction/tape';
+import {asyncIterableToArray} from '@async-iterable-iterator/async-iterable-to-array';
 import simpleGit from 'simple-git';
 import {packageDirectory} from 'pkg-dir';
 import {findUp} from 'find-up';
