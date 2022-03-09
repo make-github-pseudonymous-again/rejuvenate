@@ -89,6 +89,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 export const dependencies = [
 	'babel:setup-presets',
 	'babel:setup-sourcemaps',
+	'babel:setup-debug-and-test-sourcemaps',
 	'babel:setup-env-cover',
 	'babel:setup-env-debug',
 	'babel:setup-env-development',
