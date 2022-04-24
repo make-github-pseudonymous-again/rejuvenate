@@ -39,7 +39,7 @@ export async function apply({
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkg.replaceDep(pkgjson, oldDep, newDep);
 			if (pkgjson.ava?.require) {
 				pkgjson.ava.require = pkgjson.ava.require.map((x) =>

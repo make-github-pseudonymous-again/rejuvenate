@@ -21,7 +21,7 @@ export async function apply({readPkg, writePkg}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.babel.env.test = {};
 			return format(pkgjson);
 		},

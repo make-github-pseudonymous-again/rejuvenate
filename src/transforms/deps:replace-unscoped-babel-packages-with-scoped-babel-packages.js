@@ -31,7 +31,7 @@ export async function apply({readPkg, writePkg, upgrade, install}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			for (const dep of babelPackages) {
 				pkg.replaceDep(pkgjson, `babel-${dep}`, `@babel/${dep}`);
 			}

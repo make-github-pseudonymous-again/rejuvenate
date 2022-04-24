@@ -2,25 +2,25 @@ import update from '../lib/update.js';
 
 export default function updateScripts({scripts}) {
 	return {
-		postcondition: async ({readPkg, assert}) => {
+		async postcondition({readPkg, assert}) {
 			const pkgjson = await readPkg();
 			for (const [script, {newDefinition}] of Object.entries(scripts)) {
 				assert(pkgjson.scripts[script] === newDefinition);
 			}
 		},
 
-		precondition: async ({readPkg, assert}) => {
+		async precondition({readPkg, assert}) {
 			const pkgjson = await readPkg();
 			for (const [script, {oldDefinition}] of Object.entries(scripts)) {
 				assert(pkgjson.scripts[script] === oldDefinition);
 			}
 		},
 
-		apply: async ({readPkg, writePkg, fixConfig}) => {
+		async apply({readPkg, writePkg, fixConfig}) {
 			await update({
 				read: readPkg,
 				write: writePkg,
-				edit: (pkgjson) => {
+				edit(pkgjson) {
 					for (const [script, {newDefinition}] of Object.entries(scripts)) {
 						pkgjson.scripts[script] = newDefinition;
 					}

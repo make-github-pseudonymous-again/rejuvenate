@@ -26,7 +26,7 @@ export async function apply({readPkg, writePkg, remove, fixConfig, install}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.main = 'dist/index.cjs';
 			pkgjson.exports['.'].require = './dist/index.cjs';
 			return pkgjson;

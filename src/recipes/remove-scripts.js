@@ -8,7 +8,7 @@ export default removeScripts;
 
 function subroutine({scripts, deps, files, config}) {
 	return {
-		postcondition: async ({readPkg, exists, assert}) => {
+		async postcondition({readPkg, exists, assert}) {
 			const pkgjson = await readPkg();
 			const devDeps = pkg.devDeps(pkgjson);
 			for (const dep of deps) assert(!devDeps.has(dep));
@@ -26,7 +26,7 @@ function subroutine({scripts, deps, files, config}) {
 			}
 		},
 
-		precondition: async ({readPkg, exists, assert}) => {
+		async precondition({readPkg, exists, assert}) {
 			const pkgjson = await readPkg();
 			const devDeps = pkg.devDeps(pkgjson);
 			for (const dep of deps) assert(devDeps.has(dep));
@@ -44,11 +44,11 @@ function subroutine({scripts, deps, files, config}) {
 			}
 		},
 
-		apply: async ({readPkg, writePkg, remove, fixConfig, install}) => {
+		async apply({readPkg, writePkg, remove, fixConfig, install}) {
 			await update({
 				read: readPkg,
 				write: writePkg,
-				edit: (pkgjson) => {
+				edit(pkgjson) {
 					for (const dep of deps) delete pkgjson.devDependencies[dep];
 					for (const key of scripts) delete pkgjson.scripts[key];
 					for (const key of config) delete pkgjson[key];

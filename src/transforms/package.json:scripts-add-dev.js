@@ -25,7 +25,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.scripts.dev =
 				'npm run lint-config-and-fix && npm run lint-and-fix && npm run cover -- -- -st --fail-fast';
 			return pkgjson;

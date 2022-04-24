@@ -87,7 +87,7 @@ export async function apply({
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.scripts[newScript] = pkgjson.scripts[oldScript];
 			delete pkgjson.scripts[oldScript];
 			return pkgjson;

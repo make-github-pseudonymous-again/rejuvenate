@@ -23,7 +23,7 @@ export async function apply({readPkg, writePkg}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.repository.url = pkgjson.repository.url.replace(/\.git$/, '');
 			return pkgjson;
 		},

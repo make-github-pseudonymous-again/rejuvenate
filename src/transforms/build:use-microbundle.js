@@ -40,7 +40,7 @@ export async function apply({
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkg.replaceDep(pkgjson, '@babel/cli', 'microbundle');
 			pkgjson.source = 'src/index.js';
 			pkgjson.main = 'dist/index.cjs';

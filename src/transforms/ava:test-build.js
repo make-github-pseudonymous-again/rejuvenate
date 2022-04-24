@@ -379,7 +379,7 @@ export async function apply({
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			const {scripts} = pkgjson;
 			scripts.test = 'npm run test:src';
 			scripts['test-cmd'] = 'NODE_LOADER_CONFIG=test/loader/config.js ava';

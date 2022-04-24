@@ -39,7 +39,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			if (pkgjson.xo.overrides === undefined) {
 				pkgjson.xo.overrides = [];
 			}

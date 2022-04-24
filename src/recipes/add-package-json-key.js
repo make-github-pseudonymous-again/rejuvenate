@@ -2,21 +2,21 @@ import update from '../lib/update.js';
 
 export default function addPackageJSONKey(key, value) {
 	return {
-		postcondition: async ({readPkg, assert}) => {
+		async postcondition({readPkg, assert}) {
 			const pkgjson = await readPkg();
 			assert.deepStrictEqual(pkgjson[key], value);
 		},
 
-		precondition: async ({readPkg, assert}) => {
+		async precondition({readPkg, assert}) {
 			const pkgjson = await readPkg();
 			assert(pkgjson[key] === undefined);
 		},
 
-		apply: async ({readPkg, writePkg, fixConfig}) => {
+		async apply({readPkg, writePkg, fixConfig}) {
 			await update({
 				read: readPkg,
 				write: writePkg,
-				edit: (pkgjson) => {
+				edit(pkgjson) {
 					pkgjson[key] = value;
 					return pkgjson;
 				},

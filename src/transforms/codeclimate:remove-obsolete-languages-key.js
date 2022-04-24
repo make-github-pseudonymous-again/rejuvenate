@@ -24,7 +24,7 @@ export async function apply({readYAML, writeYAML}) {
 	await update({
 		read: () => readYAML(configFile),
 		write: (data) => writeYAML(configFile, data),
-		edit: (config) => {
+		edit(config) {
 			delete config.languages;
 			return config;
 		},

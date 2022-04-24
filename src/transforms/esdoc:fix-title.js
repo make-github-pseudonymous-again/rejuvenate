@@ -40,7 +40,7 @@ export async function apply({readPkg, readJSON, writeJSON}) {
 	await update({
 		read: () => readJSON(filename),
 		write: (config) => writeJSON(filename, config),
-		edit: (config) => {
+		edit(config) {
 			const brand = next(
 				map(
 					(plugin) => plugin.option.brand,

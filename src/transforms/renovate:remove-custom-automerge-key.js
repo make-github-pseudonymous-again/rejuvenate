@@ -25,7 +25,7 @@ export async function apply({readJSON, writeJSON}) {
 	await update({
 		read: () => readJSON(filename),
 		write: (data) => writeJSON(filename, data),
-		edit: (config) => {
+		edit(config) {
 			delete config[key];
 			return config;
 		},

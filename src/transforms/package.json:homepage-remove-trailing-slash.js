@@ -23,7 +23,7 @@ export async function apply({readPkg, writePkg}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.homepage = pkgjson.homepage.replace(/\/$/, '');
 			return pkgjson;
 		},

@@ -98,7 +98,7 @@ export default function main(argv) {
 			},
 			{
 				title: 'Setup temporary branch',
-				task: async () => {
+				async task() {
 					const localBranches = await git.branchLocal();
 					return new Listr([
 						{
@@ -115,7 +115,7 @@ export default function main(argv) {
 			},
 			{
 				title: 'Computing the dependency graph',
-				task: async (ctx) => {
+				async task(ctx) {
 					ctx.transforms = [];
 					for await (const transform of fetchTransforms(
 						options.transformDir,
@@ -127,7 +127,7 @@ export default function main(argv) {
 			},
 			{
 				title: 'Applying transforms',
-				task: (ctx) => {
+				task(ctx) {
 					const schedule = new Listr(
 						ctx.transforms.map((t) => transformToTask(t, options, globals)),
 					);
@@ -157,7 +157,7 @@ export default function main(argv) {
 			{
 				title: 'Pushing temporary branch to remote',
 				enabled: () => options.keep && !isDefault('branch') && options.push,
-				task: async (ctx) => {
+				async task(ctx) {
 					await git.checkout(options.branch);
 					await git.push(options.remote, options.branch, ['--force']);
 					await git.checkout(ctx.status.current);

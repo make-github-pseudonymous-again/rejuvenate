@@ -28,7 +28,7 @@ export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			removeDevDep(pkgjson, '@babel/register');
 			remove(pkgjson.ava, 'require', '@babel/register');
 			addDevDep(pkgjson, '@node-loader/babel', '2.0.1');

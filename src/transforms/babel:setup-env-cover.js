@@ -45,7 +45,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			const env = pkgjson.babel.env.cover;
 			env.sourceMaps = sourceMaps;
 			replaceOrInsert(env, 'presets', presetCurrentNode);

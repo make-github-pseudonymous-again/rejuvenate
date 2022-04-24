@@ -24,7 +24,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson[key] = expected;
 			return pkgjson;
 		},

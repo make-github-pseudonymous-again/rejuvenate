@@ -26,7 +26,7 @@ function* iterFiles(files) {
 
 function subroutine({scripts, deps, files, config, lintConfig}) {
 	return {
-		postcondition: async ({readPkg, read, assert}) => {
+		async postcondition({readPkg, read, assert}) {
 			const pkgjson = await readPkg();
 			const devDeps = pkg.devDeps(pkgjson);
 			for (const dep of deps) assert(devDeps.has(dep));
@@ -48,7 +48,7 @@ function subroutine({scripts, deps, files, config, lintConfig}) {
 			}
 		},
 
-		precondition: async ({readPkg, exists, assert}) => {
+		async precondition({readPkg, exists, assert}) {
 			const pkgjson = await readPkg();
 			const devDeps = pkg.devDeps(pkgjson);
 			for (const dep of deps) assert(!devDeps.has(dep));
@@ -66,19 +66,11 @@ function subroutine({scripts, deps, files, config, lintConfig}) {
 			}
 		},
 
-		apply: async ({
-			readPkg,
-			writePkg,
-			read,
-			write,
-			upgrade,
-			fixConfig,
-			install,
-		}) => {
+		async apply({readPkg, writePkg, read, write, upgrade, fixConfig, install}) {
 			await update({
 				read: readPkg,
 				write: writePkg,
-				edit: (pkgjson) => {
+				edit(pkgjson) {
 					for (const dep of deps) pkg.addDevDep(pkgjson, dep);
 					for (const [key, value] of Object.entries(scripts))
 						pkgjson.scripts[key] = value;

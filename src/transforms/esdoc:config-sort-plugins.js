@@ -41,7 +41,7 @@ export async function apply({readJSON, writeJSON}) {
 	await update({
 		read: () => readJSON(filename),
 		write: (config) => writeJSON(filename, config),
-		edit: (config) => {
+		edit(config) {
 			config.plugins.sort(order);
 			return config;
 		},

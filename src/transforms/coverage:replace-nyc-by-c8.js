@@ -29,7 +29,7 @@ export async function apply({readPkg, writePkg, upgrade, fixConfig, install}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkg.replaceDep(pkgjson, oldDep, newDep);
 			pkgjson.scripts.cover = pkgjson.scripts.cover.replace(
 				oldDep,

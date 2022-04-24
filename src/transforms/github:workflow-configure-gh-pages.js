@@ -37,7 +37,7 @@ export async function apply({readPkg, writePkg, read, write, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson.scripts['build-gh-pages'] = script;
 			return pkgjson;
 		},

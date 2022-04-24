@@ -33,7 +33,7 @@ export async function apply({readPkg, writePkg, fixConfig, move, read, write}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			pkgjson[key] = expected;
 			return pkgjson;
 		},

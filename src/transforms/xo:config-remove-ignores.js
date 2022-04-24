@@ -22,7 +22,7 @@ export async function apply({readPkg, writePkg}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			delete pkgjson.xo.ignores;
 			return pkgjson;
 		},

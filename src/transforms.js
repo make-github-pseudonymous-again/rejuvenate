@@ -165,7 +165,7 @@ export function transformToTask(transform, options, globals) {
 		// enabled: () => checkPreCondition(transform, globals),
 		// skip: () => checkPostCondition(transform, globals),
 		enabled: () => Boolean(transform.apply),
-		skip: async () => {
+		async skip() {
 			if (await checkPostCondition(transform, globals)) return 'postcondition';
 			if (options.onSkip === 'skip-subtree') {
 				for (const dep of transform.dependencies ?? []) {
@@ -265,7 +265,7 @@ export default function exec(transform, {gitHooks, author}, {git, ...globals}) {
 					[
 						{
 							title: 'Generate commit message and options',
-							task: async (ctx) => {
+							async task(ctx) {
 								ctx.commitMessage = await getCommitMessageLines(transform);
 								ctx.commitOptions = {
 									'--all': true,

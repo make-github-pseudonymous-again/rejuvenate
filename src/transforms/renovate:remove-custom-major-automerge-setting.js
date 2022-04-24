@@ -26,7 +26,7 @@ export async function apply({readJSON, writeJSON}) {
 	await update({
 		read: () => readJSON(filename),
 		write: (data) => writeJSON(filename, data),
-		edit: (config) => {
+		edit(config) {
 			delete config[type][key];
 			if (Object.keys(config[type]).length === 0) {
 				delete config[type];

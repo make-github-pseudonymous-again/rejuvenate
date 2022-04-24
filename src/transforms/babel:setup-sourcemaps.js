@@ -27,7 +27,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
-		edit: (pkgjson) => {
+		edit(pkgjson) {
 			const babel = pkgjson.babel;
 			babel.sourceMaps = true;
 			const env = babel.env;
