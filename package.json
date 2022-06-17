@@ -74,7 +74,7 @@
     "log-update": "^5.0.1",
     "make-dir": "^3.1.0",
     "move-file": "^3.0.0",
-    "npm-check-updates": "^13.0.0",
+    "npm-check-updates": "^14.0.0",
     "pkg-dir": "^6.0.1",
     "power-assert": "1.6.1",
     "recast": "^0.21.0",
