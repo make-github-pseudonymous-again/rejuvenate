@@ -78,7 +78,7 @@ export async function apply({
 }
 
 export const dependencies = [
-	'babel:setup-env-production',
+	'babel:refactor-config',
 	'build:microbundle-fix-cjs',
 	'codacy:config-remove',
 	'config:lint-setup',
