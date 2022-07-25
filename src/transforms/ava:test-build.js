@@ -398,7 +398,7 @@ export async function apply({
 			delete scripts['ci:test'];
 
 			addDevDep(pkgjson, '@node-loader/core', '2.0.0');
-			addDevDep(pkgjson, '@node-loader/import-maps', '1.0.3');
+			addDevDep(pkgjson, '@node-loader/import-maps', '1.1.0');
 
 			removeKey(
 				pkgjson.ava,
