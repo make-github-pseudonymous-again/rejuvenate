@@ -100,7 +100,7 @@
     "pinst": "3.0.0",
     "regenerator-runtime": "0.13.9",
     "typescript": "4.8.2",
-    "xo": "0.52.1"
+    "xo": "0.52.2"
   },
   "babel": {
     "sourceMaps": true,
