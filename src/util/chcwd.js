@@ -7,7 +7,7 @@ import {writeJsonFile} from 'write-json-file';
 import simpleGit from 'simple-git';
 import {run as ncu} from 'npm-check-updates';
 import {execa} from 'execa';
-import del from 'del';
+import {deleteAsync} from 'del';
 import {moveFile} from 'move-file';
 
 import parseYAML from '../lib/yaml/parse.js';
@@ -98,7 +98,7 @@ export default function chcwd({
 	const yarn = (...args) =>
 		execa('yarn', offline ? ['--offline', ...args] : [...args], {cwd});
 	const test = testFlag ? () => yarn('test') : noop;
-	const remove = (patterns) => del(patterns, {cwd});
+	const remove = (patterns) => deleteAsync(patterns, {cwd});
 	const move = (a, b) =>
 		moveFile(_resolve(cwd, a), _resolve(cwd, b), {overwrite: false});
 	const install = installFlag ? () => yarn('install') : noop;
