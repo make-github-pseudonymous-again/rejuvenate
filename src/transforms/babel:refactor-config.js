@@ -71,13 +71,9 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 			remove(env.test, 'plugins', transformRemoveConsole);
 			remove(env.cover, 'presets', presetEnv);
 			remove(env.cover, 'plugins', transformRemoveConsole);
-			env.development.presets = replaceOrInsert(
-				env.development,
-				'presets',
-				presetDefaults,
-			);
+			replaceOrInsert(env.development, 'presets', presetDefaults);
 			remove(env.development, 'plugins', transformRemoveConsole);
-			if (env.development.plugins.length === 0) delete env.development.plugins;
+			if (env.development.plugins?.length === 0) delete env.development.plugins;
 			replaceOrInsert(env.production, 'presets', presetDefaults);
 			remove(env.production, 'plugins', transformRemoveConsole);
 			return format(pkgjson);

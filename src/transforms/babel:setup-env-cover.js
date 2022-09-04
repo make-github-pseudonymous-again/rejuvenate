@@ -34,7 +34,7 @@ export async function precondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
 	const env = pkgjson.babel?.env?.cover;
 	assert(
-		env.sourceMaps !== sourceMaps ||
+		env?.sourceMaps !== sourceMaps ||
 			!includes(env?.presets, presetCurrentNode) ||
 			!includes(env?.presets, presetPowerAssert) ||
 			!includes(env?.plugins, pluginRemoveDebug),

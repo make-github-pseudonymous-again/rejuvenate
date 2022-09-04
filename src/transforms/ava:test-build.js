@@ -427,4 +427,4 @@ export async function apply({
 	);
 }
 
-export const dependencies = ['babel:refactor-config', 'ava:setup-v4'];
+export const dependencies = ['ava:setup-v4'];
