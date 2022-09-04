@@ -1,6 +1,7 @@
 import update from '../lib/update.js';
 import replace from '../lib/text/replace.js';
 import * as pkg from '../lib/pkg.js';
+import {replaceOrInsert} from '../lib/babel.js';
 
 export const description = 'Configure microbundle to produce build.';
 
@@ -42,6 +43,7 @@ export async function apply({
 		write: writePkg,
 		edit(pkgjson) {
 			pkg.replaceDep(pkgjson, '@babel/cli', 'microbundle');
+			pkg.addDevDep(pkgjson, '@babel/plugin-transform-for-of');
 			pkgjson.source = 'src/index.js';
 			pkgjson.main = 'dist/index.cjs';
 			pkgjson.module = 'dist/index.module.js';
@@ -58,6 +60,11 @@ export async function apply({
 			};
 			pkgjson.files = pkgjson.files.map((x) => (x === 'lib' ? 'dist' : x));
 			pkgjson.scripts.build = 'NODE_ENV=production microbundle';
+			replaceOrInsert(
+				pkgjson.babel.env.production,
+				'plugins',
+				'@babel/plugin-transform-for-of',
+			);
 			return pkgjson;
 		},
 	});
@@ -72,7 +79,7 @@ export async function apply({
 		method: replace.all,
 	});
 	await remove(['lib/**']);
-	await upgrade('microbundle');
+	await upgrade(['microbundle', '@babel/plugin-transform-for-of']);
 	await fixConfig();
 	await install();
 }
