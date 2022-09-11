@@ -81,7 +81,7 @@ jobs:
         run: yarn build
 
       - name: Archive build 💽
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist
@@ -105,7 +105,7 @@ jobs:
           useRollingCache: true
 
       - name: Load build 💽
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: dist
@@ -137,7 +137,7 @@ jobs:
         run: yarn cover
 
       - name: Publish coverage report 📃
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
 `;
