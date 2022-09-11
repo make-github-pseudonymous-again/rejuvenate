@@ -44,6 +44,7 @@ export async function apply({
 		edit(pkgjson) {
 			pkg.replaceDep(pkgjson, '@babel/cli', 'microbundle');
 			pkg.addDevDep(pkgjson, '@babel/plugin-transform-for-of');
+			pkg.addDevDep(pkgjson, '@babel/plugin-transform-destructuring');
 			pkgjson.source = 'src/index.js';
 			pkgjson.main = 'dist/index.cjs';
 			pkgjson.module = 'dist/index.module.js';
@@ -65,6 +66,11 @@ export async function apply({
 				'plugins',
 				'@babel/plugin-transform-for-of',
 			);
+			replaceOrInsert(
+				pkgjson.babel.env.production,
+				'plugins',
+				'@babel/plugin-transform-destructuring',
+			);
 			return pkgjson;
 		},
 	});
@@ -79,7 +85,11 @@ export async function apply({
 		method: replace.all,
 	});
 	await remove(['lib/**']);
-	await upgrade(['microbundle', '@babel/plugin-transform-for-of']);
+	await upgrade([
+		'microbundle',
+		'@babel/plugin-transform-for-of',
+		'@babel/plugin-transform-destructuring',
+	]);
 	await fixConfig();
 	await install();
 }
