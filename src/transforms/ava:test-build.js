@@ -430,4 +430,5 @@ export async function apply({
 export const dependencies = [
 	'ava:setup-v4',
 	'github:workflow-configure-ci:test',
+	'github:workflow-configure-ci:build',
 ];
