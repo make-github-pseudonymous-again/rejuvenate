@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {areKeysSorted, sortKeys} from '../lib/ava.js';
 
 export const description = 'Sort keys.';
 
@@ -8,22 +9,14 @@ export const commit = {
 	subject: description,
 };
 
-const prefix = new Set(['files', 'nodeArguments', 'require', 'timeout']);
-
 export async function postcondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
-	const keys = Object.keys(pkgjson.ava);
-	const filtered = keys.filter((x) => prefix.has(x));
-	const expected = keys.slice(0, filtered.length);
-	assert.deepStrictEqual(filtered, expected);
+	assert(areKeysSorted(pkgjson.ava));
 }
 
 export async function precondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
-	const keys = Object.keys(pkgjson.ava);
-	const filtered = keys.filter((x) => prefix.has(x));
-	const expected = keys.slice(0, filtered.length);
-	assert.notDeepStrictEqual(filtered, expected);
+	assert(!areKeysSorted(pkgjson.ava));
 }
 
 export async function apply({readPkg, writePkg, fixConfig}) {
@@ -31,13 +24,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		read: readPkg,
 		write: writePkg,
 		edit(pkgjson) {
-			pkgjson.ava = {
-				files: [],
-				nodeArguments: [],
-				require: [],
-				timeout: '1m',
-				...pkgjson.ava,
-			};
+			pkgjson.ava = sortKeys(pkgjson.ava);
 			return pkgjson;
 		},
 	});

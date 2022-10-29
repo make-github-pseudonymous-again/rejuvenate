@@ -47,6 +47,7 @@
   "dependencies": {
     "@async-iterable-iterator/async-iterable-to-array": "^0.0.1",
     "@babel/parser": "^7.19.4",
+    "@comparison-sorting/is-sorted": "^0.0.1",
     "@data-structure/deque": "^9.0.1",
     "@graph-algorithm/topological-sorting": "^1.0.0",
     "@iterable-iterator/cardinality": "^4.0.0",
@@ -54,6 +55,7 @@
     "@iterable-iterator/iter": "^1.0.1",
     "@iterable-iterator/list": "^1.0.1",
     "@iterable-iterator/map": "^1.0.1",
+    "@iterable-iterator/mapping": "^9.0.0",
     "@iterable-iterator/reduce": "^1.0.1",
     "@iterable-iterator/slice": "^1.0.2",
     "@iterable-iterator/zip": "^1.0.1",

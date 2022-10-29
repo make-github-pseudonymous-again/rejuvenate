@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {sortKeys} from '../lib/ava.js';
 import {remove, replaceOrInsert} from '../lib/babel.js';
 import {addDevDep, removeDevDep} from '../lib/pkg.js';
 
@@ -37,6 +38,7 @@ export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
 				'nodeArguments',
 				'--experimental-loader=@node-loader/babel',
 			);
+			pkgjson.ava = sortKeys(pkgjson.ava);
 			remove(pkgjson.babel, 'presets', '@babel/preset-env');
 			if (!pkgjson.devDependencies.ava.startsWith('4.')) {
 				pkgjson.devDependencies.ava = '4.0.0';
