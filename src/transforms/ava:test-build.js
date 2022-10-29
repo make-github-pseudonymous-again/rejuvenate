@@ -1,4 +1,5 @@
 import update from '../lib/update.js';
+import {sortKeys} from '../lib/ava.js';
 import {replaceOrInsert, remove as removeKey} from '../lib/babel.js';
 import {addDevDep} from '../lib/pkg.js';
 import find from '../lib/text/find.js';
@@ -317,6 +318,7 @@ export async function apply({
 	readPkg,
 	writePkg,
 	fixConfig,
+	fixSources,
 	install,
 	resolveFromFile,
 	resolveRequire,
@@ -410,6 +412,7 @@ export async function apply({
 				'nodeArguments',
 				'--experimental-loader=@node-loader/core',
 			);
+			pkgjson.ava = sortKeys(pkgjson.ava);
 			return pkgjson;
 		},
 	});
@@ -425,6 +428,7 @@ export async function apply({
 			printOptions: {quote: 'single'},
 		},
 	);
+	await fixSources();
 }
 
 export const dependencies = [
