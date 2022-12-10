@@ -79,7 +79,7 @@
     "npm-check-updates": "^16.3.13",
     "pkg-dir": "^7.0.0",
     "power-assert": "1.6.1",
-    "recast": "^0.21.5",
+    "recast": "^0.22.0",
     "simple-git": "^3.14.1",
     "strip-ansi": "^7.0.1",
     "total-order": "^4.0.1",
