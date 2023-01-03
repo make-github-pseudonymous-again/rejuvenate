@@ -96,7 +96,7 @@
     "@types/yargs": "17.0.18",
     "babel-preset-power-assert": "3.0.0",
     "fixpack": "4.0.0",
-    "husky": "8.0.2",
+    "husky": "8.0.3",
     "lint-staged": "13.1.0",
     "np": "7.6.3",
     "pinst": "3.0.0",
