@@ -93,7 +93,7 @@
     "@babel/preset-env": "7.20.2",
     "@commitlint/cli": "17.4.2",
     "@commitlint/config-conventional": "17.4.2",
-    "@types/yargs": "17.0.19",
+    "@types/yargs": "17.0.21",
     "babel-preset-power-assert": "3.0.0",
     "fixpack": "4.0.0",
     "husky": "8.0.3",
