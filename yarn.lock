@@ -2364,9 +2364,9 @@ cacheable-lookup@^7.0.0:
   integrity sha512-+qJyx4xiKra8mZrcwhjMRMUhD5NR1R8esPkzIYxX96JiecFoxAXFuz/GpR3+ev4PE1WamHip78wV0vcmPQtp8w==
 
 cacheable-request@^10.2.8:
-  version "10.2.8"
-  resolved "https://registry.yarnpkg.com/cacheable-request/-/cacheable-request-10.2.8.tgz#899ae6c0c8c7127f263b2005ecaac07c95124079"
-  integrity sha512-IDVO5MJ4LItE6HKFQTqT2ocAQsisOoCTUDu1ddCmnhyiwFQjXNPp4081Xj23N4tO+AFEFNzGuNEf/c8Gwwt15A==
+  version "10.2.9"
+  resolved "https://registry.yarnpkg.com/cacheable-request/-/cacheable-request-10.2.9.tgz#6375833d2b99921d8870df9fdc26cb703c56f356"
+  integrity sha512-CaAMr53AS1Tb9evO1BIWFnZjSr8A4pbXofpsNVWPMDZZj3ZQKHwsQG9BrTqQ4x5ZYJXz1T2b8LLtTZODxSpzbg==
   dependencies:
     "@types/http-cache-semantics" "^4.0.1"
     get-stream "^6.0.1"
@@ -5900,9 +5900,9 @@ npm-bundled@^3.0.0:
     npm-normalize-package-bin "^3.0.0"
 
 npm-check-updates@^16.3.13:
-  version "16.8.0"
-  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.8.0.tgz#43884cc479f03d274c9ca9e3150e6fb64412377e"
-  integrity sha512-2xpFtUPa2OyswC8kpIpxRqQcP/D0uqaBgfiOQAtvGlnDhmHr3QwR2gWjjWtS6xnNvgyyVly/4edY0Uu24c46ew==
+  version "16.8.2"
+  resolved "https://registry.yarnpkg.com/npm-check-updates/-/npm-check-updates-16.8.2.tgz#1dfc6e766bf9f0d6738ff720ad890bf7aabafd05"
+  integrity sha512-6eOHZdS+u8ZLc1qCDfU04uedWjVOgBbvGKWodc9j4QjT2GbVW9mGYcSUvFYLu/jaXSb1YxfwC6HfFr7h8txWmg==
   dependencies:
     chalk "^5.2.0"
     cli-table3 "^0.6.3"
@@ -7167,9 +7167,9 @@ signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
 sigstore@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/sigstore/-/sigstore-1.1.1.tgz#751a709a7467ca54dcb2e81e36d67cfdcf5ca546"
-  integrity sha512-4hR3tPP1y59YWlaoAgAWFVZ7srTjNWOrrpkQXWu05qP0BvwFYyt3K3l848+IHo+mKhkOzGcNDf7ktASXLEPC+A==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/sigstore/-/sigstore-1.2.0.tgz#ae5b31dac75c2d31e7873897e2862f0d0b205bce"
+  integrity sha512-Fr9+W1nkBSIZCkJQR7jDn/zI0UXNsVpp+7mDQkCnZOIxG9p6yNXBx9xntHsfUyYHE55XDkkVV3+rYbrkzAeesA==
   dependencies:
     "@sigstore/protobuf-specs" "^0.1.0"
     make-fetch-happen "^11.0.1"
