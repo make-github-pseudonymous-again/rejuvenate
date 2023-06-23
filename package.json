@@ -74,7 +74,7 @@
     "load-json-file": "^7.0.1",
     "log-symbols": "^5.1.0",
     "log-update": "^5.0.1",
-    "make-dir": "^3.1.0",
+    "make-dir": "^4.0.0",
     "move-file": "^3.0.0",
     "npm-check-updates": "^16.3.13",
     "pkg-dir": "^7.0.0",
