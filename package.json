@@ -72,7 +72,7 @@
     "indent-string": "^5.0.0",
     "listr": "^0.14.3",
     "load-json-file": "^7.0.1",
-    "log-symbols": "^5.1.0",
+    "log-symbols": "^6.0.0",
     "log-update": "^5.0.1",
     "make-dir": "^4.0.0",
     "move-file": "^3.0.0",
