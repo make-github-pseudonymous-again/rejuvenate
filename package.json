@@ -77,7 +77,7 @@
     "make-dir": "^4.0.0",
     "move-file": "^3.0.0",
     "npm-check-updates": "^16.3.13",
-    "pkg-dir": "^7.0.0",
+    "pkg-dir": "^8.0.0",
     "power-assert": "1.6.1",
     "recast": "^0.23.0",
     "simple-git": "^3.14.1",
