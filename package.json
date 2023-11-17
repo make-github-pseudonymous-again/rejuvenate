@@ -68,7 +68,7 @@
     "execa": "^8.0.0",
     "fast-glob": "^3.2.12",
     "figures": "^6.0.0",
-    "find-up": "^6.3.0",
+    "find-up": "^7.0.0",
     "indent-string": "^5.0.0",
     "listr": "^0.14.3",
     "load-json-file": "^7.0.1",
