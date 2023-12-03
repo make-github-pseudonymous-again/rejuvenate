@@ -97,7 +97,7 @@
     "babel-preset-power-assert": "3.0.0",
     "fixpack": "4.0.0",
     "husky": "8.0.3",
-    "lint-staged": "15.1.0",
+    "lint-staged": "15.2.0",
     "np": "9.0.0",
     "pinst": "3.0.0",
     "regenerator-runtime": "0.14.0",
