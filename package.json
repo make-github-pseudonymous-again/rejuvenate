@@ -100,7 +100,7 @@
     "lint-staged": "15.2.0",
     "np": "9.2.0",
     "pinst": "3.0.0",
-    "regenerator-runtime": "0.14.0",
+    "regenerator-runtime": "0.14.1",
     "typescript": "5.3.3",
     "xo": "0.52.4"
   },
