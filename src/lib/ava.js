@@ -19,3 +19,9 @@ export const areKeysSorted = (object) => {
 	const keys = Object.entries(object);
 	return isSorted(order, keys, 0, keys.length);
 };
+
+export const replaceInArray = (object, key, oldValue, newValue) => {
+	object[key] = object[key].map((value) =>
+		value === oldValue ? newValue : value,
+	);
+};
