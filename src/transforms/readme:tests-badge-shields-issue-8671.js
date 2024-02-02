@@ -11,9 +11,9 @@ export const commit = {
 
 const filename = 'README.md';
 const needle = (repository) =>
-	`[![Tests](https://img.shields.io/github/workflow/status/${repository}/ci:test?event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci:test.yml?query=branch:main)`;
+	`[![Tests](https://img.shields.io/github/workflow/status/${repository}/ci?event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci.yml?query=branch:main)`;
 const replacement = (repository) =>
-	`[![Tests](https://img.shields.io/github/actions/workflow/status/${repository}/ci:test.yml?branch=main&event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci:test.yml?query=branch:main)`;
+	`[![Tests](https://img.shields.io/github/actions/workflow/status/${repository}/ci.yml?branch=main&event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci.yml?query=branch:main)`;
 
 const slug = ({url}) => url.match(/\/([^/]+\/[^/]+)$/)[1];
 
@@ -43,3 +43,5 @@ export async function apply({readPkg, read, write}) {
 	const operations = [[needle(repo), () => replacement(repo)]];
 	await replace(operations, [filename], {read, write, method: replace.all});
 }
+
+export const dependencies = ['ava:test-build'];
