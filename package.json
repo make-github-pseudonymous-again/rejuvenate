@@ -102,7 +102,7 @@
     "pinst": "3.0.0",
     "regenerator-runtime": "0.14.1",
     "typescript": "5.3.3",
-    "xo": "0.52.4"
+    "xo": "0.56.0"
   },
   "babel": {
     "sourceMaps": true,
@@ -140,6 +140,20 @@
         "error",
         {
           "case": "camelCase"
+        }
+      ],
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "parent",
+            "sibling",
+            "index"
+          ],
+          "newlines-between": "always",
+          "warnOnUnassignedImports": true
         }
       ]
     },

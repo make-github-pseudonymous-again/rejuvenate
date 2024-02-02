@@ -64,7 +64,7 @@ const frame = (tasks, n) =>
 		: deque(
 				takeUntilPlusSome((t) => t.isPending(), tasks, Math.floor(n / 2)),
 				n,
-		  );
+			);
 
 const enabled = (tasks) => filter((t) => t.isEnabled(), tasks);
 const isDone = (task) =>

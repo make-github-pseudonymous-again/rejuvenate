@@ -1,10 +1,11 @@
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import assert from 'assert'; // Using node:* is incompatible with power-assert.
+
 import _commandExists from 'command-exists';
 import Listr from 'listr';
 import {zip} from '@iterable-iterator/zip';
-import renderer from './ui/renderer.js';
 
+import renderer from './ui/renderer.js';
 import parse from './parse.js';
 import {fetchTransforms, transformToTask} from './transforms.js';
 import chcwd from './util/chcwd.js';
@@ -52,9 +53,9 @@ export default function main(argv) {
 						globals.INFO + level <= options.loglevel
 							? Number.POSITIVE_INFINITY
 							: globals.WARN + level <= options.loglevel
-							? options.maxSubtasks
-							: 0,
-			  };
+								? options.maxSubtasks
+								: 0,
+				};
 
 	let requiredExecutables = ['git', 'npm', 'yarn'];
 	if (!options.install) {

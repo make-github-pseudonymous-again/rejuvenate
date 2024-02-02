@@ -1,5 +1,7 @@
 import {fileURLToPath} from 'node:url';
+
 import yargs from 'yargs';
+
 import {INFO} from './util/logger.js';
 
 const MAGIC = '89h2832fhao293819274hooeu';

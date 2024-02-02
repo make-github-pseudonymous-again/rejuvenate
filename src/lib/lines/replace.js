@@ -1,4 +1,5 @@
 import {reduce} from '@iterable-iterator/reduce';
+
 import textReplace from '../text/replace.js';
 
 /**

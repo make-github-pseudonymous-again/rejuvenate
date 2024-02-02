@@ -1,6 +1,7 @@
 import {any} from '@iterable-iterator/reduce';
 import {map} from '@iterable-iterator/map';
 import totalOrder from 'total-order';
+
 import update from '../lib/update.js';
 
 export const description = 'Add doc env override.';

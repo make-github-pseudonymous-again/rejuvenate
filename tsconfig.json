@@ -5,7 +5,7 @@
     "noEmit": true,
     "checkJs": true,
     "target": "es2021",
-    "module": "es2020",
+    "module": "es2022",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
   },
