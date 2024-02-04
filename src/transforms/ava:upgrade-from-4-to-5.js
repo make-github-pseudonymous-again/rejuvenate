@@ -8,15 +8,13 @@ export const commit = {
 };
 
 export async function postcondition({readPkg, assert}) {
-	const {ava, devDependencies} = await readPkg();
+	const {devDependencies} = await readPkg();
 	assert(devDependencies.ava?.startsWith('5.'));
-	assert(ava?.require?.includes('@babel/register'));
 }
 
 export async function precondition({readPkg, assert}) {
-	const {ava, devDependencies} = await readPkg();
+	const {devDependencies} = await readPkg();
 	assert(devDependencies.ava?.startsWith('4.'));
-	assert(ava?.require?.includes('@babel/register'));
 }
 
 export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
