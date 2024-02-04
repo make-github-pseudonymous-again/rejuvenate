@@ -98,7 +98,7 @@ export default function main(argv) {
 				task: () => git.pull(),
 			},
 			{
-				title: 'Setup temporary branch',
+				title: 'Setting up temporary branch',
 				async task() {
 					const localBranches = await git.branchLocal();
 					return new Listr([
