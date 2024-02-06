@@ -81,4 +81,4 @@ export async function apply({read, write}) {
 	);
 }
 
-export const dependencies = ['ava:test-build'];
+export const dependencies = ['readme:tests-badge-shields-issue-8671'];
