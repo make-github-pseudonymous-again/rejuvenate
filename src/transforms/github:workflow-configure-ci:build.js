@@ -18,8 +18,10 @@ const files = {
 	[`.github/workflows/${script}.yml`]: `
 name: ${script}
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      main
+  pull_request:
 jobs:
   test:
     name: Continuous integration (build)
@@ -39,7 +41,10 @@ jobs:
 `,
 };
 
-const dependencies = ['github:workflow-configure-ci:test'];
+const dependencies = [
+	'ci:only-run-gha-once-on-prs',
+	'github:workflow-configure-ci:test',
+];
 
 const {postcondition, precondition, apply} = addScripts({scripts, files});
 

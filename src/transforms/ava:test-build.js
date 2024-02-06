@@ -59,8 +59,10 @@ const newBuildWorkflowDefinition = `
 name: ci
 
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      main
+  pull_request:
 
 jobs:
 
@@ -117,8 +119,10 @@ jobs:
 const newCoverWorkflowDefinition = `
 name: ci:cover
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      main
+  pull_request:
 jobs:
   cover:
     name: Continuous integration (code coverage)
@@ -145,8 +149,10 @@ jobs:
 const newLintConfigWorkflowDefinition = `
 name: ci:lint-config
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      main
+  pull_request:
 jobs:
   cover:
     name: Continuous integration (config linting)
@@ -168,8 +174,10 @@ jobs:
 const newLintWorkflowDefinition = `
 name: ci:lint
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      main
+  pull_request:
 jobs:
   cover:
     name: Continuous integration (code linting)
@@ -431,6 +439,7 @@ export async function apply({
 }
 
 export const dependencies = [
+	'ci:only-run-gha-once-on-prs',
 	'ava:setup-v4',
 	'github:workflow-configure-ci:test',
 	'github:workflow-configure-ci:build',

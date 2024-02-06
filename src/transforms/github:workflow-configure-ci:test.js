@@ -112,8 +112,10 @@ export async function apply({
 const newConfig = `
 name: ${newScript}
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      main
+  pull_request:
 jobs:
   test:
     name: Continuous integration (tests)
@@ -137,4 +139,4 @@ jobs:
           fail_ci_if_error: true
 `;
 
-export const dependencies = ['ci:travis-setup'];
+export const dependencies = ['ci:only-run-gha-once-on-prs', 'ci:travis-setup'];
