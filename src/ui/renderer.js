@@ -23,9 +23,7 @@ const skipped = chalk.yellow(figures.arrowDown);
 const isDefined = (x) => x !== null && x !== undefined;
 
 const getSymbol = (task, options, level) => {
-	if (!task.spinner) {
-		task.spinner = elegantSpinner();
-	}
+	task.spinner ||= elegantSpinner();
 
 	if (task.isPending()) {
 		return options.maxSubtasks(level + 1) > 0 && task.subtasks.length > 0
