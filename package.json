@@ -30,7 +30,7 @@
     "build": "babel --delete-dir-on-start --env-name production src --out-dir dist --source-maps",
     "build-gh-pages": "npm run build-docs",
     "commit-msg": "commitlint --edit",
-    "install-hooks": "husky install",
+    "install-hooks": "husky",
     "lint": "xo",
     "lint-and-fix": "npm run lint -- --fix",
     "lint-config": "fixpack --dryRun",
