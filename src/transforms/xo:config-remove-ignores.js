@@ -28,3 +28,5 @@ export async function apply({readPkg, writePkg}) {
 		},
 	});
 }
+
+export const dependencies = ['xo:config'];
