@@ -31,4 +31,4 @@ export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
 	await install();
 }
 
-export const dependencies = ['ava:upgrade-from-3-to-4'];
+export const dependencies = ['ava:setup-v4'];
