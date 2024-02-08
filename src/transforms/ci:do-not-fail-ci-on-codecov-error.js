@@ -11,8 +11,15 @@ export const commit = {
 
 const workflowFiles = ['.github/workflows/ci:cover.yml'];
 
-const oldWorkflowLines = ' fail_ci_if_error: true\n';
-const newWorkflowLines = ' fail_ci_if_error: false\n';
+const oldWorkflowLines = `
+        with:
+          fail_ci_if_error: true
+`;
+const newWorkflowLines = `
+        continue-on-error: true
+        with:
+          fail_ci_if_error: true
+`;
 
 export async function postcondition({read, assert}) {
 	for (const workflowFile of workflowFiles) {
@@ -22,16 +29,6 @@ export async function postcondition({read, assert}) {
 				read,
 				method: find.exact,
 			}),
-		);
-	}
-
-	for (const workflowFile of workflowFiles) {
-		assert(
-			// eslint-disable-next-line no-await-in-loop
-			!(await find([oldWorkflowLines], [workflowFile], {
-				read,
-				method: find.exact,
-			})),
 		);
 	}
 }
