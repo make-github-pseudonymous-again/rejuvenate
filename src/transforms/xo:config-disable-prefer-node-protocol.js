@@ -12,13 +12,13 @@ const key = 'unicorn/prefer-node-protocol';
 const value = 'off';
 
 export async function postcondition({readPkg, assert}) {
-	const pkgjson = await readPkg();
-	assert(pkgjson.xo?.rules === undefined || pkgjson.xo.rules[key] === value);
+	const {xo} = await readPkg();
+	assert(xo?.rules?.[key] === value);
 }
 
 export async function precondition({readPkg, assert}) {
-	const pkgjson = await readPkg();
-	assert(pkgjson.xo?.rules !== undefined && pkgjson.xo.rules[key] !== value);
+	const {xo} = await readPkg();
+	assert(xo?.rules?.[key] !== value);
 }
 
 export async function apply({readPkg, writePkg, fixConfig}) {
