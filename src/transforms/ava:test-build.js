@@ -32,8 +32,8 @@ const importMap = (path) => ({
 
 const loaderPath = 'test/loader/config.js';
 const loaderConfig = `
-import * as importMapLoader from '@node-loader/import-maps';
 import * as babelLoader from '@node-loader/babel';
+import * as importMapLoader from '@node-loader/import-maps';
 
 const config = {
 	loaders: [importMapLoader, babelLoader],
