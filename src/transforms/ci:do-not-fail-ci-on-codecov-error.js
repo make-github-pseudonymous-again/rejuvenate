@@ -1,0 +1,69 @@
+import replace from '../lib/text/replace.js';
+import find from '../lib/text/find.js';
+
+export const description = 'Do not fail coverage workflow on codecov error.';
+
+export const commit = {
+	type: 'config',
+	scope: 'ci',
+	subject: description,
+};
+
+const workflowFiles = ['.github/workflows/ci:cover.yml'];
+
+const oldWorkflowLines = ' fail_ci_if_error: true\n';
+const newWorkflowLines = ' fail_ci_if_error: false\n';
+
+export async function postcondition({read, assert}) {
+	for (const workflowFile of workflowFiles) {
+		assert(
+			// eslint-disable-next-line no-await-in-loop
+			await find([newWorkflowLines], [workflowFile], {
+				read,
+				method: find.exact,
+			}),
+		);
+	}
+
+	for (const workflowFile of workflowFiles) {
+		assert(
+			// eslint-disable-next-line no-await-in-loop
+			!(await find([oldWorkflowLines], [workflowFile], {
+				read,
+				method: find.exact,
+			})),
+		);
+	}
+}
+
+export async function precondition({read, assert}) {
+	for (const workflowFile of workflowFiles) {
+		assert(
+			// eslint-disable-next-line no-await-in-loop
+			await find([oldWorkflowLines], [workflowFile], {
+				read,
+				method: find.exact,
+			}),
+		);
+	}
+
+	for (const workflowFile of workflowFiles) {
+		assert(
+			// eslint-disable-next-line no-await-in-loop
+			!(await find([newWorkflowLines], [workflowFile], {
+				read,
+				method: find.exact,
+			})),
+		);
+	}
+}
+
+export async function apply({read, write}) {
+	await replace([[oldWorkflowLines, newWorkflowLines]], workflowFiles, {
+		read,
+		write,
+		method: replace.all,
+	});
+}
+
+export const dependencies = ['readme:tests-badge-shields-issue-8671'];
