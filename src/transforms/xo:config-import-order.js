@@ -1,3 +1,5 @@
+import semver from 'semver';
+
 import update from '../lib/update.js';
 
 export const description = 'Configure import/order.';
@@ -47,8 +49,9 @@ const value = [
 ];
 
 export async function postcondition({readPkg, assert}) {
-	const {xo} = await readPkg();
+	const {xo, devDependencies} = await readPkg();
 	assert(xo?.rules[key] !== undefined);
+	assert(semver.satisfies(devDependencies.xo, '>=0.57.0'));
 }
 
 export async function precondition({readPkg, assert}) {
@@ -56,16 +59,34 @@ export async function precondition({readPkg, assert}) {
 	assert(xo?.rules[key] === undefined);
 }
 
-export async function apply({readPkg, writePkg, fixConfig}) {
+export async function apply({
+	readPkg,
+	writePkg,
+	fixConfig,
+	install,
+	fixSources,
+}) {
+	let needInstall = false;
 	await update({
 		read: readPkg,
 		write: writePkg,
 		edit(pkgjson) {
+			if (!semver.satisfies(pkgjson.devDependencies.xo, '>=0.57.0')) {
+				pkgjson.devDependencies.xo = '0.57.0';
+				needInstall = true;
+			}
+
 			pkgjson.xo.rules[key] = value;
 			return pkgjson;
 		},
 	});
 	await fixConfig();
+
+	if (needInstall) {
+		await install();
+	}
+
+	await fixSources();
 }
 
 export const dependencies = ['sources:lint-setup'];
