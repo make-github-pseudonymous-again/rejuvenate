@@ -1,3 +1,5 @@
+import {any, all} from '@iterable-iterator/reduce';
+
 import update from '../lib/update.js';
 import replace from '../lib/text/replace.js';
 
@@ -18,15 +20,27 @@ const newCommitLintConfig = '.commitlintrc.cjs';
 export async function postcondition({readPkg, exists, assert}) {
 	const pkgjson = await readPkg();
 	assert(pkgjson[key] === expected);
-	assert(!(await exists(oldCommitLintConfig)));
-	assert(await exists(newCommitLintConfig));
+	assert(
+		all(
+			await Promise.all([
+				exists(oldCommitLintConfig).then((value) => !value),
+				exists(newCommitLintConfig),
+			]),
+		),
+	);
 }
 
 export async function precondition({readPkg, exists, assert}) {
 	const pkgjson = await readPkg();
-	assert(pkgjson[key] === undefined);
-	assert(!(await exists(newCommitLintConfig)));
-	assert(await exists(oldCommitLintConfig));
+	assert(pkgjson[key] === undefined || pkgjson[key] === 'commonjs');
+	assert(
+		any(
+			await Promise.all([
+				exists(newCommitLintConfig),
+				exists(oldCommitLintConfig),
+			]),
+		),
+	);
 }
 
 export async function apply({readPkg, writePkg, fixConfig, move, read, write}) {
