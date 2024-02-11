@@ -28,8 +28,10 @@ const newWorkflowLines = `on:
   pull_request:
 `;
 
-export async function postcondition({read, assert}) {
+export async function postcondition({assert, exists, read}) {
 	for (const workflowFile of workflowFiles) {
+		// eslint-disable-next-line no-await-in-loop
+		assert(await exists(workflowFile));
 		assert(
 			// eslint-disable-next-line no-await-in-loop
 			await find([newWorkflowLines], [workflowFile], {
@@ -40,6 +42,8 @@ export async function postcondition({read, assert}) {
 	}
 
 	for (const workflowFile of workflowFiles) {
+		// eslint-disable-next-line no-await-in-loop
+		assert(await exists(workflowFile));
 		assert(
 			// eslint-disable-next-line no-await-in-loop
 			!(await find([oldWorkflowLines], [workflowFile], {
@@ -50,8 +54,10 @@ export async function postcondition({read, assert}) {
 	}
 }
 
-export async function precondition({read, assert}) {
+export async function precondition({assert, exists, read}) {
 	for (const workflowFile of workflowFiles) {
+		// eslint-disable-next-line no-await-in-loop
+		assert(await exists(workflowFile));
 		assert(
 			// eslint-disable-next-line no-await-in-loop
 			await find([oldWorkflowLines], [workflowFile], {
@@ -62,6 +68,8 @@ export async function precondition({read, assert}) {
 	}
 
 	for (const workflowFile of workflowFiles) {
+		// eslint-disable-next-line no-await-in-loop
+		assert(await exists(workflowFile));
 		assert(
 			// eslint-disable-next-line no-await-in-loop
 			!(await find([newWorkflowLines], [workflowFile], {
@@ -80,4 +88,9 @@ export async function apply({read, write}) {
 	});
 }
 
-export const dependencies = ['readme:tests-badge-shields-issue-8671'];
+export const dependencies = [
+	'ava:test-build',
+	'github:workflow-configure-ci:cover',
+	'github:workflow-configure-ci:lint',
+	'github:workflow-configure-ci:lint-config',
+];

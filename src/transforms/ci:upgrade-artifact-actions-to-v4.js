@@ -12,7 +12,8 @@ export const commit = {
 const workflowFile = '.github/workflows/ci.yml';
 const action = (name, version) => `uses: actions/${name}-artifact@${version}`;
 
-export async function postcondition({read, assert}) {
+export async function postcondition({assert, exists, read}) {
+	assert(await exists(workflowFile));
 	assert(
 		await find([action('upload', 'v4')], [workflowFile], {
 			read,
@@ -39,7 +40,8 @@ export async function postcondition({read, assert}) {
 	);
 }
 
-export async function precondition({read, assert}) {
+export async function precondition({assert, exists, read}) {
+	assert(await exists(workflowFile));
 	assert(
 		await find([action('upload', 'v3')], [workflowFile], {
 			read,
