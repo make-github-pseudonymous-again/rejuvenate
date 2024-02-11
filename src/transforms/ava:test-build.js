@@ -10,13 +10,14 @@ import replaceCode from '../lib/code/replace.js';
 export const description = 'Allow to test build with AVA.';
 
 export const commit = {
-	type: 'test',
+	type: 'config',
+	scope: 'ci',
 	subject: description,
 };
 
 const readme = 'README.md';
 const oldBadge = (repository, branch = 'main') =>
-	`[![Tests](https://img.shields.io/github/workflow/status/${repository}/ci:test?event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci:test.yml?query=branch:${branch})`;
+	`[![Tests](https://img.shields.io/github/workflow/status/${repository}/ci:cover?event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci:cover.yml?query=branch:${branch})`;
 const newBadge = (repository, branch = 'main') =>
 	`[![Tests](https://img.shields.io/github/workflow/status/${repository}/ci?event=push&label=tests)](https://github.com/${repository}/actions/workflows/ci.yml?query=branch:${branch})`;
 
@@ -49,12 +50,8 @@ const importMaps = {
 	'dist/index.module.json': 'dist/index.module.js',
 };
 
-const oldTestWorkflowPath = '.github/workflows/ci:test.yml';
 const oldBuildWorkflowPath = '.github/workflows/ci:build.yml';
 const newBuildWorkflowPath = '.github/workflows/ci.yml';
-const newCoverWorkflowPath = '.github/workflows/ci:cover.yml';
-const newLintWorkflowPath = '.github/workflows/ci:lint.yml';
-const newLintConfigWorkflowPath = '.github/workflows/ci:lint-config.yml';
 const newBuildWorkflowDefinition = `
 name: ci
 
@@ -114,80 +111,6 @@ jobs:
         run: yarn test:\${{ matrix.bundle }}
 `;
 
-const newCoverWorkflowDefinition = `
-name: ci:cover
-on:
-  - push
-  - pull_request
-jobs:
-  cover:
-    name: Continuous integration (code coverage)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-
-      - name: Install 📦
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile --ignore-scripts
-          useRollingCache: true
-
-      - name: Test and record coverage 🔬
-        run: yarn cover
-
-      - name: Publish coverage report 📃
-        uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: true
-`;
-
-const newLintConfigWorkflowDefinition = `
-name: ci:lint-config
-on:
-  - push
-  - pull_request
-jobs:
-  cover:
-    name: Continuous integration (config linting)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-
-      - name: Install 📦
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile --ignore-scripts
-          useRollingCache: true
-
-      - name: Lint config 👕
-        run: yarn lint-config
-`;
-
-const newLintWorkflowDefinition = `
-name: ci:lint
-on:
-  - push
-  - pull_request
-jobs:
-  cover:
-    name: Continuous integration (code linting)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-
-      - name: Install 📦
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn --frozen-lockfile --ignore-scripts
-          useRollingCache: true
-
-      - name: Lint 👕
-        run: yarn lint
-`;
-
 const patterns = ['test/src/**/*.js'];
 const SOURCE_MODULE = './src/index.js';
 
@@ -242,18 +165,10 @@ export async function postcondition({
 		}),
 	);
 	debug('new badge is there');
-	assert(!(await exists(oldTestWorkflowPath)));
-	debug('old test workflow is gone');
 	assert(!(await exists(oldBuildWorkflowPath)));
 	debug('old build workflow is gone');
 	assert(await exists(newBuildWorkflowPath));
 	debug('new build workflow is there');
-	assert(await exists(newCoverWorkflowPath));
-	debug('new cover workflow is there');
-	assert(await exists(newLintWorkflowPath));
-	debug('new lint workflow is there');
-	assert(await exists(newLintConfigWorkflowPath));
-	debug('new lint-config workflow is there');
 	assert(
 		!(await findCode(
 			[{filter: filter(resolveFromFile, resolveRequire)}],
@@ -291,12 +206,8 @@ export async function precondition({
 			method: find.exact,
 		})),
 	);
-	assert(await exists(oldTestWorkflowPath));
 	assert(await exists(oldBuildWorkflowPath));
 	assert(!(await exists(newBuildWorkflowPath)));
-	assert(!(await exists(newCoverWorkflowPath)));
-	assert(!(await exists(newLintWorkflowPath)));
-	assert(!(await exists(newLintConfigWorkflowPath)));
 	assert(
 		await findCode(
 			[{filter: filter(resolveFromFile, resolveRequire)}],
@@ -350,29 +261,6 @@ export async function apply({
 		edit: () => newBuildWorkflowDefinition.trim() + '\n',
 	});
 
-	await update({
-		create: true,
-		overwrite: false,
-		read: () => read(newCoverWorkflowPath),
-		write: (data) => write(newCoverWorkflowPath, data),
-		edit: () => newCoverWorkflowDefinition.trim() + '\n',
-	});
-
-	await update({
-		create: true,
-		overwrite: false,
-		read: () => read(newLintWorkflowPath),
-		write: (data) => write(newLintWorkflowPath, data),
-		edit: () => newLintWorkflowDefinition.trim() + '\n',
-	});
-
-	await update({
-		create: true,
-		overwrite: false,
-		read: () => read(newLintConfigWorkflowPath),
-		write: (data) => write(newLintConfigWorkflowPath, data),
-		edit: () => newLintConfigWorkflowDefinition.trim() + '\n',
-	});
 	const {repository} = await readPkg();
 	const repo = slug(repository);
 	const operations = [[oldBadge(repo), () => newBadge(repo)]];
@@ -417,7 +305,7 @@ export async function apply({
 	});
 	await fixConfig();
 	await install();
-	await remove([oldTestWorkflowPath, oldBuildWorkflowPath]);
+	await remove([oldBuildWorkflowPath]);
 	await replaceCode(
 		[{filter: filter(resolveFromFile, resolveRequire), map}],
 		glob(patterns),
@@ -433,6 +321,6 @@ export async function apply({
 export const dependencies = [
 	'ava:setup-v4',
 	'ava:use-node-loader-babel',
-	'github:workflow-configure-ci:test',
 	'github:workflow-configure-ci:build',
+	'github:workflow-configure-ci:cover',
 ];
