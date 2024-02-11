@@ -41,10 +41,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		read: readPkg,
 		write: writePkg,
 		edit(pkgjson) {
-			if (pkgjson.xo.overrides === undefined) {
-				pkgjson.xo.overrides = [];
-			}
-
+			pkgjson.xo.overrides ??= [];
 			pkgjson.xo.overrides.unshift(override);
 			return pkgjson;
 		},
