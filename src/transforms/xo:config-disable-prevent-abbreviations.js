@@ -13,12 +13,12 @@ const value = 'off';
 
 export async function postcondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
-	assert(pkgjson.xo?.rules === undefined || pkgjson.xo.rules[key] === value);
+	assert(pkgjson.xo?.rules?.[key] === value);
 }
 
 export async function precondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
-	assert(pkgjson.xo?.rules !== undefined && pkgjson.xo.rules[key] !== value);
+	assert(pkgjson.xo?.rules?.[key] !== value);
 }
 
 export async function apply({readPkg, writePkg, fixConfig}) {
@@ -26,6 +26,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		read: readPkg,
 		write: writePkg,
 		edit(pkgjson) {
+			pkgjson.xo.rules ??= {};
 			pkgjson.xo.rules[key] = value;
 			return pkgjson;
 		},

@@ -26,6 +26,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		read: readPkg,
 		write: writePkg,
 		edit(pkgjson) {
+			pkgjson.xo.rules ??= {};
 			pkgjson.xo.rules[key] = value;
 			return pkgjson;
 		},

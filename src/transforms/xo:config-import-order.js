@@ -50,13 +50,13 @@ const value = [
 
 export async function postcondition({readPkg, assert}) {
 	const {xo, devDependencies} = await readPkg();
-	assert(xo?.rules[key] !== undefined);
+	assert(xo?.rules?.[key] !== undefined);
 	assert(semver.satisfies(devDependencies.xo, '>=0.57.0'));
 }
 
 export async function precondition({readPkg, assert}) {
 	const {xo} = await readPkg();
-	assert(xo?.rules[key] === undefined);
+	assert(xo?.rules?.[key] === undefined);
 }
 
 export async function apply({
@@ -76,6 +76,7 @@ export async function apply({
 				needInstall = true;
 			}
 
+			pkgjson.xo.rules ??= {};
 			pkgjson.xo.rules[key] = value;
 			return pkgjson;
 		},
