@@ -16,7 +16,7 @@ export async function postcondition({readPkg, assert}) {
 	assert(!devDeps.has('@babel/cli'));
 	assert(devDeps.has('microbundle'));
 	assert(pkgjson.bin === undefined);
-	assert(pkgjson.main === 'dist/index.cjs');
+	assert(pkgjson.main === 'dist/index.js');
 }
 
 export async function precondition({readPkg, assert}) {
@@ -46,19 +46,7 @@ export async function apply({
 			pkg.addDevDep(pkgjson, '@babel/plugin-transform-for-of');
 			pkg.addDevDep(pkgjson, '@babel/plugin-transform-destructuring');
 			pkgjson.source = 'src/index.js';
-			pkgjson.main = 'dist/index.cjs';
-			pkgjson.module = 'dist/index.module.js';
-			pkgjson.esmodule = 'dist/index.modern.js';
-			pkgjson['umd:main'] = 'dist/index.umd.js';
-			pkgjson.unpkg = 'dist/index.umd.js';
-			pkgjson.exports = {
-				'.': {
-					browser: './dist/index.module.js',
-					umd: './dist/index.umd.js',
-					require: './dist/index.cjs',
-					default: './dist/index.modern.js',
-				},
-			};
+			pkgjson.main = 'dist/index.js';
 			pkgjson.files = pkgjson.files.map((x) => (x === 'lib' ? 'dist' : x));
 			pkgjson.scripts.build = 'NODE_ENV=production microbundle';
 			replaceOrInsert(
@@ -96,7 +84,6 @@ export async function apply({
 
 export const dependencies = [
 	'babel:refactor-config',
-	'build:microbundle-fix-cjs',
 	'codacy:config-remove',
 	'config:lint-setup',
 	'codeclimate:format-config-file',

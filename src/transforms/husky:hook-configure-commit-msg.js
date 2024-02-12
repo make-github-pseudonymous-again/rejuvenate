@@ -12,14 +12,9 @@ const scripts = {
 	'commit-msg': 'commitlint --edit',
 };
 
-const deps = ['@commitlint/cli', '@js-library/commitlint-config'];
+const deps = [];
 
 const files = {
-	'.commitlintrc.js': `
-module.exports = {
-	extends: ['@js-library']
-};
-`,
 	'.husky/commit-msg': {
 		mode: 0o755,
 		contents: `
@@ -79,7 +74,11 @@ done
 	},
 };
 
-const dependencies = ['config:lint-setup', 'husky:configure'];
+const dependencies = [
+	'config:lint-setup',
+	'husky:configure',
+	'commitlint:configure',
+];
 
 const {postcondition, precondition, apply} = addScripts({scripts, deps, files});
 

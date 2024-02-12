@@ -37,4 +37,8 @@ export async function apply({readPkg, writePkg, remove, fixConfig, install}) {
 	await install();
 }
 
-export const dependencies = ['config:lint-setup'];
+export const dependencies = [
+	'config:lint-setup',
+	'build:use-microbundle',
+	'build:microbundle-configure-outputs-exports',
+];

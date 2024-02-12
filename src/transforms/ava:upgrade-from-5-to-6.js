@@ -50,4 +50,7 @@ export async function apply({
 	await test();
 }
 
-export const dependencies = ['ava:upgrade-from-4-to-5'];
+export const dependencies = [
+	'package.json:set-type-module',
+	'ava:upgrade-from-4-to-5',
+];

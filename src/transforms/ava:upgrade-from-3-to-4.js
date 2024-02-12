@@ -39,8 +39,4 @@ export async function apply({
 	await test();
 }
 
-export const dependencies = [
-	'config:lint-setup',
-	'babel:refactor-config',
-	'package.json:set-type-module',
-];
+export const dependencies = ['config:lint-setup', 'babel:refactor-config'];

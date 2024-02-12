@@ -1,9 +1,7 @@
-import {any, all} from '@iterable-iterator/reduce';
-
 import update from '../lib/update.js';
 import replace from '../lib/text/replace.js';
 
-export const description = 'Set type to module in package.json.';
+export const description = 'Set type to module in `package.json`.';
 
 export const commit = {
 	type: 'config',
@@ -14,36 +12,24 @@ export const commit = {
 const key = 'type';
 const expected = 'module';
 
-const oldCommitLintConfig = '.commitlintrc.js';
-const newCommitLintConfig = '.commitlintrc.cjs';
-
-export async function postcondition({readPkg, exists, assert}) {
+export async function postcondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
 	assert(pkgjson[key] === expected);
-	assert(
-		all(
-			await Promise.all([
-				exists(oldCommitLintConfig).then((value) => !value),
-				exists(newCommitLintConfig),
-			]),
-		),
-	);
 }
 
-export async function precondition({readPkg, exists, assert}) {
+export async function precondition({readPkg, assert}) {
 	const pkgjson = await readPkg();
 	assert(pkgjson[key] === undefined || pkgjson[key] === 'commonjs');
-	assert(
-		any(
-			await Promise.all([
-				exists(newCommitLintConfig),
-				exists(oldCommitLintConfig),
-			]),
-		),
-	);
 }
 
-export async function apply({readPkg, writePkg, fixConfig, move, read, write}) {
+export async function apply({
+	readPkg,
+	writePkg,
+	fixConfig,
+	lintSources,
+	read,
+	write,
+}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -53,7 +39,6 @@ export async function apply({readPkg, writePkg, fixConfig, move, read, write}) {
 		},
 	});
 	await fixConfig();
-	await move(oldCommitLintConfig, newCommitLintConfig);
 	await replace(
 		[
 			// TODO split this into new transform
@@ -74,10 +59,11 @@ export async function apply({readPkg, writePkg, fixConfig, move, read, write}) {
 			method: replace.all,
 		},
 	);
+	await lintSources();
 }
 
 export const dependencies = [
 	'config:lint-setup',
-	'build:microbundle-configure-esmodule',
-	'husky:hook-configure-commit-msg',
+	'commitlint:config-use-cjs-extension',
+	'build:microbundle-configure-outputs-add-cjs',
 ];
