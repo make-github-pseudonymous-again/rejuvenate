@@ -17,7 +17,14 @@ export async function precondition({readPkg, assert}) {
 	assert(devDependencies.ava?.startsWith('4.'));
 }
 
-export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
+export async function apply({
+	readPkg,
+	writePkg,
+	fixConfig,
+	upgrade,
+	install,
+	test,
+}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -29,6 +36,7 @@ export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
 	await fixConfig();
 	await upgrade('ava', {target: 'minor'});
 	await install();
+	await test();
 }
 
 export const dependencies = ['ava:setup-v4'];

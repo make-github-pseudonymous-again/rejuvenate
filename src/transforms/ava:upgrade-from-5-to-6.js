@@ -22,7 +22,14 @@ export async function precondition({readPkg, assert}) {
 	assert(ava?.require?.includes('regenerator-runtime/runtime'));
 }
 
-export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
+export async function apply({
+	readPkg,
+	writePkg,
+	fixConfig,
+	upgrade,
+	install,
+	test,
+}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -40,6 +47,7 @@ export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {
 	await fixConfig();
 	await upgrade('ava', {target: 'minor'});
 	await install();
+	await test();
 }
 
 export const dependencies = ['ava:upgrade-from-4-to-5'];

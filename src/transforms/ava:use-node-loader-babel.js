@@ -26,7 +26,7 @@ export async function precondition({readPkg, assert}) {
 	);
 }
 
-export async function apply({readPkg, writePkg, fixConfig, install}) {
+export async function apply({readPkg, writePkg, fixConfig, install, test}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -47,6 +47,7 @@ export async function apply({readPkg, writePkg, fixConfig, install}) {
 	});
 	await fixConfig();
 	await install();
+	await test();
 }
 
 export const dependencies = ['ava:setup-v4'];

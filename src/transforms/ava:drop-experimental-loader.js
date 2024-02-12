@@ -30,7 +30,7 @@ export async function precondition({readPkg, assert}) {
 	assert(!ava.nodeArguments.includes(newEntry));
 }
 
-export async function apply({readPkg, writePkg, fixConfig}) {
+export async function apply({readPkg, writePkg, fixConfig, test}) {
 	await update({
 		read: readPkg,
 		write: writePkg,
@@ -42,6 +42,7 @@ export async function apply({readPkg, writePkg, fixConfig}) {
 		},
 	});
 	await fixConfig();
+	await test();
 }
 
 export const dependencies = ['ava:test-build'];

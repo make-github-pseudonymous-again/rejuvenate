@@ -233,6 +233,7 @@ export async function apply({
 	resolveFromFile,
 	resolveRequire,
 	glob,
+	test,
 }) {
 	await update({
 		create: true,
@@ -316,6 +317,7 @@ export async function apply({
 		},
 	);
 	await fixSources();
+	await test();
 }
 
 export const dependencies = [
