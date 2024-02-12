@@ -47,7 +47,7 @@ export default function parse(array) {
 		})
 		.option('test', {
 			type: 'boolean',
-			describe: 'Whether to test the package after each transform',
+			describe: 'Whether to test the package after some applied transform',
 			demandOption: true,
 			default: false,
 		})
