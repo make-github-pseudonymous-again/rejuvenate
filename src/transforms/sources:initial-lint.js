@@ -4,7 +4,9 @@ export const commit = {
 	subject: description,
 };
 
-export async function postcondition({lintSources, assert}) {
+export async function postcondition({readPkg, lintSources, assert}) {
+	const {scripts} = await readPkg();
+	if (scripts.dev !== undefined || scripts.precommit !== undefined) return;
 	try {
 		await lintSources();
 	} catch (error) {
@@ -12,7 +14,13 @@ export async function postcondition({lintSources, assert}) {
 	}
 }
 
-export async function precondition({lintSources, assert}) {
+export async function precondition({readPkg, lintSources, assert}) {
+	const {scripts} = await readPkg();
+	if (scripts.dev !== undefined || scripts.precommit !== undefined) {
+		assert.fail();
+		return;
+	}
+
 	try {
 		await lintSources();
 		assert.fail();
