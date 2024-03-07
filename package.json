@@ -101,7 +101,7 @@
     "np": "10.0.0",
     "pinst": "3.0.0",
     "regenerator-runtime": "0.14.1",
-    "typescript": "5.3.3",
+    "typescript": "5.4.2",
     "xo": "0.57.0"
   },
   "babel": {
