@@ -89,6 +89,12 @@ export default function parse(array) {
 			demandOption: true,
 			default: 'origin',
 		})
+		.option('status', {
+			type: 'boolean',
+			describe: 'Whether to check git status before starting',
+			demandOption: true,
+			default: true,
+		})
 		.option('pull', {
 			type: 'boolean',
 			describe: 'Whether to pull from remote before starting',

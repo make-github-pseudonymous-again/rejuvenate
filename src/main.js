@@ -90,6 +90,7 @@ export default function main(argv) {
 			},
 			{
 				title: 'Checking that repo is clean',
+				enabled: () => options.status,
 				task: (ctx) => checkStatus(ctx.status, options, globals),
 			},
 			{
