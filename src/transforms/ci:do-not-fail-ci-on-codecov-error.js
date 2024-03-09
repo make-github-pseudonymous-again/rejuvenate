@@ -21,8 +21,10 @@ const newWorkflowLines = `
           fail_ci_if_error: true
 `;
 
-export async function postcondition({read, assert}) {
+export async function postcondition({assert, exists, read}) {
 	for (const workflowFile of workflowFiles) {
+		// eslint-disable-next-line no-await-in-loop
+		assert(await exists(workflowFile));
 		assert(
 			// eslint-disable-next-line no-await-in-loop
 			await find([newWorkflowLines], [workflowFile], {
@@ -33,8 +35,10 @@ export async function postcondition({read, assert}) {
 	}
 }
 
-export async function precondition({read, assert}) {
+export async function precondition({assert, exists, read}) {
 	for (const workflowFile of workflowFiles) {
+		// eslint-disable-next-line no-await-in-loop
+		assert(await exists(workflowFile));
 		assert(
 			// eslint-disable-next-line no-await-in-loop
 			await find([oldWorkflowLines], [workflowFile], {
