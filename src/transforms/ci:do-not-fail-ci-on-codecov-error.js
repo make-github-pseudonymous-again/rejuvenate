@@ -67,4 +67,4 @@ export async function apply({read, write}) {
 	});
 }
 
-export const dependencies = ['readme:tests-badge-shields-issue-8671'];
+export const dependencies = ['github:workflow-configure-ci:cover'];
