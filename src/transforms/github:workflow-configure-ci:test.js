@@ -26,6 +26,7 @@ export const commit = {
 const slug = ({url}) => url.match(/\/([^/]+\/[^/]+)$/)[1];
 
 export async function postcondition({
+	debug,
 	readPkg,
 	exists,
 	lines,
@@ -35,23 +36,29 @@ export async function postcondition({
 	const {scripts, repository} = await readPkg();
 	const repo = slug(repository);
 	assert(scripts[oldScript] === undefined);
+	debug('old script is undefined');
 	assert(scripts[newScript] !== undefined);
+	debug('new script is defined');
 	assert(!(await exists(oldFilename)));
+	debug('old workflow file does not exist');
 	await contains({
 		assert,
 		read: () => readYAML(newFilename),
 		test: (contents) => assert.deepStrictEqual(contents, parseYAML(newConfig)),
 	});
+	debug('new workflow file exists and is correct');
 	const oldFound = await find([oldBadge(repo)], [README], {
 		lines,
 		method: find.exact,
 	});
 	assert(!oldFound);
+	debug('old badge is not there');
 	const newFound = await find([newBadge(repo)], [README], {
 		lines,
 		method: find.exact,
 	});
 	assert(newFound);
+	debug('new badge is there');
 }
 
 export async function precondition({readPkg, exists, lines, assert}) {
