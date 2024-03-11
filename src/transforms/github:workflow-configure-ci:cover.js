@@ -75,10 +75,10 @@ export async function postcondition({readPkg, assert, read, exists, debug}) {
 	debug('new cover workflow is there');
 }
 
-export async function precondition({readPkg, assert, exists, read}) {
-	const {ava, scripts, repository} = await readPkg();
+export async function precondition({readPkg, assert, exists, read, debug}) {
+	const {ava, repository} = await readPkg();
 	assert(ava !== undefined);
-	assert(scripts?.test === 'ava');
+	debug('ava is not undefined');
 	const repo = slug(repository);
 	assert(
 		await find([oldBadge(repo)], [readme], {
@@ -86,14 +86,18 @@ export async function precondition({readPkg, assert, exists, read}) {
 			method: find.exact,
 		}),
 	);
+	debug('old badge is there');
 	assert(
 		!(await find([newBadge(repo)], [readme], {
 			read,
 			method: find.exact,
 		})),
 	);
+	debug('new badge is not there');
 	assert(await exists(oldTestWorkflowPath));
+	debug('old test workflow is there');
 	assert(!(await exists(newCoverWorkflowPath)));
+	debug('new test workflow is not there');
 }
 
 export async function apply({read, write, remove, readPkg}) {
