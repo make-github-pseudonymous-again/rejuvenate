@@ -44,4 +44,4 @@ export async function apply({readPkg, read, write}) {
 	await replace(operations, [filename], {read, write, method: replace.all});
 }
 
-export const dependencies = ['ava:test-build'];
+export const dependencies = ['ci:test-build'];

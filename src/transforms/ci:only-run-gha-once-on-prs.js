@@ -89,7 +89,7 @@ export async function apply({read, write}) {
 }
 
 export const dependencies = [
-	'ava:test-build',
+	'ci:test-build',
 	'github:workflow-configure-ci:cover',
 	'github:workflow-configure-ci:lint',
 	'github:workflow-configure-ci:lint-config',
