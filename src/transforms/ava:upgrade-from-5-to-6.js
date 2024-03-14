@@ -1,3 +1,5 @@
+import rangeSubset from 'semver/ranges/subset.js';
+
 import update from '../lib/update.js';
 import {replaceInArray} from '../lib/ava.js';
 
@@ -10,14 +12,16 @@ export const commit = {
 
 export async function postcondition({readPkg, assert}) {
 	const {ava, devDependencies} = await readPkg();
-	assert(devDependencies.ava?.startsWith('6.'));
+	assert(devDependencies.ava !== undefined);
+	assert(rangeSubset(devDependencies.ava, '>=6.0.0'));
 	assert(ava?.require?.includes('regenerator-runtime/runtime.js'));
 	assert(!ava?.require?.includes('regenerator-runtime/runtime'));
 }
 
 export async function precondition({readPkg, assert}) {
 	const {ava, devDependencies} = await readPkg();
-	assert(devDependencies.ava?.startsWith('5.'));
+	assert(devDependencies.ava !== undefined);
+	assert(rangeSubset(devDependencies.ava, '5.x'));
 	assert(!ava?.require?.includes('regenerator-runtime/runtime.js'));
 	assert(ava?.require?.includes('regenerator-runtime/runtime'));
 }

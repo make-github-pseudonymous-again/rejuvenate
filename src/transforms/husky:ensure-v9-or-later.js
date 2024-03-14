@@ -1,4 +1,4 @@
-import semver from 'semver';
+import rangeSubset from 'semver/ranges/subset.js';
 
 import update from '../lib/update.js';
 
@@ -12,13 +12,13 @@ export const commit = {
 export async function postcondition({readPkg, assert}) {
 	const {devDependencies} = await readPkg();
 	assert(devDependencies.husky !== undefined);
-	assert(semver.satisfies(devDependencies.husky, '>=9.0.0'));
+	assert(rangeSubset(devDependencies.husky, '>=9.0.0'));
 }
 
 export async function precondition({readPkg, assert}) {
 	const {devDependencies} = await readPkg();
 	assert(devDependencies.husky !== undefined);
-	assert(!semver.satisfies(devDependencies.husky, '>=9.0.0'));
+	assert(rangeSubset(devDependencies.husky, '>=9.0.0'));
 }
 
 export async function apply({readPkg, writePkg, fixConfig, upgrade, install}) {

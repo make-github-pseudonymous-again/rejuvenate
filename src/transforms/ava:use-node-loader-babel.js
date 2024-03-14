@@ -1,3 +1,5 @@
+import rangeSubset from 'semver/ranges/subset.js';
+
 import update from '../lib/update.js';
 import {sortKeys} from '../lib/ava.js';
 import {remove, replaceOrInsert} from '../lib/babel.js';
@@ -19,11 +21,8 @@ export async function postcondition({readPkg, assert}) {
 
 export async function precondition({readPkg, assert}) {
 	const {devDependencies} = await readPkg();
-	assert(
-		devDependencies.ava?.startsWith('4.') ||
-			devDependencies.ava?.startsWith('5.') ||
-			devDependencies.ava?.startsWith('6.'),
-	);
+	assert(devDependencies.ava !== undefined);
+	assert(rangeSubset(devDependencies.ava, '>=4.0.0'));
 }
 
 export async function apply({readPkg, writePkg, fixConfig, install, test}) {

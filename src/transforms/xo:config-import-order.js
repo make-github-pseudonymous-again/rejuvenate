@@ -1,4 +1,4 @@
-import semver from 'semver';
+import rangeSubset from 'semver/ranges/subset.js';
 
 import update from '../lib/update.js';
 
@@ -51,7 +51,7 @@ const value = [
 export async function postcondition({readPkg, assert}) {
 	const {xo, devDependencies} = await readPkg();
 	assert(xo?.rules?.[key] !== undefined);
-	assert(semver.satisfies(devDependencies.xo, '>=0.57.0'));
+	assert(rangeSubset(devDependencies.xo, '>=0.57.0'));
 }
 
 export async function precondition({readPkg, assert}) {
@@ -71,7 +71,7 @@ export async function apply({
 		read: readPkg,
 		write: writePkg,
 		edit(pkgjson) {
-			if (!semver.satisfies(pkgjson.devDependencies.xo, '>=0.57.0')) {
+			if (!rangeSubset(pkgjson.devDependencies.xo, '>=0.57.0')) {
 				pkgjson.devDependencies.xo = '0.57.0';
 				needInstall = true;
 			}

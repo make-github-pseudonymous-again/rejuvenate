@@ -1,3 +1,5 @@
+import rangeSubset from 'semver/ranges/subset.js';
+
 import update from '../lib/update.js';
 
 export const description = 'Upgrade AVA to v5.';
@@ -9,12 +11,14 @@ export const commit = {
 
 export async function postcondition({readPkg, assert}) {
 	const {devDependencies} = await readPkg();
-	assert(devDependencies.ava?.startsWith('5.'));
+	assert(devDependencies.ava !== undefined);
+	assert(rangeSubset(devDependencies.ava, '>=5.0.0'));
 }
 
 export async function precondition({readPkg, assert}) {
 	const {devDependencies} = await readPkg();
-	assert(devDependencies.ava?.startsWith('4.'));
+	assert(devDependencies.ava !== undefined);
+	assert(rangeSubset(devDependencies.ava, '4.x'));
 }
 
 export async function apply({
