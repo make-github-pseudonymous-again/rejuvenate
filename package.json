@@ -83,7 +83,7 @@
     "simple-git": "^3.22.0",
     "strip-ansi": "^7.1.0",
     "total-order": "^4.0.1",
-    "write-json-file": "^5.0.0",
+    "write-json-file": "^6.0.0",
     "yaml": "^2.3.4",
     "yargs": "^17.7.2"
   },
