@@ -5689,6 +5689,14 @@ log-symbols@^6.0.0:
     chalk "^5.3.0"
     is-unicode-supported "^1.3.0"
 
+log-symbols@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-7.0.0.tgz#953999bb9cec27a09049c8f45e1154ec81163061"
+  integrity sha512-zrc91EDk2M+2AXo/9BTvK91pqb7qrPg2nX/Hy+u8a5qQlbaOflCKO+6SqgZ+M+xUFxGdKTgwnGiL96b1W3ikRA==
+  dependencies:
+    is-unicode-supported "^2.0.0"
+    yoctocolors "^2.1.1"
+
 log-update@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/log-update/-/log-update-2.3.0.tgz#88328fd7d1ce7938b29283746f0b1bc126b24708"
@@ -8475,7 +8483,7 @@ yocto-queue@^1.0.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
-yoctocolors@^2.0.0:
+yoctocolors@^2.0.0, yoctocolors@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/yoctocolors/-/yoctocolors-2.1.1.tgz#e0167474e9fbb9e8b3ecca738deaa61dd12e56fc"
   integrity sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==
