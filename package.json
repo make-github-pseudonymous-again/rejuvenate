@@ -85,7 +85,7 @@
     "total-order": "^4.0.1",
     "write-json-file": "^6.0.0",
     "yaml": "^2.3.4",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.27.2",
