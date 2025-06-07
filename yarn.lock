@@ -6544,6 +6544,13 @@ pkg-dir@^8.0.0:
   dependencies:
     find-up-simple "^1.0.0"
 
+pkg-dir@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-9.0.0.tgz#79d0ca53023fa93f848ba960d75df4476e1fbb1f"
+  integrity sha512-BMmxOuokumBehLGYwCKMBJxpAGSBbvGTtDn1yUV9UpCAvC4F7UWHoPTGSDGPV8eQPkYq/G8b0g1W5vIc5K/EhA==
+  dependencies:
+    find-up-simple "^1.0.0"
+
 plur@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/plur/-/plur-5.1.0.tgz#bff58c9f557b9061d60d8ebf93959cf4b08594ae"
